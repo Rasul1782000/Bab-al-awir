@@ -1,0 +1,36 @@
+@if (dept(); as d) {
+  <section class="dept-hero" [appBgImage]="d.img" bgGradient="linear-gradient(0deg, rgba(20,42,28,0.55), rgba(20,42,28,0.25))">
+    <div class="app-container dept-hero__inner">
+      <h1 class="dept-hero__title">{{ title() }}</h1>
+      <p class="dept-hero__sub">{{ "sectionExplore" | translate }} {{ title() }}</p>
+      <a class="dept-hero__cta" routerLink="/products">SHOP ALL &rsaquo;</a>
+    </div>
+  </section>
+}
+
+<section class="section">
+  <div class="app-container">
+    @if (filtered().length) {
+      <div class="product-grid">
+        @for (p of filtered(); track p.id) {
+          <app-product-card [product]="p" [symbol]="symbol()" />
+        }
+      </div>
+    } @else {
+      <p class="no-results muted">{{ "prodNoResults" | translate }}</p>
+    }
+  </div>
+</section>
+
+@if (related().length) {
+  <section class="section section-alt">
+    <div class="app-container">
+      <h2 class="section-kicker section-kicker--left">{{ "catPage" | translate }}</h2>
+      <div class="related-row">
+        @for (c of related(); track c.id) {
+          <a class="related-chip" [routerLink]="['/section', c.slug]">{{ name(c) }}</a>
+        }
+      </div>
+    </div>
+  </section>
+}

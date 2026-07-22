@@ -1,0 +1,26 @@
+<app-page-hero key="categories" />
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "catPage" | translate }}</h1>
+    </header>
+    <div class="cat-grid">
+      @for (c of categories(); track c.id) {
+        <a class="cat-card" [routerLink]="['/products']" [queryParams]="{ category: c.id }">
+          @if (c.image) {
+            <div class="cat-card__img" [appBgImage]="c.image">
+              <div class="cat-card__overlay"></div>
+              <span class="cat-card__icon" aria-hidden="true">{{ c.icon }}</span>
+            </div>
+          }
+          <div class="cat-card__body">
+            <span class="cat-card__name">{{ name(c) }}</span>
+            @if (desc(c)) {
+              <span class="cat-card__desc muted">{{ desc(c) }}</span>
+            }
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

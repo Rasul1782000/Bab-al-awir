@@ -1,0 +1,17 @@
+<article class="product-card">
+  @if (product().badge) {
+    <span class="product-card__badge badge-{{ product().badge }}">{{ badgeLabel() }}</span>
+  }
+  <div class="product-card__icon" aria-hidden="true">{{ product().icon }}</div>
+  <h3 class="product-card__name">{{ name() }}</h3>
+  @if (product().brand) {
+    <p class="product-card__brand">{{ product().brand }}</p>
+  }
+  @if (product().origin) {
+    <p class="product-card__origin muted">{{ product().origin }}</p>
+  }
+  <div class="product-card__foot">
+    <span class="product-card__price">{{ symbol() }} {{ product().price | number: "1.2-2" }}</span>
+    <span class="product-card__unit muted">{{ "prodPer" | translate }} {{ product().unit }}</span>
+  </div>
+</article>

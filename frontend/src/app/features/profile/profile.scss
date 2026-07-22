@@ -1,0 +1,276 @@
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.section-title {
+  margin-top: var(--space-3);
+}
+
+.profile-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.profile-card__name {
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.profile-edit-btn {
+  margin-left: auto;
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+.profile-stats {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.profile-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  flex: 1;
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.profile-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-stat__value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.profile-stat__value--tier {
+  font-size: 16px;
+  color: #ffd600;
+}
+
+.profile-stat__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.profile-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.profile-meta dt {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.profile-meta dd {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.addresses-grid {
+  display: grid;
+  gap: var(--space-1);
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--space-1);
+}
+
+.address-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.address-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.address-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.address-card__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.address-card__default {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.address-card__text {
+  font-size: 13px;
+}
+
+.prefs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: var(--space-1);
+}
+
+.pref-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pref-row:last-child {
+  border-bottom: none;
+}
+
+.pref-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pref-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.pref-on {
+  color: var(--green);
+}
+
+.orders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.order {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.order:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.order__id {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.order__status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.order__status--delivered {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.order__status--shipped {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.order__status--processing {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.order__date {
+  font-size: 12px;
+}
+
+.order__total {
+  font-weight: 700;
+  color: var(--green);
+  text-align: end;
+}
+
+.order__items {
+  font-size: 12px;
+  grid-column: 1;
+}
+
+.order__delivery-method {
+  font-size: 11px;
+  grid-column: 1;
+}
+
+.order__delivery {
+  font-size: 11px;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+  .profile-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-stats {
+    flex-direction: column;
+  }
+
+  .addresses-grid {
+    grid-template-columns: 1fr;
+  }
+}

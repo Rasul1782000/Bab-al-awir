@@ -1,0 +1,107 @@
+.page-hero {
+  background-size: cover;
+  background-position: center;
+  color: var(--white);
+  min-height: 300px;
+  max-height: 420px;
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(198, 40, 40, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.page-hero__inner {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.page-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: #c62828;
+  border-radius: 50%;
+  margin-bottom: var(--space-2);
+  box-shadow: 0 8px 32px rgba(198, 40, 40, 0.4);
+  color: #fff;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.page-hero__eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffd600;
+  margin-bottom: var(--space-1);
+}
+
+.page-hero__title {
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+  margin: 0 0 8px;
+}
+
+.page-hero__sub {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 52ch;
+  margin: 0 auto var(--space-2);
+}
+
+.page-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  color: var(--white);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.page-hero__cta:hover {
+  background: #ffd600;
+  color: #1a1a1a;
+  border-color: #ffd600;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(255, 214, 0, 0.35);
+}
+
+@media (max-width: 767px) {
+  .page-hero {
+    min-height: 240px;
+    padding-block: var(--space-3);
+  }
+  .page-hero__badge {
+    width: 48px;
+    height: 48px;
+  }
+}

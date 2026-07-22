@@ -1,0 +1,78 @@
+<app-page-hero key="products" />
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "prodPage" | translate }}</h1>
+      <p class="muted">{{ "prodSub" | translate }}</p>
+      @if (searchQuery()) {
+        <p class="search-info muted">
+          Searching for: <strong>"{{ searchQuery() }}"</strong>
+          ({{ filtered().length }} {{ "prodPage" | translate | lowercase }})
+        </p>
+      }
+    </header>
+
+    <div class="filters" role="group" aria-label="Categories">
+      <button
+        type="button"
+        class="filter-chip"
+        [class.is-active]="activeCategory() === null"
+        (click)="setCategory(null)"
+      >
+        {{ "prodFilterAll" | translate }}
+      </button>
+      @for (c of categories(); track c.id) {
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="activeCategory() === c.id"
+          (click)="setCategory(c.id)"
+        >
+          {{ name(c) }}
+        </button>
+      }
+    </div>
+
+    <div class="filters" role="group" aria-label="Sort and Filter">
+      <div class="filter-group">
+      <label for="sort-select">Sort by</label>
+      <select id="sort-select" class="filter-chip">
+        <option value="default">Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name">Name (A-Z)</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label for="new-filter">New Arrivals</label>
+      <button id="new-filter" class="filter-chip">
+        <input type="checkbox" id="new-checkbox" style="display: none;" />
+        New
+      </button>
+    </div>
+    
+    <div class="filter-group">
+      <label for="origin-filter">Origin</label>
+      <select id="origin-select" class="filter-chip">
+        <option value="all">All</option>
+        <option value="local">Local</option>
+        <option value="imported">Imported</option>
+      </select>
+    </div>
+  </div>
+
+  @if (filtered().length) {
+    <div class="product-grid">
+      @for (p of filtered(); track p.id) {
+        <app-product-card 
+          [product]="p" 
+          (addToCart)="addToCart(p, 1)" 
+        />
+      }
+    </div>
+  } @else {
+    <p class="no-results muted">{{ "prodNoResults" | translate }}</p>
+  }
+  </div>
+</section>

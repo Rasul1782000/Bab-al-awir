@@ -1,0 +1,42 @@
+<app-page-hero key="contact" />
+<section class="section">
+  <div class="app-container app-narrow">
+    <header class="section-head">
+      <h1 class="section-title">{{ "contactPage" | translate }}</h1>
+      <p class="muted">{{ "contactSub" | translate }}</p>
+    </header>
+
+    <div class="contact-info">
+      <div class="contact-info__row">
+        <span class="contact-info__label">{{ "contactEmail" | translate }}</span>
+        <a href="mailto:{{ email }}">{{ email }}</a>
+      </div>
+      <div class="contact-info__row">
+        <span class="contact-info__label">{{ "contactPhone" | translate }}</span>
+        <a href="tel:{{ phone }}">{{ phone }}</a>
+      </div>
+      <div class="contact-info__row">
+        <span class="contact-info__label">{{ "contactHours" | translate }}</span>
+        <span>{{ "contactWorkingHours" | translate }}</span>
+      </div>
+    </div>
+
+    @if (stores().length) {
+      <h2 class="section-title">{{ "contactStoreLocations" | translate }}</h2>
+      <div class="stores-grid">
+        @for (s of stores(); track s.id) {
+          <div class="store-card card">
+            <h3 class="store-card__name">{{ lang() === 'ar' ? s.name_ar : s.name }}</h3>
+            <p class="store-card__addr muted">{{ lang() === 'ar' ? s.address_ar : s.address }}</p>
+            <p class="store-card__phone">{{ s.phone }}</p>
+            <div class="store-card__services">
+              @for (svc of s.services; track svc) {
+                <span class="store-card__service">{{ svc }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

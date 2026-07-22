@@ -1,0 +1,298 @@
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-2);
+}
+
+.about__body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: var(--space-1);
+}
+
+.section-alt {
+  background: var(--surface-alt);
+}
+
+.values-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--space-2);
+}
+
+.value-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.value-card__icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.value-card__label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.value-card__desc {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Team */
+.team-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: var(--space-2);
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.team-card__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.team-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.team-card__role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.team-card__bio {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Testimonials */
+.testimonials-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: var(--space-2);
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: var(--space-2);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-card__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  color: #ffd600;
+  font-size: 16px;
+}
+
+.testimonial-card__text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  font-style: italic;
+  margin: 0;
+  flex: 1;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.testimonial-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.testimonial-card__name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.testimonial-card__role {
+  display: block;
+  font-size: 12px;
+}
+
+/* Stores */
+.stores-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.store-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.store-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.store-card__addr {
+  font-size: 13px;
+}
+
+.store-card__phone {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.store-card__hours {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.store-card__hours-label {
+  font-weight: 600;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+.store-card__services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.store-card__service {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Delivery */
+.delivery-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: var(--space-2);
+}
+
+.delivery-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.delivery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.delivery-card__method {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.delivery-card__desc {
+  font-size: 13px;
+}
+
+.delivery-card__fee {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.delivery-card__free {
+  font-size: 12px;
+}
+
+@media (max-width: 767px) {
+  .values-grid, .team-grid, .stores-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-grid {
+    grid-template-columns: 1fr;
+  }
+}

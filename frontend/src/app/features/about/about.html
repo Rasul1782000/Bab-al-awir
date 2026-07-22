@@ -1,0 +1,134 @@
+<section class="section">
+  <div class="app-container app-narrow">
+    <header class="section-head">
+      <h1 class="section-title">{{ "aboutPage" | translate }}</h1>
+      <p class="muted">{{ "aboutSub" | translate }}</p>
+    </header>
+    <p class="about__body">{{ "aboutBody" | translate }}</p>
+    <p class="about__body">{{ "aboutFounded" | translate }}</p>
+  </div>
+</section>
+
+@if (values().length) {
+  <section class="section section-alt">
+    <div class="app-container app-narrow">
+      <h2 class="section-title">{{ "aboutValues" | translate }}</h2>
+      <div class="values-grid">
+        @for (v of values(); track v.key) {
+          <div class="value-card">
+            <span class="value-card__icon">{{ v.icon }}</span>
+            <h3 class="value-card__label">{{ lang() === 'ar' ? v.label_ar : v.label_en }}</h3>
+            <p class="value-card__desc muted">{{ lang() === 'ar' ? v.desc_ar : v.desc_en }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (team().length) {
+  <section class="section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">{{ "aboutTeam" | translate }}</h2>
+        <p class="muted">{{ "aboutTeamSub" | translate }}</p>
+      </header>
+      <div class="team-grid">
+        @for (m of team(); track m.id) {
+          <div class="team-card">
+            <div class="team-card__avatar">{{ m.avatar }}</div>
+            <h3 class="team-card__name">{{ lang() === 'ar' ? m.name_ar : m.name_en }}</h3>
+            <span class="team-card__role">{{ lang() === 'ar' ? m.role_ar : m.role_en }}</span>
+            <p class="team-card__bio muted">{{ lang() === 'ar' ? m.bio_ar : m.bio_en }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (testimonials().length) {
+  <section class="section section-alt">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">{{ "aboutTestimonials" | translate }}</h2>
+        <p class="muted">{{ "aboutTestimonialsSub" | translate }}</p>
+      </header>
+      <div class="testimonials-grid">
+        @for (t of testimonials(); track t.id) {
+          <div class="testimonial-card">
+            <div class="testimonial-card__stars">
+              @for (s of stars(t.rating); track s) {
+                <span class="star">★</span>
+              }
+            </div>
+            <p class="testimonial-card__text">"{{ lang() === 'ar' ? t.text_ar : t.text_en }}"</p>
+            <div class="testimonial-card__author">
+              <span class="testimonial-card__avatar">{{ t.avatar }}</span>
+              <div>
+                <span class="testimonial-card__name">{{ lang() === 'ar' ? t.name_ar : t.name_en }}</span>
+                <span class="testimonial-card__role muted">{{ lang() === 'ar' ? t.role_ar : t.role_en }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (stores().length) {
+  <section class="section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">{{ "aboutStores" | translate }}</h2>
+      </header>
+      <div class="stores-grid">
+        @for (s of stores(); track s.id) {
+          <div class="store-card card">
+            <h3 class="store-card__name">{{ lang() === 'ar' ? s.name_ar : s.name }}</h3>
+            <p class="store-card__addr muted">{{ lang() === 'ar' ? s.address_ar : s.address }}</p>
+            <p class="store-card__phone">{{ s.phone }}</p>
+            <div class="store-card__hours">
+              <span class="store-card__hours-label">{{ "contactHours" | translate }}</span>
+              @for (entry of hoursEntries(s); track entry[0]) {
+                <span class="store-card__hours-row">{{ entry[0] }}: {{ entry[1] }}</span>
+              }
+            </div>
+            <div class="store-card__services">
+              @for (svc of s.services; track svc) {
+                <span class="store-card__service">{{ svc }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (delivery().length) {
+  <section class="section section-alt">
+    <div class="app-container app-narrow">
+      <h2 class="section-title">{{ "aboutDelivery" | translate }}</h2>
+      <div class="delivery-grid">
+        @for (d of delivery(); track d.method) {
+          <div class="delivery-card card">
+            <h3 class="delivery-card__method">{{ lang() === 'ar' ? d.label_ar : d.label_en }}</h3>
+            <p class="delivery-card__desc muted">{{ lang() === 'ar' ? d.desc_ar : d.desc_en }}</p>
+            <span class="delivery-card__fee">
+              @if (d.fee === 0) {
+                Free
+              } @else {
+                {{ symbol() }} {{ d.fee.toFixed(2) }}
+              }
+            </span>
+            @if (d.free_above) {
+              <span class="delivery-card__free muted">Free above {{ symbol() }}{{ d.free_above }}</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}

@@ -1,0 +1,10 @@
+/node_modules/
+/vendor/
+/backend/.env
+/backend/storage/*.key
+/frontend/dist/
+/frontend/.angular/
+.crush/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,146 @@
+<section class="hero">
+  <div class="hero__overlay"></div>
+  <div class="hero__badge-container" aria-hidden="true">
+
+    <div class="hero__floating-badge badge-fresh">
+      <svg class="fresh-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 22l5-20h10l5 20"/>
+        <path d="M7 12h10"/>
+        <path d="M9 16h6"/>
+      </svg>
+      <span class="fresh-text">{{ "welcomeFreshBadge" | translate }}</span>
+      <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app-container hero__inner">
+    <div class="hero__grid">
+      <div class="hero__copy animate-fade-in-up">
+        <div class="hero__pill">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="17" r="1" />
+            <circle cx="19" cy="17" r="1" />
+            <path d="M2 17h20M9 17V7c0-2.5 2-4.5 4.5-4.5S18 4.5 18 7v10" />
+          </svg>
+          <span>{{ "welcomeServiceTag" | translate }}</span>
+        </div>
+
+        <h1 class="hero__title">
+          {{ "welcomeTitlePart1" | translate }}
+          <br>
+          {{ "welcomeTitlePart2" | translate }}
+        </h1>
+
+        <div class="hero__search">
+          <label for="hero-category-search" class="visually-hidden">{{ "welcomeSearchLabel" | translate }}</label>
+          <input type="text" id="hero-category-search" class="hero__search-input" placeholder="{{ 'welcomeSearchPlaceholder' | translate }}" aria-label="{{ 'welcomeSearchLabel' | translate }}">
+          <a class="hero__cta" routerLink="/products">{{ "welcomeShopNow" | translate }}</a>
+        </div>
+
+        <div class="hero__testimonial" aria-label="Customer testimonial">
+          <div class="hero__avatars" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
+            <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
+            <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
+          </div>
+          <div class="hero__testimonial-info">
+            <span class="hero__testimonial-label">{{ "welcomeHappyCustomers" | translate }}</span>
+            <div class="hero__rating">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span class="hero__rating-score">4.5</span>
+              <span class="hero__rating-count">({{ "welcomeReviewsCount" | translate }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__driver">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=90" alt="Fresh vegetables and fruits arranged together" class="hero__driver-img">
+        </div>
+        <div class="hero__produce-scatter">
+          <img src="https://images.unsplash.com/photo-1584270354949-c26b0d5e2b9a?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-1">
+          <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-2">
+          <img src="https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-3">
+          <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-4">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cat-icons">
+  <div class="app-container cat-icons__row">
+    @for (c of catIcons; track c.label) {
+      <a class="cat-icon" routerLink="/categories">
+        <span class="cat-icon__emoji" aria-hidden="true">{{ c.emoji }}</span>
+        <span class="cat-icon__label">{{ c.label }}</span>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="banners">
+  <div class="app-container banners__row">
+    @for (b of banners; track b.title) {
+      <a class="banner" [routerLink]="'/products'" [style.background]="b.tint">
+        <div class="banner__text">
+          <h3 class="banner__title">{{ b.title }}</h3>
+          <p class="banner__tag">{{ b.tag }}</p>
+          <span class="banner__link">LEARN MORE &rsaquo;</span>
+        </div>
+        <img class="banner__img" [src]="b.img" [alt]="b.title" loading="lazy" onerror="this.src='assets/img/beverages.jpg'" />
+      </a>
+    }
+  </div>
+</section>
+
+<section class="section discover">
+  <div class="app-container">
+    <h2 class="section-kicker">&#8594; {{ "homeShopByCategory" | translate }} &#8592;</h2>
+    <div class="discover__grid">
+      @for (d of discover; track d.label) {
+        <a class="discover__card" routerLink="/products">
+          <img [src]="d.img" [alt]="d.label" loading="lazy" onerror="this.src='assets/img/beverages.jpg'" />
+          <span class="discover__label">{{ d.label }}</span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section bestseller">
+  <div class="app-container">
+    <div class="bestseller__head">
+      <h2 class="section-kicker section-kicker--left">BEST SELLER</h2>
+      <div class="carousel-nav">
+        <button type="button" (click)="prev()" aria-label="Previous">&#8249;</button>
+        <button type="button" (click)="next()" aria-label="Next">&#8250;</button>
+      </div>
+    </div>
+    <div class="bestseller__track">
+      @for (p of featured(); track p.id) {
+        <div class="bestseller__item">
+          <app-product-card [product]="p" [symbol]="symbol()" />
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+@if (categories().length) {
+  <section class="section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">{{ "catPage" | translate }}</h2>
+      </header>
+      <div class="home-cats">
+        @for (c of categories(); track c.id) {
+          <a class="home-cat" [routerLink]="'/categories'">{{ name(c) }}</a>
+        }
+      </div>
+    </div>
+  </section>
+}

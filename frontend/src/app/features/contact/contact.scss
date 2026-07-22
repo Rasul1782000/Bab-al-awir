@@ -1,0 +1,80 @@
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.contact-info__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.15s ease;
+}
+
+.contact-info__row:hover {
+  background: var(--green-soft);
+  margin-inline: -var(--space-1);
+  padding-inline: var(--space-1);
+}
+
+.contact-info__label {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stores-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.store-card {
+  transition: transform 0.2s ease, box-shadow 0.15s ease;
+}
+
+.store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.store-card__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.store-card__addr {
+  font-size: 13px;
+}
+
+.store-card__phone {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--green);
+}
+
+.store-card__services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-1);
+}
+
+.store-card__service {
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 600;
+}
+
+@media (min-width: 720px) {
+  .stores-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

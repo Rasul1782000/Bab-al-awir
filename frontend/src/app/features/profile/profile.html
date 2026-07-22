@@ -1,0 +1,135 @@
+<app-page-hero key="profile" />
+<section class="section">
+  <div class="app-container app-narrow">
+    <header class="section-head">
+      <h1 class="section-title">{{ "profilePage" | translate }}</h1>
+    </header>
+
+    @if (user(); as u) {
+      <div class="profile-card card">
+        <div class="profile-card__head">
+          <span class="avatar" aria-hidden="true">{{ initials(u.name) }}</span>
+          <div>
+            <h2 class="profile-card__name">{{ u.name }}</h2>
+            <p class="muted">{{ u.email }}</p>
+          </div>
+          <button class="btn btn-outline profile-edit-btn">{{ "profileEdit" | translate }}</button>
+        </div>
+
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <span class="profile-stat__value">{{ u.loyalty_points | number }}</span>
+            <span class="profile-stat__label">{{ "profileLoyalty" | translate }}</span>
+          </div>
+          @if (u.loyalty_tier) {
+            <div class="profile-stat">
+              <span class="profile-stat__value profile-stat__value--tier">{{ u.loyalty_tier }}</span>
+              <span class="profile-stat__label">{{ "profileTier" | translate }}</span>
+            </div>
+          }
+          <div class="profile-stat">
+            <span class="profile-stat__value">{{ u.orders.length }}</span>
+            <span class="profile-stat__label">{{ "profileOrders" | translate }}</span>
+          </div>
+        </div>
+
+        <dl class="profile-meta">
+          <div>
+            <dt>{{ "contactPhone" | translate }}</dt>
+            <dd>{{ u.phone }}</dd>
+          </div>
+          @if (u.phone_alt) {
+            <div>
+              <dt>{{ "profilePhoneAlt" | translate }}</dt>
+              <dd>{{ u.phone_alt }}</dd>
+            </div>
+          }
+          <div>
+            <dt>{{ "contactAddress" | translate }}</dt>
+            <dd>{{ u.address }}</dd>
+          </div>
+          @if (u.birthday) {
+            <div>
+              <dt>{{ "profileBirthday" | translate }}</dt>
+              <dd>{{ u.birthday }}</dd>
+            </div>
+          }
+          <div>
+            <dt>{{ "profileMemberSince" | translate }}</dt>
+            <dd>{{ u.member_since }}</dd>
+          </div>
+          @if (u.area) {
+            <div>
+              <dt>{{ "profileArea" | translate }}</dt>
+              <dd>{{ u.area }}, {{ u.city }}</dd>
+            </div>
+          }
+        </dl>
+      </div>
+
+      @if (u.saved_addresses && u.saved_addresses.length) {
+        <h2 class="section-title">{{ "profileSavedAddresses" | translate }}</h2>
+        <div class="addresses-grid">
+          @for (addr of u.saved_addresses; track addr.label) {
+            <div class="address-card card">
+              <div class="address-card__head">
+                <span class="address-card__label">{{ lang() === 'ar' ? addr.label_ar : addr.label }}</span>
+                @if (addr.is_default) {
+                  <span class="address-card__default">Default</span>
+                }
+              </div>
+              <p class="address-card__text muted">{{ lang() === 'ar' ? addr.address_ar : addr.address }}</p>
+            </div>
+          }
+        </div>
+      }
+
+      @if (u.preferences) {
+        <h2 class="section-title">{{ "profilePreferences" | translate }}</h2>
+        <div class="prefs-card card">
+          <div class="pref-row">
+            <span class="pref-label">{{ "profileNotif" | translate }}</span>
+            <span class="pref-value" [class.pref-on]="u.preferences.notifications">
+              {{ u.preferences.notifications ? 'On' : 'Off' }}
+            </span>
+          </div>
+          <div class="pref-row">
+            <span class="pref-label">{{ "profileMarketing" | translate }}</span>
+            <span class="pref-value" [class.pref-on]="u.preferences.marketing_emails">
+              {{ u.preferences.marketing_emails ? 'On' : 'Off' }}
+            </span>
+          </div>
+          <div class="pref-row">
+            <span class="pref-label">{{ "profileNewsletter" | translate }}</span>
+            <span class="pref-value" [class.pref-on]="u.preferences.weekly_newsletter">
+              {{ u.preferences.weekly_newsletter ? 'On' : 'Off' }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <h2 class="section-title">{{ "profileOrders" | translate }}</h2>
+      <ul class="orders">
+        @for (o of u.orders; track o.id) {
+          <li class="order">
+            <span class="order__id">{{ "profileOrderId" | translate }} #{{ o.id }}</span>
+            <span class="order__status order__status--{{ o.status.toLowerCase() }}">{{ o.status }}</span>
+            <span class="order__date muted">{{ o.date }}</span>
+            <span class="order__total">{{ "د.إ" }} {{ o.total | number: "1.2-2" }}</span>
+            @if (o.items) {
+              <span class="order__items muted">{{ o.items }} {{ "profileItems" | translate }}</span>
+            }
+            @if (o.delivery_method) {
+              <span class="order__delivery-method muted">{{ "profileDelivery" | translate }}: {{ o.delivery_method }}</span>
+            }
+            @if (o.estimated_delivery) {
+              <span class="order__delivery muted">{{ "profileEstDelivery" | translate }}: {{ o.estimated_delivery }}</span>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="muted">{{ "loading" | translate }}</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,66 @@
+<app-page-hero key="offers" />
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "offerPage" | translate }}</h1>
+      <p class="muted">{{ "offerSub" | translate }}</p>
+    </header>
+
+    @if (banners().length) {
+      <div class="banners-scroll">
+        @for (b of banners(); track b.id) {
+          <div class="banner" [style.background]="b.bg_color">
+            <div class="banner__content">
+              <span class="banner__badge">{{ lang() === 'ar' ? b.badge_ar : b.badge_en }}</span>
+              <h2 class="banner__title">{{ lang() === 'ar' ? b.title_ar : b.title_en }}</h2>
+              <p class="banner__subtitle">{{ lang() === 'ar' ? b.subtitle_ar : b.subtitle_en }}</p>
+            </div>
+            <div class="banner__img" [appBgImage]="b.image"></div>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="offers-stats">
+      <span class="offers-stat">{{ offers().length }} {{ "offerActive" | translate }}</span>
+      <span class="offers-stat offers-stat--highlight">{{ bestDiscount() }}% {{ "offerMaxDiscount" | translate }}</span>
+    </div>
+
+    @if (categories().length) {
+      <div class="filters">
+        <button type="button" class="filter-chip" [class.is-active]="activeCategory() === null" (click)="setCategory(null)">
+          {{ "prodFilterAll" | translate }}
+        </button>
+        @for (c of categories(); track c.id) {
+          @if (hasOffersInCategory(c.id)) {
+            <button type="button" class="filter-chip" [class.is-active]="activeCategory() === c.id" (click)="setCategory(c.id)">
+              {{ name(c) }}
+            </button>
+          }
+        }
+      </div>
+    }
+
+    @if (filtered().length) {
+      <div class="product-grid">
+        @for (item of filtered(); track item.product.id) {
+          <div class="offer">
+            <div class="offer__top">
+              <span class="offer__badge">{{ "offerBadge" | translate: { percent: item.percent } }}</span>
+              @if (item.label_en) {
+                <span class="offer__label">{{ lang() === 'ar' ? item.label_ar : item.label_en }}</span>
+              }
+            </div>
+            <app-product-card [product]="item.product" />
+            <div class="offer__bottom">
+              <span class="offer__valid muted">{{ "offerValidUntil" | translate: { date: item.valid_until } }}</span>
+              <span class="offer__countdown muted">{{ countdown(item.valid_until) }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="muted">{{ "offerNoResults" | translate }}</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<section class="page-hero" [appBgImage]="resolvedImage()" bgGradient="linear-gradient(0deg, rgba(26,51,43,0.7), rgba(17,17,17,0.3))">
+  <div class="app-container page-hero__inner">
+    <div class="page-hero__badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3" fill="white"/>
+      </svg>
+    </div>
+    @if (resolvedEyebrow()) {
+      <span class="page-hero__eyebrow">{{ resolvedEyebrow() | translate }}</span>
+    }
+    <h1 class="page-hero__title">{{ resolvedTitle() | translate }}</h1>
+    @if (resolvedSubtitle()) {
+      <p class="page-hero__sub">{{ resolvedSubtitle() | translate }}</p>
+    }
+    @if (resolvedCta()) {
+      <a class="page-hero__cta" [routerLink]="resolvedCtaLink() ?? '/products'">{{ resolvedCta() | translate }} &rsaquo;</a>
+    }
+  </div>
+</section>
