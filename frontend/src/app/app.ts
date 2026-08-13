@@ -15,6 +15,10 @@ export class App implements OnInit {
   private lang = inject(LanguageService);
 
   ngOnInit(): void {
-    this.api.getLanguages().subscribe((res) => this.lang.init(res.data));
+    this.api.getLanguages().subscribe((res) => {
+      if (res.success && res.data) {
+        this.lang.init(res.data);
+      }
+    });
   }
 }

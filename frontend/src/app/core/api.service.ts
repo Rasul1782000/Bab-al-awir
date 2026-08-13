@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { Observable, of } from "rxjs";
-import { catchError, map, shareReplay, tap } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 import {
   ApiResponse,
   BrandValue,
@@ -33,61 +33,22 @@ export interface AuthPayload {
 @Injectable({ providedIn: "root" })
 export class ApiService {
   private http = inject(HttpClient);
-  // In dev (ng serve) this resolves to http://localhost:8000/api. In a
-  // production build it is injected from the API_URL build env var (e.g. the
-  // deployed Laravel backend). Falls back to same-origin "/api" when unset.
   private readonly baseUrl = environment.apiUrl;
-
-  // Bundled static fallback so the storefront renders even with no backend
-  // (e.g. a static Vercel deploy). Excludes any secrets from config/dummy.php.
-  private localData: any = null;
-  private local$ = this.http.get<any>("assets/data/store.json").pipe(
-    tap((d) => (this.localData = d)),
-    catchError(() => of(null)),
-    shareReplay(1),
-  );
-
-  constructor() {
-    this.local$.subscribe();
-  }
-
-  private localFor<T>(key: string): T | null {
-    return this.localData ? (this.localData[key] ?? null) : null;
-  }
-
-  // Try the live API; on any failure fall back to the bundled static data.
-  private safeGet<T>(
-    key: string,
-    url: string,
-    transform?: (d: any) => T,
-  ): Observable<ApiResponse<T>> {
-    return this.http.get<ApiResponse<T>>(url).pipe(
-      catchError(() =>
-        this.local$.pipe(
-          map(
-            () =>
-              ({
-                success: true,
-                message: "local",
-                data: transform ? transform(this.localData) : this.localFor<T>(key),
-              }) as ApiResponse<T>,
-          ),
-        ),
-      ),
-    );
-  }
 
   private cacheGet<T>(key: string, url: string): Observable<ApiResponse<T>> {
     const cached = this.readCache<ApiResponse<T>>(key);
     if (cached) return of(cached);
-    return this.safeGet<T>(key, url).pipe(tap((res) => this.writeCache(key, res)));
+    return this.http.get<ApiResponse<T>>(url).pipe(
+      catchError(() => of({ success: false, message: "api_error", data: null as T })),
+      tap((res) => { if (res.success) this.writeCache(key, res); }),
+    );
   }
 
   private readCache<T>(key: string): T | null {
     try {
       const raw = localStorage.getItem(`baw_cache_${key}`);
       if (!raw) return null;
-      const entry = JSON.parse(raw) as { ts: number; data: T };
+      const entry = JSON.parse(raw) as { ts: number; data: ApiResponse<T> };
       if (Date.now() - entry.ts > 24 * 60 * 60 * 1000) {
         localStorage.removeItem(`baw_cache_${key}`);
         return null;
@@ -98,7 +59,7 @@ export class ApiService {
     }
   }
 
-  private writeCache<T>(key: string, data: T): void {
+  private writeCache<T>(key: string, data: ApiResponse<T>): void {
     try {
       localStorage.setItem(
         `baw_cache_${key}`,
@@ -130,33 +91,23 @@ export class ApiService {
   }
 
   getBrandValues(): Observable<ApiResponse<BrandValue[]>> {
-    return this.safeGet<BrandValue[]>(
-      "brand",
-      `${this.baseUrl}/brand-values`,
-      (d) => d?.brand?.values ?? [],
-    );
+    return this.cacheGet<BrandValue[]>("brand", `${this.baseUrl}/brand-values`);
   }
 
   getStoreLocations(): Observable<ApiResponse<StoreLocation[]>> {
-    return this.safeGet<StoreLocation[]>(
-      "store_locations",
-      `${this.baseUrl}/store-locations`,
-    );
+    return this.cacheGet<StoreLocation[]>("store_locations", `${this.baseUrl}/store-locations`);
   }
 
   getDeliveryOptions(): Observable<ApiResponse<DeliveryOption[]>> {
-    return this.safeGet<DeliveryOption[]>(
-      "delivery_options",
-      `${this.baseUrl}/delivery-options`,
-    );
+    return this.cacheGet<DeliveryOption[]>("delivery_options", `${this.baseUrl}/delivery-options`);
   }
 
   getOffers(): Observable<ApiResponse<Offer[]>> {
-    return this.safeGet<Offer[]>("offers", `${this.baseUrl}/offers`);
+    return this.cacheGet<Offer[]>("offers", `${this.baseUrl}/offers`);
   }
 
   getUserProfile(): Observable<ApiResponse<UserProfile>> {
-    return this.safeGet<UserProfile>("user", `${this.baseUrl}/user/profile`);
+    return this.cacheGet<UserProfile>("user", `${this.baseUrl}/user/profile`);
   }
 
   login(payload: AuthPayload): Observable<ApiResponse<AuthUser>> {
@@ -175,22 +126,22 @@ export class ApiService {
   }
 
   getTestimonials(): Observable<ApiResponse<Testimonial[]>> {
-    return this.safeGet<Testimonial[]>("testimonials", `${this.baseUrl}/testimonials`);
+    return this.cacheGet<Testimonial[]>("testimonials", `${this.baseUrl}/testimonials`);
   }
 
   getFaq(): Observable<ApiResponse<FaqItem[]>> {
-    return this.safeGet<FaqItem[]>("faq", `${this.baseUrl}/faq`);
+    return this.cacheGet<FaqItem[]>("faq", `${this.baseUrl}/faq`);
   }
 
   getTeamMembers(): Observable<ApiResponse<TeamMember[]>> {
-    return this.safeGet<TeamMember[]>("team_members", `${this.baseUrl}/team-members`);
+    return this.cacheGet<TeamMember[]>("team_members", `${this.baseUrl}/team-members`);
   }
 
   getNews(): Observable<ApiResponse<NewsPost[]>> {
-    return this.safeGet<NewsPost[]>("news", `${this.baseUrl}/news`);
+    return this.cacheGet<NewsPost[]>("news", `${this.baseUrl}/news`);
   }
 
   getPromoBanners(): Observable<ApiResponse<PromoBanner[]>> {
-    return this.safeGet<PromoBanner[]>("promo_banners", `${this.baseUrl}/promo-banners`);
+    return this.cacheGet<PromoBanner[]>("promo_banners", `${this.baseUrl}/promo-banners`);
   }
 }
