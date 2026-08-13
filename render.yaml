@@ -1,0 +1,33 @@
+services:
+  # Laravel API (backend)
+  - type: web
+    name: bab-al-awir-api
+    runtime: php
+    plan: free
+    rootDir: backend
+    buildCommand: bash render-build.sh
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    healthCheckPath: /up
+    envVars:
+      - key: PHP_VERSION
+        value: "8.3"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: DB_CONNECTION
+        value: sqlite
+
+  # Angular SPA (frontend)
+  - type: web
+    name: bab-al-awir-frontend
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist/bab-al-awir/browser
+    envVars:
+      - key: NODE_VERSION
+        value: "24.15.0"
+      - key: API_URL
+        value: "https://bab-al-awir-api.onrender.com/api"
