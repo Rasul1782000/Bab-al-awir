@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, inject, isDevMode } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
+import { environment } from "../../environments/environment";
 import { Observable, of } from "rxjs";
 import { catchError, map, shareReplay, tap } from "rxjs/operators";
 import {
@@ -32,10 +33,10 @@ export interface AuthPayload {
 @Injectable({ providedIn: "root" })
 export class ApiService {
   private http = inject(HttpClient);
-  // In dev, hit the local Laravel backend directly. In production (static Vercel
-  // deploy with no backend) use a same-origin path so requests fail cleanly and
-  // fall back to the bundled static data instead of referencing localhost.
-  private readonly baseUrl = isDevMode() ? "http://localhost:8000/api" : "/api";
+  // In dev (ng serve) this resolves to http://localhost:8000/api. In a
+  // production build it is injected from the API_URL build env var (e.g. the
+  // deployed Laravel backend). Falls back to same-origin "/api" when unset.
+  private readonly baseUrl = environment.apiUrl;
 
   // Bundled static fallback so the storefront renders even with no backend
   // (e.g. a static Vercel deploy). Excludes any secrets from config/dummy.php.
