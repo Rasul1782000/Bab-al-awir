@@ -1,10 +1,12 @@
 import { Component, OnInit, inject } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 import { ApiService } from "./core/api.service";
 import { LanguageService } from "./core/language.service";
 
 @Component({
   selector: "app-root",
-  standalone: false,
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: "./app.html",
   styleUrl: "./app.scss",
 })
