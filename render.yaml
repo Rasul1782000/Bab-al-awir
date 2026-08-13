@@ -1,16 +1,13 @@
 services:
-  # Laravel API (backend)
+  # Laravel API (backend) — deployed via Docker since Render has no native PHP runtime
   - type: web
     name: bab-al-awir-api
-    runtime: php
+    runtime: docker
     plan: free
     rootDir: backend
-    buildCommand: bash render-build.sh
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    dockerfilePath: ./backend/Dockerfile
     healthCheckPath: /up
     envVars:
-      - key: PHP_VERSION
-        value: "8.3"
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
