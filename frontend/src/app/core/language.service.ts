@@ -12,11 +12,21 @@ export class LanguageService {
   readonly current$ = new BehaviorSubject<string>("en");
 
   init(languages: Language[]): void {
-    this.languages = languages;
-    this.translate.addLangs(languages.map((l) => l.code));
+    if (!languages || languages.length === 0) {
+      // Fallback languages if no data available
+      this.languages = [
+        { code: "en", name: "English", native: "English", dir: "ltr", font: "Inter" },
+        { code: "ar", name: "Arabic", native: "العربية", dir: "rtl", font: "Tajawal" },
+        { code: "ml", name: "Malayalam", native: "മലയാളം", dir: "ltr", font: "Noto Sans Malayalam" },
+        { code: "ta", name: "Tamil", native: "தமிழ்", dir: "ltr", font: "Noto Sans Tamil" },
+      ];
+    } else {
+      this.languages = languages;
+    }
+    this.translate.addLangs(this.languages.map((l) => l.code));
     this.translate.setDefaultLang("en");
     const saved = this.loadSaved();
-    const initial = saved && languages.some((l) => l.code === saved) ? saved : "en";
+    const initial = saved && this.languages.some((l) => l.code === saved) ? saved : "en";
     this.apply(initial);
   }
 
