@@ -36,7 +36,7 @@ export class ApiService {
   private readonly baseUrl = environment.apiUrl;
 
   private cacheGet<T>(key: string, url: string): Observable<ApiResponse<T>> {
-    const cached = this.readCache<ApiResponse<T>>(key);
+    const cached = this.readCache<T>(key);
     if (cached) return of(cached);
     return this.http.get<ApiResponse<T>>(url).pipe(
       catchError(() => of({ success: false, message: "api_error", data: null as T })),
@@ -44,7 +44,7 @@ export class ApiService {
     );
   }
 
-  private readCache<T>(key: string): T | null {
+  private readCache<T>(key: string): ApiResponse<T> | null {
     try {
       const raw = localStorage.getItem(`baw_cache_${key}`);
       if (!raw) return null;
