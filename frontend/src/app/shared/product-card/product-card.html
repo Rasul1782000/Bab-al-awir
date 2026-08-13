@@ -2,7 +2,13 @@
   @if (product().badge) {
     <span class="product-card__badge badge-{{ product().badge }}">{{ badgeLabel() }}</span>
   }
-  <div class="product-card__icon" aria-hidden="true">{{ product().icon }}</div>
+  <div class="product-card__image" aria-hidden="true">
+    @if (product().image) {
+      <img [src]="product().image" [alt]="name()" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'product-card__icon\'>' + (product().icon || '') + '</span>'" />
+    } @else {
+      <span class="product-card__icon">{{ product().icon }}</span>
+    }
+  </div>
   <h3 class="product-card__name">{{ name() }}</h3>
   @if (product().brand) {
     <p class="product-card__brand">{{ product().brand }}</p>

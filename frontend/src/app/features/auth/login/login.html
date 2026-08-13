@@ -1,0 +1,60 @@
+<app-auth-shell>
+  <h2 class="auth-title">{{ "loginTitle" | translate }}</h2>
+  <p class="auth-subtitle muted">{{ "loginSubtitle" | translate }}</p>
+
+  @if (error()) {
+    <p class="auth-error animate-shake">{{ error() | translate }}</p>
+  }
+
+  <form (ngSubmit)="onLogin(); $event.preventDefault()" autocomplete="off">
+    <div class="form-group">
+      <label class="form-label" for="login-email">{{ "loginEmail" | translate }}</label>
+      <input
+        type="email"
+        id="login-email"
+        class="form-input"
+        placeholder="{{ 'loginEmailPlaceholder' | translate }}"
+        [(ngModel)]="email"
+        name="email"
+        autocomplete="email"
+        required
+        maxlength="64"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="login-password">{{ "loginPassword" | translate }}</label>
+      <input
+        type="password"
+        id="login-password"
+        class="form-input"
+        placeholder="{{ 'loginPasswordPlaceholder' | translate }}"
+        [(ngModel)]="password"
+        name="password"
+        autocomplete="current-password"
+        required
+        maxlength="128"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-proceed" [disabled]="submitting()">
+      @if (submitting()) {
+        <span class="btn__spinner"></span>
+      }
+      {{ "loginSubmit" | translate }}
+    </button>
+  </form>
+
+  <div class="auth-hint card">
+    <p class="auth-hint__label">{{ "loginHintTitle" | translate }}</p>
+    <p class="auth-hint__value">{{ hardcodedEmail }}</p>
+    <p class="auth-hint__value">{{ hardcodedPassword }}</p>
+    <small class="muted">{{ "loginHintNote" | translate }}</small>
+  </div>
+
+  <div class="auth-actions">
+    <a class="auth-link" routerLink="/forgot-password">{{ "loginForgot" | translate }}</a>
+    <span class="auth-divider">•</span>
+    <a class="auth-link" routerLink="/signup">{{ "loginSignup" | translate }}</a>
+  </div>
+</app-auth-shell>

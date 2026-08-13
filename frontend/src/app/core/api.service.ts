@@ -18,7 +18,15 @@ import {
   TeamMember,
   Testimonial,
   UserProfile,
+  AuthUser,
 } from "./models";
+
+export interface AuthPayload {
+  name?: string;
+  email: string;
+  phone?: string;
+  password: string;
+}
 
 @Injectable({ providedIn: "root" })
 export class ApiService {
@@ -102,6 +110,18 @@ export class ApiService {
 
   getUserProfile(): Observable<ApiResponse<UserProfile>> {
     return this.http.get<ApiResponse<UserProfile>>(`${this.baseUrl}/user/profile`);
+  }
+
+  login(payload: AuthPayload): Observable<ApiResponse<AuthUser>> {
+    return this.http.post<ApiResponse<AuthUser>>(`${this.baseUrl}/login`, payload);
+  }
+
+  signup(payload: AuthPayload): Observable<ApiResponse<AuthUser>> {
+    return this.http.post<ApiResponse<AuthUser>>(`${this.baseUrl}/signup`, payload);
+  }
+
+  forgotPassword(payload: { email: string }): Observable<ApiResponse<{ email: string; note: string }>> {
+    return this.http.post<ApiResponse<{ email: string; note: string }>>(`${this.baseUrl}/forgot-password`, payload);
   }
 
   getTestimonials(): Observable<ApiResponse<Testimonial[]>> {

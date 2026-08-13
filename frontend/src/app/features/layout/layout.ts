@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { concatMap } from "rxjs";
 import { ApiService } from "../../core/api.service";
+import { AuthService } from "../../core/auth.service";
 import { CartService } from "../../core/cart.service";
 import { RegionService } from "../../core/region.service";
 import { LanguageService } from "../../core/language.service";
@@ -17,6 +18,7 @@ import { Language, Region, Section } from "../../core/models";
 })
 export class Layout {
   private api = inject(ApiService);
+  private authSvc = inject(AuthService);
   private cartSvc = inject(CartService);
   private regionSvc = inject(RegionService);
   private langSvc = inject(LanguageService);
@@ -27,6 +29,7 @@ export class Layout {
   languages = signal<Language[]>([]);
   lang = toSignal(this.langSvc.current$, { initialValue: this.langSvc.current });
   currentLang = this.langSvc.current$;
+  loggedIn = this.authSvc.user;
 
   searchQuery = signal("");
 
@@ -87,6 +90,11 @@ export class Layout {
 
   toggleCart(): void {
     this.cartSvc.toggleCartVisibility?.();
+  }
+
+  logout(): void {
+    this.authSvc.logout();
+    this.router.navigate(["/login"]);
   }
 
   isVisible(): boolean {

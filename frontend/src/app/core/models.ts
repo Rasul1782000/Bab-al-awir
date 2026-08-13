@@ -46,21 +46,22 @@ export interface Category {
 }
 
 export interface Product {
-  id: number;
-  category_id: number;
-  price: number;
-  unit: string;
-  icon: string;
-  brand?: string;
-  origin?: string;
-  badge?: string | null;
-  name_en: string;
-  name_ar: string;
-  name_ml: string;
-  name_ta: string;
-  desc_en?: string;
-  desc_ar?: string;
-}
+   id: number;
+   category_id: number;
+   price: number;
+   unit: string;
+   icon: string;
+   image?: string;
+   brand?: string;
+   origin?: string;
+   badge?: string | null;
+   name_en: string;
+   name_ar: string;
+   name_ml: string;
+   name_ta: string;
+   desc_en?: string;
+   desc_ar?: string;
+ }
 
 export interface BrandValue {
   key: string;
@@ -154,7 +155,6 @@ export interface UserProfile {
   address_ar?: string;
   area?: string;
   city?: string;
-  country?: string;
   loyalty_points: number;
   loyalty_tier?: string;
   member_since: string;
@@ -162,6 +162,15 @@ export interface UserProfile {
   preferences?: UserPreferences;
   saved_addresses?: SavedAddress[];
   orders: Order[];
+}
+
+export interface AuthUser {
+  id: number;
+  name: string;
+  name_ar?: string;
+  email: string;
+  phone: string;
+  token: string;
 }
 
 export interface Testimonial {

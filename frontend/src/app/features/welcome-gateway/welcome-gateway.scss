@@ -301,28 +301,101 @@
 .delay-5 { animation-delay: 0.5s; }
 
 @media (max-width: 480px) {
-  .welcome-container {
-    padding: var(--space-2);
-  }
+   .welcome-container {
+     padding: var(--space-2);
+   }
 
-  .welcome-card {
-    padding: var(--space-2);
-    border-radius: 20px;
+   .welcome-card {
+     padding: var(--space-2);
+     border-radius: 20px;
+   }
+
+   .welcome-logo__img {
+     height: 64px;
+   }
+
+   .welcome-title {
+     font-size: 1.3rem;
+   }
+
+   .welcome-features {
+     gap: 12px;
+   }
+
+   .welcome-feature {
+     font-size: 10px;
+   }
+ }
+
+.welcome-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.welcome-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--line);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.welcome-retry-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 24px;
+  border: 2px solid var(--green);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--green);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  margin-top: 8px;
+}
+
+.welcome-retry-btn:hover {
+  background: var(--green);
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle {
+    animation: none;
+    opacity: 0.08;
   }
 
   .welcome-logo__img {
-    height: 64px;
+    animation: none;
   }
 
-  .welcome-title {
-    font-size: 1.3rem;
+  .animate-fade-in-up,
+  .animate-bounce-in,
+  .animate-shake {
+    animation: none;
+    opacity: 1;
   }
 
-  .welcome-features {
-    gap: 12px;
-  }
-
-  .welcome-feature {
-    font-size: 10px;
+  .delay-1,
+  .delay-2,
+  .delay-3,
+  .delay-4,
+  .delay-5 {
+    animation-delay: 0s;
   }
 }

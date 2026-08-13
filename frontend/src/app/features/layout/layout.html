@@ -22,20 +22,39 @@
       <a class="site-nav__link" routerLink="/contact">CONTACT US</a>
     </nav>
 
-    <div class="site-header__tools">
-      <button type="button" class="icon-btn" aria-label="Search">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-      </button>
-      <a class="icon-btn" routerLink="/profile" aria-label="Account">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-        </svg>
-      </a>
-      <button type="button" class="icon-btn cart-btn" aria-label="Cart">
+      <div class="site-header__tools">
+        <button type="button" class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
+
+        @if (loggedIn()) {
+          <a class="icon-btn" routerLink="/profile" aria-label="Account">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+            </svg>
+          </a>
+          <span class="account-greeting muted">Hi, {{ loggedIn()!.name }}</span>
+          <button type="button" class="btn btn-signup" (click)="logout()">
+            {{ "navLogout" | translate }}
+          </button>
+        } @else {
+          <a class="icon-btn" routerLink="/login" aria-label="Account">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+            </svg>
+          </a>
+          <a class="btn btn-ghost btn-login" routerLink="/login">{{ "navLogin" | translate }}</a>
+          <a class="btn btn-signup" routerLink="/signup" aria-label="{{ 'navSignUp' | translate }}">
+            {{ "navSignUp" | translate }}
+          </a>
+        }
+
+        <button type="button" class="icon-btn cart-btn" aria-label="Cart">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="20" r="1.4" />
           <circle cx="18" cy="20" r="1.4" />

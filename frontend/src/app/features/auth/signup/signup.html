@@ -1,0 +1,96 @@
+<app-auth-shell>
+  <h2 class="auth-title">{{ "signupTitle" | translate }}</h2>
+  <p class="auth-subtitle muted">{{ "signupSubtitle" | translate }}</p>
+
+  @if (error()) {
+    <p class="auth-error animate-shake">{{ error() | translate }}</p>
+  }
+
+  <form (ngSubmit)="onSignup(); $event.preventDefault()" autocomplete="off">
+    <div class="form-group">
+      <label class="form-label" for="signup-name">{{ "signupName" | translate }}</label>
+      <input
+        type="text"
+        id="signup-name"
+        class="form-input"
+        placeholder="{{ 'signupNamePlaceholder' | translate }}"
+        [(ngModel)]="name"
+        name="name"
+        autocomplete="name"
+        required
+        maxlength="80"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="signup-email">{{ "signupEmail" | translate }}</label>
+      <input
+        type="email"
+        id="signup-email"
+        class="form-input"
+        placeholder="{{ 'signupEmailPlaceholder' | translate }}"
+        [(ngModel)]="email"
+        name="email"
+        autocomplete="email"
+        required
+        maxlength="64"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="signup-phone">{{ "signupPhone" | translate }}</label>
+      <input
+        type="tel"
+        id="signup-phone"
+        class="form-input"
+        placeholder="{{ 'signupPhonePlaceholder' | translate }}"
+        [(ngModel)]="phone"
+        name="phone"
+        autocomplete="tel"
+        required
+        maxlength="24"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="signup-password">{{ "signupPassword" | translate }}</label>
+      <input
+        type="password"
+        id="signup-password"
+        class="form-input"
+        placeholder="{{ 'signupPasswordPlaceholder' | translate }}"
+        [(ngModel)]="password"
+        name="password"
+        autocomplete="new-password"
+        required
+        maxlength="128"
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="signup-confirm">{{ "signupConfirmPassword" | translate }}</label>
+      <input
+        type="password"
+        id="signup-confirm"
+        class="form-input"
+        placeholder="{{ 'signupConfirmPlaceholder' | translate }}"
+        [(ngModel)]="confirm"
+        name="confirm"
+        autocomplete="new-password"
+        required
+        maxlength="128"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-proceed" [disabled]="submitting()">
+      @if (submitting()) {
+        <span class="btn__spinner"></span>
+      }
+      {{ "signupSubmit" | translate }}
+    </button>
+  </form>
+
+  <div class="auth-actions">
+    <a class="auth-link" routerLink="/login">{{ "signupLogin" | translate }}</a>
+  </div>
+</app-auth-shell>

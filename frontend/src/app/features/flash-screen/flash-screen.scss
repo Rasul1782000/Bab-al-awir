@@ -1,0 +1,150 @@
+.flash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a332b 0%, #0d1f17 50%, #111 100%);
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.flash-screen--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.flash-screen__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.flash-screen__bg::before,
+.flash-screen__bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+}
+
+.flash-screen__bg::before {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #1f7a3d 0%, transparent 70%);
+  top: -100px;
+  left: -100px;
+  animation: flash-float 8s ease-in-out infinite;
+}
+
+.flash-screen__bg::after {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff7a18 0%, transparent 70%);
+  bottom: -80px;
+  right: -80px;
+  animation: flash-float 10s ease-in-out infinite reverse;
+}
+
+@keyframes flash-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -30px) scale(1.1); }
+}
+
+.flash-screen__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.flash-screen__logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  animation: flash-logo-pulse 2s ease-in-out infinite;
+}
+
+.flash-screen__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes flash-logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.flash-screen__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.flash-screen__subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.flash-screen__bar {
+  width: 120px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.flash-screen__bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--accent));
+  border-radius: 999px;
+  animation: flash-bar-fill 2s linear forwards;
+}
+
+@keyframes flash-bar-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-screen__logo { animation: none; }
+  .flash-screen__bg::before,
+  .flash-screen__bg::after { animation: none; }
+  .flash-screen__bar-fill { animation: none; width: 100%; }
+  .animate-fade-in-up { animation: none; opacity: 1; }
+  .delay-1,
+  .delay-2,
+  .delay-3 { animation-delay: 0s; }
+}
