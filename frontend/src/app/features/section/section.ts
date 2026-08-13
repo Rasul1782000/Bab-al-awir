@@ -71,8 +71,8 @@ export class Section {
   });
 
   constructor() {
-    this.api.getCategories().subscribe((r) => this.categories.set(r.data));
-    this.api.getProducts().subscribe((r) => this.products.set(r.data));
+    this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
+    this.api.getProducts().subscribe((r) => this.products.set(r.data ?? []));
     this.route.paramMap.subscribe((p) => this.slug.set(p.get("slug") ?? ""));
   }
 

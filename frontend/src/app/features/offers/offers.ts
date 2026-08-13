@@ -58,15 +58,15 @@ export class Offers {
 
   bestDiscount = computed(() => {
     const offers = this.offerData();
-    if (!offers.length) return 0;
+    if (!offers || !offers.length) return 0;
     return Math.max(...offers.map((o) => o.percent));
   });
 
   constructor() {
-    this.api.getProducts().subscribe((r) => this.products.set(r.data));
-    this.api.getOffers().subscribe((r) => this.offerData.set(r.data));
-    this.api.getPromoBanners().subscribe((r) => this.banners.set(r.data));
-    this.api.getCategories().subscribe((r) => this.categories.set(r.data));
+    this.api.getProducts().subscribe((r) => this.products.set(r.data ?? []));
+    this.api.getOffers().subscribe((r) => this.offerData.set(r.data ?? []));
+    this.api.getPromoBanners().subscribe((r) => this.banners.set(r.data ?? []));
+    this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
   }
 
   name(c: Category): string {

@@ -38,17 +38,17 @@ export class Layout {
       .getSections()
       .pipe(
         concatMap((r) => {
-          this.sections.set(r.data);
+          this.sections.set(r.data ?? []);
           return this.api.getLanguages();
         }),
         concatMap((r) => {
-          this.languages.set(r.data);
+          this.languages.set(r.data ?? []);
           return this.api.getRegions();
         }),
       )
       .subscribe((r) => {
         const code = this.regionSvc.current;
-        this.region.set(r.data.find((x) => x.code === code) ?? null);
+        this.region.set(r.data?.find((x) => x.code === code) ?? null);
       });
   }
 

@@ -19,7 +19,7 @@ export class Categories {
 
 
   constructor() {
-    this.api.getCategories().subscribe((r) => this.categories.set(r.data));
+    this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
   }
 
   name(c: Category): string {

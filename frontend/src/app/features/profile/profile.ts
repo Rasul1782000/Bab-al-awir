@@ -14,10 +14,11 @@ export class Profile {
   lang = signal<string>("en");
 
   constructor() {
-    this.api.getUserProfile().subscribe((r) => this.user.set(r.data));
+    this.api.getUserProfile().subscribe((r) => this.user.set(r.data ?? null));
   }
 
-  initials(name: string): string {
+  initials(name: string | null | undefined): string {
+    if (!name) return "";
     return name
       .split(" ")
       .map((n) => n[0])

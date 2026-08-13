@@ -54,8 +54,8 @@ export class Products {
   });
 
   constructor() {
-    this.api.getCategories().subscribe((r) => this.categories.set(r.data));
-    this.api.getProducts().subscribe((r) => this.products.set(r.data));
+    this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
+    this.api.getProducts().subscribe((r) => this.products.set(r.data ?? []));
     this.route.queryParams.subscribe((params) => {
       const q = params["q"] ?? "";
       this.searchQuery.set(q);

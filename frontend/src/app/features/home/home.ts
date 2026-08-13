@@ -80,8 +80,8 @@ export class Home {
   ];
 
   constructor() {
-    this.api.getProducts().subscribe((r) => this.products.set(r.data));
-    this.api.getCategories().subscribe((r) => this.categories.set(r.data));
+    this.api.getProducts().subscribe((r) => this.products.set(r.data ?? []));
+    this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
   }
 
   name(c: Category): string {

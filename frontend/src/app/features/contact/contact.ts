@@ -20,6 +20,6 @@ export class Contact {
   stores = signal<StoreLocation[]>([]);
 
   constructor() {
-    this.api.getStoreLocations().subscribe((r) => this.stores.set(r.data));
+    this.api.getStoreLocations().subscribe((r) => this.stores.set(r.data ?? []));
   }
 }

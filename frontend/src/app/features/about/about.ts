@@ -30,11 +30,11 @@ export class About {
   symbol = computed(() => (this.lang() === "ar" ? "د.إ" : "AED"));
 
   constructor() {
-    this.api.getBrandValues().subscribe((r) => this.values.set(r.data));
-    this.api.getTeamMembers().subscribe((r) => this.team.set(r.data));
-    this.api.getTestimonials().subscribe((r) => this.testimonials.set(r.data));
-    this.api.getStoreLocations().subscribe((r) => this.stores.set(r.data));
-    this.api.getDeliveryOptions().subscribe((r) => this.delivery.set(r.data));
+    this.api.getBrandValues().subscribe((r) => this.values.set(r.data ?? []));
+    this.api.getTeamMembers().subscribe((r) => this.team.set(r.data ?? []));
+    this.api.getTestimonials().subscribe((r) => this.testimonials.set(r.data ?? []));
+    this.api.getStoreLocations().subscribe((r) => this.stores.set(r.data ?? []));
+    this.api.getDeliveryOptions().subscribe((r) => this.delivery.set(r.data ?? []));
   }
 
   stars(rating: number): number[] {
