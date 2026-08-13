@@ -99,8 +99,8 @@ export class CartService {
   private saveCart(): void {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cart()));
-    } catch (error) {
-      console.error("Failed to save cart:", error);
+    } catch {
+      /* storage unavailable */
     }
   }
   
@@ -112,8 +112,7 @@ export class CartService {
         this.cart.set(parsedCart);
         this.updateItemCount();
       }
-    } catch (error) {
-      console.error("Failed to load cart:", error);
+    } catch {
       this.clearCart();
     }
   }
