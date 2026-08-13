@@ -36,6 +36,8 @@ WORKDIR /var/www/html
 COPY composer.json composer.lock ./
 COPY artisan ./
 COPY bootstrap ./bootstrap/
+COPY routes ./routes/
+COPY app ./app/
 RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
 
 # Application code
