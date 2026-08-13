@@ -34,6 +34,7 @@ WORKDIR /var/www/html
 
 # Install PHP dependencies (copy lockfile first for layer caching)
 COPY composer.json composer.lock ./
+COPY artisan ./
 RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
 
 # Application code
