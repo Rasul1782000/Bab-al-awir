@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 import { welcomeGuard } from "./core/welcome.guard";
 
 export const routes: Routes = [
-  { path: "", redirectTo: "/flash", pathMatch: "full" },
+  { path: "", redirectTo: "/home", pathMatch: "full" },
   {
     path: "flash",
     loadChildren: () =>

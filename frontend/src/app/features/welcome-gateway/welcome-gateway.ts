@@ -91,7 +91,7 @@ export class WelcomeGateway {
     }
     this.regionSvc.set(this.selectedRegion());
     this.langSvc.setLanguage(this.selectedLang());
-    this.router.navigate(["/"]);
+    this.router.navigate(["/home"]);
   }
 
   langName(l: Language): string {
