@@ -1,0 +1,59 @@
+<app-page-hero [eyebrow]="'navProfile'" [title]="'wishlistPage'" />
+
+<section class="section">
+  <div class="app-container">
+
+    @if (itemCount() === 0) {
+      <div class="empty-state">
+        <div class="empty-state__icon">♡</div>
+        <h2>{{ "wishlistEmpty" | translate }}</h2>
+        <p class="muted">{{ "wishlistEmptySub" | translate }}</p>
+        <a class="btn btn-primary" routerLink="/products">{{ "homeCta" | translate }}</a>
+      </div>
+    }
+
+    @if (itemCount() > 0) {
+      <div class="wishlist-grid">
+        @for (p of items(); track p.id) {
+          <div class="card wishlist-item">
+            <div class="wishlist-item__image">
+              @if (p.image) {
+                <img [src]="p.image" [alt]="productName(p)" loading="lazy" />
+              } @else {
+                <div class="placeholder-img">{{ p.icon }}</div>
+              }
+            </div>
+            <div class="wishlist-item__body">
+              <h3 class="wishlist-item__name">{{ productName(p) }}</h3>
+              @if (p.brand) {
+                <p class="wishlist-item__brand muted">{{ p.brand }}</p>
+              }
+              <div class="wishlist-item__price">
+                {{ symbol() }} {{ p.price | number: "1.2-2" }}
+                <span class="muted">{{ "prodPer" | translate }} {{ p.unit }}</span>
+              </div>
+            </div>
+            <div class="wishlist-item__actions">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                (click)="addToCart(p)"
+                [disabled]="isInCart(p.id)"
+              >
+                {{ isInCart(p.id) ? ("wishlistAdded" | translate) : ("prodAddToCart" | translate) }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm"
+                (click)="removeFromWishlist(p)"
+                aria-label="Remove from wishlist"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,33 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'testimonialsPage'" />
+
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "testimonialsPage" | translate }}</h1>
+      <p class="muted">{{ "testimonialsSub" | translate }}</p>
+    </header>
+
+    <div class="testimonials-grid">
+      @for (t of testimonials(); track t.id) {
+        <div class="card testimonial-card">
+          <div class="testimonial-card__stars">
+            @for (s of stars(t.rating); track s) {
+              <span class="star">★</span>
+            }
+            @for (s of starPlaceholders(5 - t.rating); track s) {
+              <span class="star star--empty">☆</span>
+            }
+          </div>
+          <p class="testimonial-card__text">"{{ text(t) }}"</p>
+          <div class="testimonial-card__author">
+            <span class="testimonial-card__avatar">{{ t.avatar }}</span>
+            <div>
+              <span class="testimonial-card__name">{{ name(t) }}</span>
+              <span class="testimonial-card__role muted">{{ role(t) }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

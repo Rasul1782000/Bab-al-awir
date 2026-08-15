@@ -1,0 +1,205 @@
+<app-page-hero [eyebrow]="'navCart'" [title]="'checkoutPage'" />
+
+@if (cart().items.length === 0) {
+  <section class="section">
+    <div class="app-container app-narrow">
+      <div class="empty-state">
+        <div class="empty-state__icon">🛒</div>
+        <h2>{{ "cartEmpty" | translate }}</h2>
+        <p class="muted">{{ "checkoutEmptySub" | translate }}</p>
+        <a class="btn btn-primary" routerLink="/products">{{ "homeCta" | translate }}</a>
+      </div>
+    </div>
+  </section>
+}
+
+@if (cart().items.length > 0) {
+  <section class="section">
+    <div class="app-container">
+      <div class="checkout-container">
+
+        <div class="checkout-steps">
+          <div class="step" [class.is-active]="step() === 1">
+            <div class="step__num">1</div>
+            <span>{{ "checkoutShipping" | translate }}</span>
+          </div>
+          <div class="step" [class.is-active]="step() === 2">
+            <div class="step__num">2</div>
+            <span>{{ "checkoutPayment" | translate }}</span>
+          </div>
+          <div class="step" [class.is-active]="step() === 3">
+            <div class="step__num">3</div>
+            <span>{{ "checkoutReview" | translate }}</span>
+          </div>
+        </div>
+
+        <div class="checkout-form">
+          @if (step() === 1) {
+            <h2>{{ "checkoutShipping" | translate }}</h2>
+            <p class="muted">{{ "checkoutChooseAddress" | translate }}</p>
+
+            @if (savedAddresses().length) {
+              <div class="address-options">
+                @for (addr of savedAddresses(); track addr.label) {
+                  <label class="address-option">
+                    <input
+                      type="radio"
+                      name="address"
+                      [value]="addr.label"
+                      (change)="selectAddress(addr)"
+                      [checked]="selectedAddress()?.label === addr.label"
+                    />
+                    <div class="address-option__content">
+                      <span class="address-option__label">
+                        {{ lang() === 'ar' ? addr.label_ar : addr.label }}
+                        @if (addr.is_default) {
+                          <span class="address-option__default">{{ "checkoutDefault" | translate }}</span>
+                        }
+                      </span>
+                      <p class="address-option__text muted">
+                        {{ lang() === 'ar' ? addr.address_ar : addr.address }}
+                      </p>
+                    </div>
+                  </label>
+                }
+              </div>
+            }
+
+            <div class="delivery-options">
+              <h3>{{ "checkoutDeliveryMethod" | translate }}</h3>
+              @for (d of deliveryOptions(); track d.method) {
+                <label class="delivery-option" [class.is-selected]="selectedDelivery() === d.method">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    [value]="d.method"
+                    (change)="selectDelivery(d.method)"
+                    [checked]="selectedDelivery() === d.method"
+                  />
+                  <div class="delivery-option__content">
+                    <span class="delivery-option__name">
+                      {{ lang() === 'ar' ? d.label_ar : d.label_en }}
+                    </span>
+                    <p class="delivery-option__desc muted">
+                      {{ lang() === 'ar' ? d.desc_ar : d.desc_en }}
+                    </p>
+                    <div class="delivery-option__meta">
+                      <span class="delivery-option__fee">
+                        @if (isFreeDelivery() && selectedDelivery() === d.method) {
+                          {{ "checkoutFree" | translate }}
+                        } @else {
+                          {{ symbol() }} {{ d.fee | number: "1.2-2" }}
+                        }
+                      </span>
+                      <span class="delivery-option__time muted">{{ d.estimated_days }} {{ "checkoutDays" | translate }}</span>
+                    </div>
+                  </div>
+                </label>
+              }
+            </div>
+
+            <button class="btn btn-proceed" (click)="proceedToPayment()" [disabled]="!selectedAddress()">
+              {{ "checkoutContinue" | translate }}
+            </button>
+          }
+
+          @if (step() === 2) {
+            <h2>{{ "checkoutPayment" | translate }}</h2>
+            <p class="muted">{{ "checkoutPaymentMethod" | translate }}</p>
+
+            <div class="payment-options">
+              <label class="payment-option" [class.is-selected]="paymentMethod() === 'card'">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="card"
+                  (change)="selectPayment('card')"
+                  [checked]="paymentMethod() === 'card'"
+                />
+                <div class="payment-option__content">
+                  <span class="payment-option__label">💳 {{ "checkoutCard" | translate }}</span>
+                </div>
+              </label>
+              <label class="payment-option" [class.is-selected]="paymentMethod() === 'cod'">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="cod"
+                  (change)="selectPayment('cod')"
+                  [checked]="paymentMethod() === 'cod'"
+                />
+                <div class="payment-option__content">
+                  <span class="payment-option__label">💵 {{ "checkoutCod" | translate }}</span>
+                </div>
+              </label>
+            </div>
+
+            <button class="btn btn-secondary" (click)="prevStep()">
+              {{ "checkoutBack" | translate }}
+            </button>
+            <button class="btn btn-proceed" (click)="placeOrder()">
+              {{ "checkoutPlaceOrder" | translate }}
+            </button>
+          }
+
+          @if (step() === 3) {
+            <h2>{{ "checkoutReview" | translate }}</h2>
+            <div class="review-section">
+              <div class="review-group">
+                <h3>{{ "checkoutShipping" | translate }}</h3>
+                @if (selectedAddress()) {
+                  <p>{{ lang() === 'ar' ? selectedAddress()!.address_ar : selectedAddress()!.address }}</p>
+                }
+              </div>
+              <div class="review-group">
+                <h3>{{ "checkoutDeliveryMethod" | translate }}</h3>
+                <p>{{ deliveryDetail() ? (lang() === 'ar' ? deliveryDetail()!.label_ar : deliveryDetail()!.label_en) : '' }}</p>
+              </div>
+              <div class="review-group">
+                <h3>{{ "checkoutPayment" | translate }}</h3>
+                <p>{{ paymentMethod() === 'card' ? ("checkoutCard" | translate) : ("checkoutCod" | translate) }}</p>
+              </div>
+            </div>
+            <button class="btn btn-secondary" (click)="prevStep()">
+              {{ "checkoutBack" | translate }}
+            </button>
+            <button class="btn btn-proceed" (click)="placeOrder()">
+              {{ "checkoutConfirm" | translate }}
+            </button>
+          }
+        </div>
+
+        <div class="checkout-summary card">
+          <h3>{{ "checkoutSummary" | translate }}</h3>
+          <div class="summary-row">
+            <span>{{ "cartSubtotal" | translate }}</span>
+            <span>{{ symbol() }} {{ subtotal() | number: "1.2-2" }}</span>
+          </div>
+          <div class="summary-row">
+            <span>{{ "cartTax" | translate }} (5%)</span>
+            <span>{{ symbol() }} {{ tax() | number: "1.2-2" }}</span>
+          </div>
+          <div class="summary-row">
+            <span>{{ "checkoutDeliveryFee" | translate }}</span>
+            <span>
+              @if (isFreeDelivery()) {
+                {{ "checkoutFree" | translate }}
+              } @else {
+                {{ symbol() }} {{ deliveryFee() | number: "1.2-2" }}
+              }
+            </span>
+          </div>
+          @if (deliveryFee() > 0 && !isFreeDelivery()) {
+            <div class="summary-hint muted">
+              {{ "checkoutFreeDeliveryHint" | translate }}: {{ symbol() }} {{ deliveryDetail()?.free_above }}
+            </div>
+          }
+          <div class="summary-row total">
+            <span>{{ "checkoutTotal" | translate }}</span>
+            <span>{{ symbol() }} {{ grandTotal() | number: "1.2-2" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}

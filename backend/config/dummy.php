@@ -106,9 +106,9 @@ return [
         ['id' => 8, 'category_id' => 2, 'price' => 5.50,  'unit' => 'kg', 'icon' => '🧅', 'brand' => 'Green Valley', 'origin' => 'India',  'badge' => null,    'image' => 'https://images.unsplash.com/photo-1534950274409-03a7e2c97f57?auto=format&fit=crop&w=800&q=80', 'name_en' => 'Red Onions',       'name_ar' => 'بصل أحمر',            'name_ml' => 'ചുവന്ന ഉള്ളി',          'name_ta' => 'சிவப்பு வெங்காயம்',      'desc_en' => 'Pungent red onions. A kitchen staple.',                        'desc_ar' => 'بصل أحمر حاد. أساسي في كل مطبخ.'],
 
         // ─── Juices (id: 3) ───
-        ['id' => 9,  'category_id' => 3, 'price' => 4.25, 'unit' => '1 L',   'icon' => '🧃', 'brand' => 'Al Rabi',       'origin' => 'UAE', 'badge' => null, 'name_en' => 'Orange Juice',                 'name_ar' => 'عصير برتقال',              'name_ml' => 'ഓറഞ്ച് ജ്യൂസ്',           'name_ta' => 'ஆரஞ்சு சாறு',               'desc_en' => 'Freshly squeezed orange juice. No added sugar.',                  'desc_ar' => 'عصير برتقال طازج. بدون سكر مضاف.', 'image' => 'https://images.unsplash.com/photo-1598871265419-c471c1b43a6c?auto=format&fit=crop&w=1920&q=100'],
-        ['id' => 10, 'category_id' => 3, 'price' => 8.50, 'unit' => '1 L',   'icon' => '🧃', 'brand' => 'Al Rabi',       'origin' => 'UAE', 'badge' => null, 'name_en' => 'Mango Nectar',                 'name_ar' => 'نكتار مانجو',              'name_ml' => 'മാങ്ങ നെക്റ്റാർ',          'name_ta' => 'மாம்பழம் நெக்டார்',         'desc_en' => 'Rich and thick mango nectar.',                                    'desc_ar' => 'نكتار مانجو غني وسميك.', 'image' => 'https://images.unsplash.com/photo-1598871265419-c471c1b43a6c?auto=format&fit=crop&w=1920&q=100'],
-        ['id' => 11, 'category_id' => 3, 'price' => 6.00, 'unit' => '1 L',   'icon' => '🥤', 'brand' => 'Purity',        'origin' => 'UAE', 'badge' => null, 'name_en' => 'Mixed Fruit Juice',            'name_ar' => 'عصير فواكه مشكل',          'name_ml' => 'മിക്സഡ് ഫ്രൂട്ട് ജ്യൂസ്',  'name_ta' => 'கலப்பு பழச்சாறு',            'desc_en' => 'A refreshing blend of tropical fruits.',                           'desc_ar' => 'مزيج منعش من الفواكه الاستوائية.', 'image' => 'https://images.unsplash.com/photo-1598871265419-c471c1b43a6c?auto=format&fit=crop&w=1920&q=100'],
+        ['id' => 9,  'category_id' => 3, 'price' => 4.25, 'unit' => '1 L',   'icon' => '🧃', 'brand' => 'Al Rabi',       'origin' => 'UAE', 'badge' => null, 'name_en' => 'Orange Juice',                 'name_ar' => 'عصير برتقال',              'name_ml' => 'ഓറഞ്ച് ജ്യൂസ്',           'name_ta' => 'ஆரஞ்சு சாறு',               'desc_en' => 'Freshly squeezed orange juice. No added sugar.',                  'desc_ar' => 'عصير برتقال طازج. بدون سكر مضاف.', 'image' => 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=800&q=80'],
+        ['id' => 10, 'category_id' => 3, 'price' => 8.50, 'unit' => '1 L',   'icon' => '🧃', 'brand' => 'Al Rabi',       'origin' => 'UAE', 'badge' => null, 'name_en' => 'Mango Nectar',                 'name_ar' => 'نكتار مانجو',              'name_ml' => 'മാങ്ങ നെക്റ്റാർ',          'name_ta' => 'மாம்பழம் நெக்டார்',         'desc_en' => 'Rich and thick mango nectar.',                                    'desc_ar' => 'نكتار مانجو غني وسميك.', 'image' => 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=800&q=80'],
+        ['id' => 11, 'category_id' => 3, 'price' => 6.00, 'unit' => '1 L',   'icon' => '🥤', 'brand' => 'Purity',        'origin' => 'UAE', 'badge' => null, 'name_en' => 'Mixed Fruit Juice',            'name_ar' => 'عصير فواكه مشكل',          'name_ml' => 'മിക്സഡ് ഫ്രൂട്ട് ജ്യൂസ്',  'name_ta' => 'கலப்பு பழச்சாறு',            'desc_en' => 'A refreshing blend of tropical fruits.',                           'desc_ar' => 'مزيج منعش من الفواكه الاستوائية.', 'image' => 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=800&q=80'],
 
         // ─── Dairy & Eggs (id: 4) ───
         ['id' => 12, 'category_id' => 4, 'price' => 5.50,  'unit' => '1 L',    'icon' => '🥛', 'brand' => 'Al Ain Dairy', 'origin' => 'UAE',      'badge' => 'local', 'image' => 'https://images.unsplash.com/photo-1559478257-0e21e8e0e0d5?auto=format&fit=crop&w=800&q=80', 'name_en' => 'Full Cream Milk',          'name_ar' => 'حليب كامل الدسم',        'name_ml' => 'ഫുൾ ക്രീം പാൽ',          'name_ta' => 'முழு கிரீம் பால்',       'desc_en' => 'Fresh full cream milk. Pasteurised.',                       'desc_ar' => 'حليب طازج كامل الدسم. مبستر.'],
@@ -646,6 +646,19 @@ return [
             ],
          ],
      ],
+
+    'brands' => [
+        ['id' => 1, 'name' => 'Almarai', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Almarai_logo.svg/1200px-Almarai_logo.svg.png'],
+        ['id' => 2, 'name' => 'Nadec', 'logo' => 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/Nadec_logo.svg/1200px-Nadec_logo.svg.png'],
+        ['id' => 3, 'name' => 'Lacnor', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Lacnor_logo.svg/1200px-Lacnor_logo.svg.png'],
+        ['id' => 4, 'name' => 'Americana', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Americana_logo.svg/1200px-Americana_logo.svg.png'],
+        ['id' => 5, 'name' => 'Nestlé', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Nestl%C3%A9_logo.svg/1200px-Nestl%C3%A9_logo.svg.png'],
+        ['id' => 6, 'name' => 'Pepsi', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Pepsi_logo_2014.svg/1200px-Pepsi_logo_2014.svg.png'],
+        ['id' => 7, 'name' => 'Coca-Cola', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/1200px-Coca-Cola_logo.svg.png'],
+        ['id' => 8, 'name' => 'Kellogg\'s', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Kellogg%27s_logo.svg/1200px-Kellogg%27s_logo.svg.png'],
+        ['id' => 9, 'name' => 'Lipton', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Lipton_logo.svg/1200px-Lipton_logo.svg.png'],
+        ['id' => 10, 'name' => 'Unilever', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Unilever_logo.svg/1200px-Unilever_logo.svg.png'],
+    ],
 
     'auth' => [
         'password' => 'password123',

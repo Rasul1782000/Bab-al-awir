@@ -1,86 +1,109 @@
-<div class="promo-bar">
-  <div class="app-container promo-bar__inner">
-    <span class="promo-bar__text">{{ "welcomeServiceTag" | translate }}</span>
-  </div>
-</div>
-
-<header class="site-header">
-  <div class="app-container site-header__inner">
-    <a class="site-header__brand" routerLink="/">
-      <span class="site-header__name">Bab Al Awir</span>
-    </a>
-
-    <nav class="site-nav" aria-label="Primary">
-      <a class="site-nav__link" routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">HOME</a>
-      <a class="site-nav__link" routerLink="/section/fruits" routerLinkActive="is-active">FRUITS</a>
-      <a class="site-nav__link" routerLink="/section/salads" routerLinkActive="is-active">SALADS</a>
-      <a class="site-nav__link" routerLink="/section/juices" routerLinkActive="is-active">JUICES</a>
-      <a class="site-nav__link" routerLink="/section/meats" routerLinkActive="is-active">MEATS</a>
-      <a class="site-nav__link" routerLink="/section/meat-alternatives" routerLinkActive="is-active">MEAT ALTERNATIVES</a>
-      <a class="site-nav__link" routerLink="/section/dairy" routerLinkActive="is-active">DAIRY</a>
-      <a class="site-nav__link" routerLink="/about">PAGES</a>
-      <a class="site-nav__link" routerLink="/contact">CONTACT US</a>
-    </nav>
-
-      <div class="site-header__tools">
-        <button type="button" class="icon-btn" aria-label="Search">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="7" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </button>
-
-        @if (loggedIn()) {
-          <a class="icon-btn" routerLink="/profile" aria-label="Account">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-            </svg>
-          </a>
-          <span class="account-greeting muted">Hi, {{ loggedIn()!.name }}</span>
-          <button type="button" class="btn btn-signup" (click)="logout()">
-            {{ "navLogout" | translate }}
-          </button>
-        } @else {
-          <a class="icon-btn" routerLink="/login" aria-label="Account">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-            </svg>
-          </a>
-          <a class="btn btn-ghost btn-login" routerLink="/login">{{ "navLogin" | translate }}</a>
-          <a class="btn btn-signup" routerLink="/signup" aria-label="{{ 'navSignUp' | translate }}">
-            {{ "navSignUp" | translate }}
-          </a>
-        }
-
-        <button type="button" class="icon-btn cart-btn" aria-label="Cart">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="20" r="1.4" />
-          <circle cx="18" cy="20" r="1.4" />
-          <path d="M2 3h2.2l2.1 11.4a1.6 1.6 0 0 0 1.6 1.3h9.2a1.6 1.6 0 0 0 1.6-1.2L21 7H5.4" />
-        </svg>
-        <span class="cart-count">0</span>
-      </button>
-
-      <label class="lang-select">
-        <span class="visually-hidden">{{ "welcomeLangLabel" | translate }}</span>
+<!-- Top Announcement & Utility Bar -->
+<div class="top-announcement">
+  <div class="app-container top-announcement__inner">
+    <div class="top-announcement__left">
+      <span class="top-announcement__icon">🚚</span>
+      <span class="top-announcement__text">Free Delivery on Orders Above AED 150</span>
+    </div>
+    <div class="top-announcement__right">
+      <div class="top-announcement__countdown">
+        <div class="countdown__item"><span class="countdown__num" id="countdown-days">02</span><span class="countdown__label">Days</span></div>
+        <div class="countdown__item"><span class="countdown__num" id="countdown-hours">14</span><span class="countdown__label">Hours</span></div>
+        <div class="countdown__item"><span class="countdown__num" id="countdown-minutes">35</span><span class="countdown__label">Mins</span></div>
+        <div class="countdown__item"><span class="countdown__num" id="countdown-seconds">00</span><span class="countdown__label">Secs</span></div>
+      </div>
+      <label class="lang-select top-lang-select">
         <select (change)="setLang($any($event.target).value)" [value]="lang()">
           @for (l of languages(); track l.code) {
             <option [value]="l.code">{{ l.native }}</option>
           }
         </select>
       </label>
+      <a class="top-announcement__link" routerLink="/orders">Track Order</a>
+      <a class="top-announcement__link" routerLink="/contact">Help</a>
+    </div>
+  </div>
+</div>
 
-      @if (region()) {
-        <button type="button" class="region-pill" (click)="changeRegion()" [title]="'navChangeRegion' | translate">
-          <span class="region-pill__flag"><app-flag-icon [code]="region()!.code" /></span>
-          <span>{{ region()!.name }}</span>
+<!-- Header & Sticky Navigation -->
+<header class="site-header">
+  <div class="app-container site-header__inner">
+    <a class="site-header__brand" routerLink="/">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--green); margin-inline-end: 8px;">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="site-header__logo-text">Bab Al Awir</span>
+    </a>
+
+    <div class="site-header__search">
+      <input type="text" class="site-header__search-input" placeholder="Search for products, brands and categories..." [value]="searchQuery()" (keyup.enter)="search()" />
+      <button type="button" class="site-header__search-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="site-header__actions">
+      <button type="button" class="header-action" aria-label="Delivery Location" (click)="changeRegion()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        @if (region()) {
+          <span class="header-action__label">{{ region()!.name }}</span>
+        } @else {
+          <span class="header-action__label">Deliver to</span>
+        }
+      </button>
+
+      @if (loggedIn()) {
+        <a class="header-action" routerLink="/profile" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+          </svg>
+          <span class="header-action__label">Hi, {{ loggedIn()!.name }}</span>
+        </a>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="logout()">
+          {{ "navLogout" | translate }}
         </button>
+      } @else {
+        <a class="header-action" routerLink="/login" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+          </svg>
+          <span class="header-action__label">Account</span>
+        </a>
+        <a class="btn btn-ghost btn-sm" routerLink="/login">{{ "navLogin" | translate }}</a>
+        <a class="btn btn-primary btn-sm" routerLink="/signup">{{ "navSignUp" | translate }}</a>
       }
 
-      <button type="button" class="icon-btn cart-btn" aria-label="Cart" (click)="toggleCart()">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <button type="button" class="header-action" aria-label="Wishlist" routerLink="/wishlist">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06 1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </button>
+
+      <button type="button" class="header-action" aria-label="Toggle theme" (click)="toggleTheme()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <button type="button" class="header-action cart-btn" aria-label="Cart" (click)="toggleCart()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="20" r="1.4" />
           <circle cx="18" cy="20" r="1.4" />
           <path d="M2 3h2.2l2.1 11.4a1.6 1.6 0 0 0 1.6 1.3h9.2a1.6 1.6 0 0 0 1.6-1.2L21 7H5.4" />
@@ -89,64 +112,104 @@
           <span class="cart-count">{{ itemCount() }}</span>
         }
       </button>
-
-      <app-cart class="cart-drawer-container" [class.open]="isVisible()" />
-      <div class="cart-overlay" (click)="toggleCart()" [class.visible]="isVisible()"></div>
-
-      <a class="btn btn-signup" routerLink="/signup" aria-label="{{ 'navSignUp' | translate }}">
-        {{ "navSignUp" | translate }}
-      </a>
     </div>
   </div>
+
+  <!-- Sub Navbar -->
+  <div class="sub-nav">
+    <div class="app-container sub-nav__inner">
+      <nav class="sub-nav__menu" aria-label="Categories">
+        <a class="sub-nav__link" routerLink="/categories" style="font-weight:700;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-inline-end: 4px;"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          All Categories
+        </a>
+        @for (s of sections(); track s.key) {
+          <a class="sub-nav__link" [routerLink]="'/section/' + s.key" routerLinkActive="is-active">{{ sectionLabel(s) }}</a>
+        }
+      </nav>
+      <a class="sub-nav__sale-tag" routerLink="/offers">🔥 Almost Finished SALE</a>
+    </div>
+  </div>
+
+  <app-cart class="cart-drawer-container" [class.open]="isVisible()" />
+  <div class="cart-overlay" (click)="toggleCart()" [class.visible]="isVisible()"></div>
 </header>
 
 <main id="main" class="site-main">
   <router-outlet />
 </main>
 
+<!-- Footer -->
 <footer class="site-footer">
-  <div class="app-container site-footer__grid">
-    <div class="footer-col footer-col--brand">
-      <img src="assets/Logo.png" alt="Bab Al Awir" class="footer-logo" />
-      <p class="footer-col__text">{{ "footerTagline" | translate }}</p>
-      <div class="footer-social">
-        <a href="#" aria-label="Facebook">f</a>
-        <a href="#" aria-label="Twitter">t</a>
-        <a href="#" aria-label="Instagram">i</a>
-        <a href="#" aria-label="LinkedIn">in</a>
+  <div class="app-container">
+    <div class="footer-newsletter">
+      <div class="footer-newsletter__text">
+        <h3 class="footer-newsletter__title">Get Fresh Deals in Your Inbox</h3>
+        <p class="footer-newsletter__sub">Subscribe to receive exclusive offers, new arrivals and weekly grocery deals.</p>
       </div>
+      <form class="footer-newsletter__form" (ngSubmit)="$event.preventDefault()">
+        <input type="email" placeholder="Enter your email address" class="footer-newsletter__input" />
+        <button type="submit" class="footer-newsletter__btn">Subscribe</button>
+      </form>
     </div>
+  </div>
+  <div class="app-container site-footer__grid">
     <div class="footer-col">
-      <h4 class="footer-col__title">QUICK LINKS</h4>
+      <h4 class="footer-col__title">Shop</h4>
       <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/products">Shop</a></li>
-        <li><a routerLink="/categories">Categories</a></li>
-        <li><a routerLink="/offers">Offers</a></li>
-        <li><a routerLink="/profile">My Account</a></li>
+        <li><a routerLink="/section/fruits">Fruits & Vegetables</a></li>
+        <li><a routerLink="/section/dairy-eggs">Dairy & Eggs</a></li>
+        <li><a routerLink="/section/meats">Meat & Seafood</a></li>
+        <li><a routerLink="/section/bakery-bread">Bakery</a></li>
+        <li><a routerLink="/section/beverages">Beverages</a></li>
+        <li><a routerLink="/section/household">Household</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 class="footer-col__title">ABOUT BAB AL AWIR</h4>
-      <p class="footer-col__text">Bab Al Awir brings fresh, local and organic produce to your door every day across the region.</p>
-    </div>
-    <div class="footer-col">
-      <h4 class="footer-col__title">CUSTOMER SERVICE</h4>
+      <h4 class="footer-col__title">Customer Service</h4>
       <ul>
         <li><a routerLink="/contact">Contact Us</a></li>
-        <li><a routerLink="/about">About Us</a></li>
-        <li><span class="footer-email">care@babalawir.ae</span></li>
-        <li><span class="footer-phone">+971 4 000 0000</span></li>
+        <li><a routerLink="/faq">Help Center</a></li>
+        <li><a routerLink="/orders">Track Order</a></li>
+        <li><a routerLink="/delivery-options">Delivery Information</a></li>
+        <li><a routerLink="/returns">Returns Policy</a></li>
       </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-col__title">About Bab Al Awir</h4>
+      <ul>
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/team-members">Our Team</a></li>
+        <li><a routerLink="/store-locations">Store Locations</a></li>
+        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/terms">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-col__title">Download App</h4>
+      <div class="footer-app-badges">
+        <a href="#" class="app-badge">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.05 20.28c-.98.67-1.91.93-3.05.93-1.14 0-2.07-.26-3.05-.93L12 18.68l-.05.33-1.9-1.53c-.98-.67-1.91-.93-3.05-.93s-2.07.26-3.05.93L.05 20.28V3.72l8.95 6.38c.98.67 1.91.93 3.05.93s2.07-.26 3.05-.93L23.95 3.72v16.56z"/></svg>
+          <span>Google Play</span>
+        </a>
+        <a href="#" class="app-badge">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.4 2.83M13 3.5c.73-.83 1.21-1.96 1.07-3.11-1.05.05-2.31.71-3.06 1.58-.67.79-1.25 2.05-1.09 3.13 1.17.09 2.36-.64 3.08-1.6"/></svg>
+          <span>App Store</span>
+        </a>
+      </div>
     </div>
   </div>
   <div class="app-container site-footer__bottom">
-    <span>{{ "footerRights" | translate }}</span>
-    <div class="footer-social footer-social--bottom">
-      <a href="#" aria-label="Twitter">t</a>
-      <a href="#" aria-label="YouTube">y</a>
-      <a href="#" aria-label="Instagram">i</a>
+    <span>&copy; 2026 Bab Al Awir. All rights reserved.</span>
+    <div class="footer-social">
       <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="Twitter">t</a>
+      <a href="#" aria-label="Instagram">i</a>
+      <a href="#" aria-label="LinkedIn">in</a>
     </div>
+  </div>
+  <div class="app-container footer-payments">
+    <span class="footer-payments__label">We Accept:</span>
+    <span class="footer-payments__icons">VISA | Mastercard | Apple Pay | Cash on Delivery</span>
   </div>
 </footer>

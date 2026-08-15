@@ -1,146 +1,278 @@
-<section class="hero">
-  <div class="hero__overlay"></div>
-  <div class="hero__badge-container" aria-hidden="true">
-
-    <div class="hero__floating-badge badge-fresh">
-      <svg class="fresh-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 22l5-20h10l5 20"/>
-        <path d="M7 12h10"/>
-        <path d="M9 16h6"/>
-      </svg>
-      <span class="fresh-text">{{ "welcomeFreshBadge" | translate }}</span>
-      <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
+<!-- Hero Section -->
+<section class="section hero-section">
+  <div class="app-container">
+    <div class="hero-grid">
+      <a class="hero-main" [routerLink]="mainPromo()?.link || '/offers'" [style.background]="mainPromo()?.bg_color ? mainPromo()!.bg_color : '#e8f5e9'">
+        <div class="hero-main__content">
+          @if (mainPromo()) {
+            <span class="hero-badge">{{ mainPromo()!.badge_en }}</span>
+            <h1 class="hero-main__title">{{ mainPromo()!.title_en }}</h1>
+            <p class="hero-main__subtitle">{{ mainPromo()!.subtitle_en }}</p>
+            <span class="hero-main__cta">Shop Now →</span>
+          }
+        </div>
+        <div class="hero-main__visual">
+          @if (mainPromo()?.image) {
+            <img [src]="mainPromo()!.image" [alt]="mainPromo()!.title_en" loading="eager" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-main__fallback\'>🛒</div>'" />
+          } @else {
+            <div class="hero-main__fallback">🛒</div>
+          }
+        </div>
+      </a>
+      <div class="hero-side">
+        @for (promo of heroSidePromos(); track promo.id) {
+          <a class="hero-card" [routerLink]="promo.link" [style.background]="promo.bg_color ? promo.bg_color : '#fff3e0'">
+            <div class="hero-card__content">
+              <span class="hero-badge">{{ promo.badge_en }}</span>
+              <h3 class="hero-card__title">{{ promo.title_en }}</h3>
+              <p class="hero-card__subtitle">{{ promo.subtitle_en }}</p>
+              <span class="hero-card__cta">Shop Now →</span>
+            </div>
+            <div class="hero-card__visual">
+              <img [src]="promo.image" [alt]="promo.title_en" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-card__fallback\'>🛍️</div>'" />
+            </div>
+          </a>
+        }
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="app-container hero__inner">
-    <div class="hero__grid">
-      <div class="hero__copy animate-fade-in-up">
-        <div class="hero__pill">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="17" r="1" />
-            <circle cx="19" cy="17" r="1" />
-            <path d="M2 17h20M9 17V7c0-2.5 2-4.5 4.5-4.5S18 4.5 18 7v10" />
-          </svg>
-          <span>{{ "welcomeServiceTag" | translate }}</span>
-        </div>
-
-        <h1 class="hero__title">
-          {{ "welcomeTitlePart1" | translate }}
-          <br>
-          {{ "welcomeTitlePart2" | translate }}
-        </h1>
-
-        <div class="hero__search">
-          <label for="hero-category-search" class="visually-hidden">{{ "welcomeSearchLabel" | translate }}</label>
-          <input type="text" id="hero-category-search" class="hero__search-input" placeholder="{{ 'welcomeSearchPlaceholder' | translate }}" aria-label="{{ 'welcomeSearchLabel' | translate }}">
-          <a class="hero__cta" routerLink="/products">{{ "welcomeShopNow" | translate }}</a>
-        </div>
-
-        <div class="hero__testimonial" aria-label="Customer testimonial">
-          <div class="hero__avatars" aria-hidden="true">
-            <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
-            <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
-            <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=64&q=80" alt="" class="hero__avatar">
-          </div>
-          <div class="hero__testimonial-info">
-            <span class="hero__testimonial-label">{{ "welcomeHappyCustomers" | translate }}</span>
-            <div class="hero__rating">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <span class="hero__rating-score">4.5</span>
-              <span class="hero__rating-count">({{ "welcomeReviewsCount" | translate }})</span>
+<!-- Service Benefits -->
+@if (brandValuesReady() && brandValues().length) {
+  <section class="section benefits">
+    <div class="app-container">
+      <div class="benefits__grid">
+        @for (bv of brandValues(); track bv.key) {
+          <div class="benefit">
+            <span class="benefit__icon">{{ bv.icon }}</span>
+            <div class="benefit__text">
+              <strong class="benefit__title">{{ bv.label_en }}</strong>
+              <p class="benefit__desc">{{ bv.desc_en }}</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="hero__visual" aria-hidden="true">
-        <div class="hero__driver">
-          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=90" alt="Fresh vegetables and fruits arranged together" class="hero__driver-img">
-        </div>
-        <div class="hero__produce-scatter">
-          <img src="https://images.unsplash.com/photo-1584270354949-c26b0d5e2b9a?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-1">
-          <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-2">
-          <img src="https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-3">
-          <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=200&q=90" alt="" class="hero__produce hero__produce-4">
-        </div>
+        }
       </div>
     </div>
-  </div>
-</section>
+  </section>
+}
 
-<section class="cat-icons">
-  <div class="app-container cat-icons__row">
-    @for (c of catIcons; track c.label) {
-      <a class="cat-icon" routerLink="/categories">
-        <span class="cat-icon__emoji" aria-hidden="true">{{ c.emoji }}</span>
-        <span class="cat-icon__label">{{ c.label }}</span>
-      </a>
-    }
-  </div>
-</section>
-
-<section class="banners">
-  <div class="app-container banners__row">
-    @for (b of banners; track b.title) {
-      <a class="banner" [routerLink]="'/products'" [style.background]="b.tint">
-        <div class="banner__text">
-          <h3 class="banner__title">{{ b.title }}</h3>
-          <p class="banner__tag">{{ b.tag }}</p>
-          <span class="banner__link">LEARN MORE &rsaquo;</span>
-        </div>
-        <img class="banner__img" [src]="b.img" [alt]="b.title" loading="lazy" onerror="this.src='assets/img/beverages.jpg'" />
-      </a>
-    }
-  </div>
-</section>
-
-<section class="section discover">
+<!-- Shop by Category -->
+<section class="section categories-section">
   <div class="app-container">
-    <h2 class="section-kicker">&#8594; {{ "homeShopByCategory" | translate }} &#8592;</h2>
-    <div class="discover__grid">
-      @for (d of discover; track d.label) {
-        <a class="discover__card" routerLink="/products">
-          <img [src]="d.img" [alt]="d.label" loading="lazy" onerror="this.src='assets/img/beverages.jpg'" />
-          <span class="discover__label">{{ d.label }}</span>
+    <header class="section-head">
+      <h2 class="section-title">Shop by Category</h2>
+      <a class="section-link" routerLink="/categories">View All →</a>
+    </header>
+    <div class="categories__grid">
+      @for (cat of categories(); track cat.id) {
+        <a class="category-card" [routerLink]="'/section/' + cat.slug">
+          <div class="category-card__img">
+            @if (cat.image) {
+              <img [src]="cat.image" [alt]="name(cat)" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'category-card__icon\'>' + cat.icon + '</span>'" />
+            } @else {
+              <span class="category-card__icon">{{ cat.icon }}</span>
+            }
+          </div>
+          <h3 class="category-card__name">{{ name(cat) }}</h3>
         </a>
       }
     </div>
   </div>
 </section>
 
-<section class="section bestseller">
-  <div class="app-container">
-    <div class="bestseller__head">
-      <h2 class="section-kicker section-kicker--left">BEST SELLER</h2>
-      <div class="carousel-nav">
-        <button type="button" (click)="prev()" aria-label="Previous">&#8249;</button>
-        <button type="button" (click)="next()" aria-label="Next">&#8250;</button>
-      </div>
-    </div>
-    <div class="bestseller__track">
-      @for (p of featured(); track p.id) {
-        <div class="bestseller__item">
-          <app-product-card [product]="p" [symbol]="symbol()" />
-        </div>
-      }
-    </div>
-  </div>
-</section>
-
-@if (categories().length) {
-  <section class="section">
+<!-- Trending Deals -->
+@if (offersReady() && activeOffers().length) {
+  <section class="section deals-section">
     <div class="app-container">
       <header class="section-head">
-        <h2 class="section-title">{{ "catPage" | translate }}</h2>
+        <div class="deals-header">
+          <div>
+            <h2 class="section-title">Today's Best Deals</h2>
+            <p class="deals-subtitle">Dont miss this opportunity while supplies last.</p>
+          </div>
+          <div class="deals-countdown">
+            <div class="countdown__item"><span class="countdown__num">00</span><span class="countdown__label">Days</span></div>
+            <div class="countdown__item"><span class="countdown__num">02</span><span class="countdown__label">Hours</span></div>
+            <div class="countdown__item"><span class="countdown__num">14</span><span class="countdown__label">Mins</span></div>
+            <div class="countdown__item"><span class="countdown__num">35</span><span class="countdown__label">Secs</span></div>
+          </div>
+          <a class="section-link" routerLink="/offers">View All →</a>
+        </div>
       </header>
-      <div class="home-cats">
-        @for (c of categories(); track c.id) {
-          <a class="home-cat" [routerLink]="'/categories'">{{ name(c) }}</a>
+      <div class="deals__grid">
+        @for (offer of activeOffers(); track offer.product_id) {
+          @if (getOfferProduct(offer)) {
+            <div class="deal-card">
+              @if (getOfferProduct(offer)!.image) {
+                <div class="deal-card__img">
+                  <img [src]="getOfferProduct(offer)!.image" [alt]="getOfferProduct(offer)!.name_en" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'deal-card__fallback\'>' + (getOfferProduct(offer)!.icon || '🛒') + '</div>'" />
+                </div>
+              } @else {
+                <div class="deal-card__img" style="background: var(--green-soft); display:flex; align-items:center; justify-content:center; font-size:48px;">{{ getOfferProduct(offer)!.icon || '🛒' }}</div>
+              }
+              <span class="deal-card__discount">-{{ offer.percent }}%</span>
+              <h3 class="deal-card__name">{{ getOfferProduct(offer)!.name_en }}</h3>
+              <div class="deal-card__price">
+                <span class="deal-card__old">{{ symbol() }} {{ getOldPrice(offer) | number:'1.2-2' }}</span>
+                <span class="deal-card__current">{{ symbol() }} {{ getOfferProduct(offer)!.price | number:'1.2-2' }}</span>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm deal-card__add" (click)="cartSvc.addToCart(getOfferProduct(offer)!, 1)">Add to cart</button>
+            </div>
+          }
         }
       </div>
     </div>
   </section>
 }
+
+<!-- Featured Products -->
+@if (productsReady() && featured().length) {
+  <section class="section featured-section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">Featured Products</h2>
+        <a class="section-link" routerLink="/products">View All →</a>
+      </header>
+      <div class="featured__grid">
+        @for (p of featured(); track p.id) {
+          <div class="featured__item">
+            <app-product-card
+              [product]="p"
+              [oldPrice]="getOldPriceFromProduct(p)"
+              [discountPercent]="getDiscountFromProduct(p)"
+              [showAddToCart]="true"
+              [showQuickView]="true"
+              [rating]="getRandomRating()"
+              [stockProgress]="getStockProgress()"
+              [timeRemaining]="getTimeRemaining()"
+              [isWishlisted]="false"
+              [symbol]="symbol()"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Promotional Banner -->
+@if (promosReady() && bottomPromo()) {
+  <section class="section promo-banner-section">
+    <div class="app-container">
+      <a class="promo-banner" [routerLink]="bottomPromo()!.link" [style.background]="bottomPromo()!.bg_color ? bottomPromo()!.bg_color : '#e3f2fd'">
+        <div class="promo-banner__content">
+          <span class="hero-badge">{{ bottomPromo()!.badge_en }}</span>
+          <h2 class="promo-banner__title">{{ bottomPromo()!.title_en }}</h2>
+          <p class="promo-banner__subtitle">{{ bottomPromo()!.subtitle_en }}</p>
+          <span class="promo-banner__cta">Shop Now →</span>
+        </div>
+        <div class="promo-banner__visual">
+          @if (bottomPromo()?.image) {
+            <img [src]="bottomPromo()!.image" [alt]="bottomPromo()!.title_en" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'promo-banner__fallback\'>🛍️</div>'" />
+          } @else {
+            <div class="promo-banner__fallback">🛍️</div>
+          }
+        </div>
+      </a>
+    </div>
+  </section>
+}
+
+<!-- Best Sellers -->
+@if (productsReady() && bestSellers().length) {
+  <section class="section bestsellers-section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">Best Sellers</h2>
+        <a class="section-link" routerLink="/products">View All →</a>
+      </header>
+      <div class="bestsellers__grid">
+        @for (p of bestSellers(); track p.id) {
+          <div class="bestsellers__item">
+            <app-product-card
+              [product]="p"
+              [oldPrice]="getOldPriceFromProduct(p)"
+              [discountPercent]="getDiscountFromProduct(p)"
+              [showAddToCart]="true"
+              [showQuickView]="true"
+              [rating]="getRandomRating()"
+              [stockProgress]="getStockProgress()"
+              [timeRemaining]="getTimeRemaining()"
+              [isWishlisted]="false"
+              [symbol]="symbol()"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Shop by Brand -->
+@if (brandsReady() && brands().length) {
+  <section class="section brands-section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">Shop by Brand</h2>
+      </header>
+      <div class="brands__grid">
+        @for (brand of brands(); track brand.id) {
+          <a class="brand-card" [routerLink]="'/products?brand=' + brand.name">
+            <img [src]="brand.logo" [alt]="brand.name" loading="lazy" onerror="this.style.display='none'" />
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- UAE Delivery Section -->
+<section class="section delivery-section">
+  <div class="app-container">
+    <div class="delivery-card">
+      <div class="delivery-card__content">
+        <h2 class="delivery-card__title">Fresh Groceries Across the UAE</h2>
+        <p class="delivery-card__subtitle">Shop your everyday essentials and get them delivered directly to your doorstep.</p>
+        <div class="delivery-card__actions">
+          <button type="button" class="btn btn-primary" (click)="changeRegion()">Change Location</button>
+        </div>
+      </div>
+      <div class="delivery-card__visual">
+        <div class="delivery-card__map">
+          <svg viewBox="0 0 24 24" width="120" height="120" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--green); opacity: 0.2;">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App Promotion -->
+<section class="section app-promo-section">
+  <div class="app-container">
+    <div class="app-promo">
+      <div class="app-promo__content">
+        <h2 class="app-promo__title">Your Groceries, Anywhere.</h2>
+        <p class="app-promo__subtitle">Download the Bab Al Awir app and shop faster from anywhere.</p>
+        <div class="app-promo__actions">
+          <a class="app-badge" href="#">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.05 20.28c-.98.67-1.91.93-3.05.93-1.14 0-2.07-.26-3.05-.93L12 18.68l-.05.33-1.9-1.53c-.98-.67-1.91-.93-3.05-.93s-2.07.26-3.05.93L.05 20.28V3.72l8.95 6.38c.98.67 1.91.93 3.05.93s2.07-.26 3.05-.93L23.95 3.72v16.56z"/></svg>
+            <span>Google Play</span>
+          </a>
+          <a class="app-badge" href="#">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.4 2.83M13 3.5c.73-.83 1.21-1.96 1.07-3.11-1.05.05-2.31.71-3.06 1.58-.67.79-1.25 2.05-1.09 3.13 1.17.09 2.36-.64 3.08-1.6"/></svg>
+            <span>App Store</span>
+          </a>
+        </div>
+      </div>
+      <div class="app-promo__visual">
+        <svg viewBox="0 0 24 24" width="180" height="180" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color: var(--green); opacity: 0.15;">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>

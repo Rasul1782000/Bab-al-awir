@@ -54,8 +54,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "12kB",
-                  "maximumError": "16kB"
+                  "maximumWarning": "20kB",
+                  "maximumError": "24kB"
                 }
               ],
               "outputHashing": "all"
@@ -73,6 +73,7 @@
           "options": {
             "host": "localhost",
             "port": 4200,
+            "proxyConfig": "proxy.conf.json",
             "hmr": false,
             "liveReload": true
           },

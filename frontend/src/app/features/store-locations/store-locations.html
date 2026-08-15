@@ -1,0 +1,39 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'storeLocationsPage'" />
+
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "storeLocationsPage" | translate }}</h1>
+      <p class="muted">{{ "storeLocationsSub" | translate }}</p>
+    </header>
+
+    <div class="stores-grid">
+      @for (s of stores(); track s.id) {
+        <div class="card store-card">
+          <div class="store-card__header">
+            <span class="store-card__icon">📍</span>
+            <h3 class="store-card__name">{{ name(s) }}</h3>
+          </div>
+          <p class="store-card__addr muted">{{ address(s) }}</p>
+          <p class="store-card__phone">{{ s.phone }}</p>
+          <div class="store-card__hours">
+            @for (entry of hoursEntries(s); track entry[0]) {
+              <div class="store-card__hours-row">
+                <span>{{ entry[0] }}:</span>
+                <span>{{ entry[1] }}</span>
+              </div>
+            }
+          </div>
+          <div class="store-card__services">
+            @for (svc of s.services; track svc) {
+              <span class="store-card__service">{{ svc }}</span>
+            }
+          </div>
+          <a class="store-card__map" href="https://www.google.com/maps?q={{ s.coordinates.lat }},{{ s.coordinates.lng }}" target="_blank" rel="noopener">
+            {{ "storeViewMap" | translate }}
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+</section>

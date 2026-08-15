@@ -1,0 +1,24 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'newsPage'" />
+
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "newsPage" | translate }}</h1>
+      <p class="muted">{{ "newsSub" | translate }}</p>
+    </header>
+
+    <div class="news-grid">
+      @for (post of posts(); track post.id) {
+        <article class="card news-card">
+          <div class="news-card__image" [appBgImage]="post.image"></div>
+          <div class="news-card__body">
+            <span class="news-card__category">{{ post.category }}</span>
+            <h3 class="news-card__title">{{ title(post) }}</h3>
+            <p class="news-card__summary muted">{{ summary(post) }}</p>
+            <span class="news-card__date muted">{{ post.date }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

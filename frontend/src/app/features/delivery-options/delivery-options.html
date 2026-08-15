@@ -1,0 +1,33 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'deliveryOptionsPage'" />
+
+<section class="section">
+  <div class="app-container app-narrow">
+    <header class="section-head">
+      <h1 class="section-title">{{ "deliveryOptionsPage" | translate }}</h1>
+      <p class="muted">{{ "deliveryOptionsSub" | translate }}</p>
+    </header>
+
+    <div class="delivery-grid">
+      @for (opt of options(); track opt.method) {
+        <div class="card delivery-card">
+          <div class="delivery-card__icon">🚚</div>
+          <h3 class="delivery-card__name">{{ label(opt) }}</h3>
+          <p class="delivery-card__desc muted">{{ desc(opt) }}</p>
+          <div class="delivery-card__fee">
+            @if (opt.fee === 0) {
+              {{ "checkoutFree" | translate }}
+            } @else {
+              {{ symbol() }} {{ opt.fee | number: "1.2-2" }}
+            }
+          </div>
+          @if (opt.free_above) {
+            <p class="delivery-card__free muted">
+              {{ "deliveryFreeAbove" | translate }} {{ symbol() }}{{ opt.free_above }}
+            </p>
+          }
+          <p class="delivery-card__time muted">{{ opt.estimated_days }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -5,6 +5,7 @@ import { Observable, of } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import {
   ApiResponse,
+  Brand,
   BrandValue,
   Category,
   DeliveryOption,
@@ -89,9 +90,16 @@ export class ApiService {
   getProducts(): Observable<ApiResponse<Product[]>> {
     return this.cacheGet<Product[]>("products", `${this.baseUrl}/products`);
   }
+  getProductById(id: number): Observable<ApiResponse<Product>> {
+    return this.http.get<ApiResponse<Product>>(`${this.baseUrl}/products/${id}`);
+  }
 
   getBrandValues(): Observable<ApiResponse<BrandValue[]>> {
     return this.cacheGet<BrandValue[]>("brand", `${this.baseUrl}/brand-values`);
+  }
+
+  getBrands(): Observable<ApiResponse<Brand[]>> {
+    return this.cacheGet<Brand[]>("brands", `${this.baseUrl}/brands`);
   }
 
   getStoreLocations(): Observable<ApiResponse<StoreLocation[]>> {

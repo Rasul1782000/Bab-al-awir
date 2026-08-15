@@ -21,6 +21,7 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/signup', [UserController::class, 'signup']);
 Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
 Route::get('/brand-values', [ContentController::class, 'brandValues']);
+Route::get('/brands', [ContentController::class, 'brands']);
 Route::get('/store-locations', [ContentController::class, 'storeLocations']);
 Route::get('/delivery-options', [ContentController::class, 'deliveryOptions']);
 Route::get('/offers', [ContentController::class, 'offers']);

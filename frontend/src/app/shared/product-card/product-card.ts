@@ -19,6 +19,17 @@ export class ProductCard {
   product = input.required<Product>();
   symbol = input<string>("د.إ");
   addToCart = output<{ product: Product; quantity: number }>();
+  oldPrice = input<number | null>(null);
+  discountPercent = input<number | null>(null);
+  stockText = input<string | null>(null);
+  showAddToCart = input<boolean>(false);
+  showQuickView = input<boolean>(false);
+  quickView = output<Product>();
+  rating = input<number | null>(null);
+  stockProgress = input<number | null>(null);
+  timeRemaining = input<string | null>(null);
+  wishlist = output<Product>();
+  isWishlisted = input<boolean>(false);
 
   quantity = signal(1);
   isInCart = computed(() => this.cartSvc.isInCart(this.product().id));
@@ -59,5 +70,9 @@ export class ProductCard {
 
   removeFromCart(): void {
     this.cartSvc.removeFromCart(this.product().id);
+  }
+
+  toggleWishlist(): void {
+    this.wishlist.emit(this.product());
   }
 }

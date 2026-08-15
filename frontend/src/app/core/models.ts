@@ -171,6 +171,7 @@ export interface AuthUser {
   email: string;
   phone: string;
   token: string;
+  saved_addresses?: SavedAddress[];
 }
 
 export interface Testimonial {
@@ -226,4 +227,10 @@ export interface PromoBanner {
   badge_en: string;
   badge_ar: string;
   bg_color: string;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  logo: string;
 }

@@ -33,7 +33,14 @@ export class Layout {
 
   searchQuery = signal("");
 
+  theme = signal<"light" | "dark">("light");
+
   constructor() {
+    const saved = localStorage.getItem("baw_theme");
+    if (saved === "dark" || saved === "light") {
+      this.theme.set(saved);
+      document.documentElement.setAttribute("data-theme", saved);
+    }
     this.api
       .getSections()
       .pipe(
@@ -65,6 +72,13 @@ export class Layout {
 
   setLang(code: string): void {
     this.langSvc.setLanguage(code);
+  }
+
+  toggleTheme(): void {
+    const next = this.theme() === "light" ? "dark" : "light";
+    this.theme.set(next);
+    localStorage.setItem("baw_theme", next);
+    document.documentElement.setAttribute("data-theme", next);
   }
 
   changeRegion(): void {

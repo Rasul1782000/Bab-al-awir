@@ -2,6 +2,11 @@
   @if (product().badge) {
     <span class="product-card__badge badge-{{ product().badge }}">{{ badgeLabel() }}</span>
   }
+  <button type="button" class="product-card__wishlist" (click)="toggleWishlist()" [class.is-active]="isWishlisted()" aria-label="Wishlist">
+    <svg viewBox="0 0 24 24" width="18" height="18" [attr.fill]="isWishlisted() ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+  </button>
   <div class="product-card__image" aria-hidden="true">
     @if (product().image) {
       <img [src]="product().image" [alt]="name()" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'product-card__icon\'>' + (product().icon || '') + '</span>'" />
@@ -9,15 +14,53 @@
       <span class="product-card__icon">{{ product().icon }}</span>
     }
   </div>
+  @if (discountPercent()) {
+    <span class="product-card__discount-badge">-{{ discountPercent() }}%</span>
+  }
   <h3 class="product-card__name">{{ name() }}</h3>
   @if (product().brand) {
     <p class="product-card__brand">{{ product().brand }}</p>
   }
-  @if (product().origin) {
-    <p class="product-card__origin muted">{{ product().origin }}</p>
+  @if (rating() !== null) {
+    <div class="product-card__rating">
+      @for (star of [1,2,3,4,5]; track star) {
+        <svg viewBox="0 0 24 24" width="14" height="14" [class.star-filled]="star <= (rating() || 0)" [class.star-empty]="star > (rating() || 0)" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      }
+    </div>
+  }
+  @if (timeRemaining()) {
+    <div class="product-card__timer">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span>Ends in {{ timeRemaining() }}</span>
+    </div>
   }
   <div class="product-card__foot">
-    <span class="product-card__price">{{ symbol() }} {{ product().price | number: "1.2-2" }}</span>
+    <div class="product-card__price-group">
+      @if (oldPrice()) {
+        <span class="product-card__old-price">{{ symbol() }} {{ oldPrice() | number: '1.2-2' }}</span>
+      }
+      <span class="product-card__price">{{ symbol() }} {{ product().price | number: "1.2-2" }}</span>
+    </div>
     <span class="product-card__unit muted">{{ "prodPer" | translate }} {{ product().unit }}</span>
+  </div>
+  @if (stockText() && stockProgress()) {
+    <div class="product-card__stock">
+      <div class="product-card__stock-bar">
+        <div class="product-card__stock-fill" [style.width.%]="stockProgress()"></div>
+      </div>
+      <span class="product-card__stock-text">{{ stockText() }}</span>
+    </div>
+  }
+  <div class="product-card__actions">
+    @if (showAddToCart()) {
+      <button type="button" class="product-card__add-btn" (click)="onAddToCart()">+ Add</button>
+    }
+    @if (showQuickView()) {
+      <button type="button" class="product-card__quick-view" (click)="quickView.emit(product())">Quick View</button>
+    }
   </div>
 </article>

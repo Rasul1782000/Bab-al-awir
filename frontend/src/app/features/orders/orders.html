@@ -1,0 +1,91 @@
+<app-page-hero [eyebrow]="'profilePage'" [title]="'ordersPage'" />
+
+<section class="section">
+  <div class="app-container">
+
+    @if (selectedOrder(); as order) {
+      <div class="orders">
+
+        <button class="btn btn-ghost btn-back" (click)="backToList()">
+          ← {{ "ordersBack" | translate }}
+        </button>
+
+        <div class="card order-detail">
+          <div class="order-detail__head">
+            <h2>{{ "profileOrderId" | translate }} #{{ order.id }}</h2>
+            <span class="order-status {{ statusClass(order.status) }}">
+              {{ statusText(order.status) }}
+            </span>
+          </div>
+
+          <div class="order-detail__meta">
+            <div class="meta-item">
+              <span class="meta-label">{{ "checkoutEstDelivery" | translate }}:</span>
+              {{ order.estimated_delivery ?? "N/A" }}
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">{{ "checkoutDeliveryMethod" | translate }}:</span>
+              {{ order.delivery_method ?? "Standard" }}
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">{{ "checkoutTotal" | translate }}:</span>
+              {{ symbol() }} {{ order.total | number: "1.2-2" }}
+            </div>
+          </div>
+
+          <div class="order-detail__items">
+            @if (order.items != null && order.items > 0) {
+              <div class="order-item-placeholder">
+                <div class="placeholder"></div>
+                <p class="muted">{{ "orderItemsCount" | translate: { count: order.items } }}</p>
+                <p class="muted">{{ "orderDeliveryDate" | translate: { date: order.date } }}</p>
+              </div>
+            } @else {
+              <div class="order-item-placeholder">
+                <div class="placeholder"></div>
+                <p class="muted">{{ "orderNoItems" | translate }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+    } @else {
+
+      <header class="section-head">
+        <h1 class="section-title">{{ "ordersPage" | translate }}</h1>
+        <p class="muted">{{ "ordersSub" | translate }}</p>
+      </header>
+
+      @if (orders().length) {
+        <div class="orders-list">
+          @for (o of orders(); track o.id) {
+            <div class="card order-card" (click)="viewOrder(o)">
+              <div class="order-card__head">
+                <h3>{{ "profileOrderId" | translate }} #{{ o.id }}</h3>
+              </div>
+              <div class="order-card__row">
+                <span class="muted">{{ "checkoutEstDelivery" | translate }}:</span>
+                <span>{{ o.estimated_delivery ?? "Processing" }}</span>
+              </div>
+              <div class="order-card__row">
+                <span class="muted">{{ "checkoutDeliveryMethod" | translate }}:</span>
+                <span>{{ o.delivery_method ?? "Standard" }}</span>
+              </div>
+              <div class="order-card__foot">
+                <span class="order-card__items muted">
+                  {{ o.items }} {{ "profileItems" | translate }}
+                </span>
+                <span class="order-card__total">
+                  {{ symbol() }} {{ o.total | number: "1.2-2" }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="muted">{{ "ordersEmpty" | translate }}</p>
+      }
+    }
+  </div>
+</section>

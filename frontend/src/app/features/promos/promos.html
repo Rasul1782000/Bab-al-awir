@@ -1,0 +1,23 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'promosPage'" />
+
+<section class="section">
+  <div class="app-container">
+    <header class="section-head">
+      <h1 class="section-title">{{ "promosPage" | translate }}</h1>
+      <p class="muted">{{ "promosSub" | translate }}</p>
+    </header>
+
+    <div class="promos-grid">
+      @for (b of banners(); track b.id) {
+        <a [routerLink]="b.link" class="promo-card" [style.background]="b.bg_color">
+          <div class="promo-card__content">
+            <span class="promo-card__badge">{{ badge(b) }}</span>
+            <h2 class="promo-card__title">{{ title(b) }}</h2>
+            <p class="promo-card__subtitle">{{ subtitle(b) }}</p>
+          </div>
+          <div class="promo-card__image" [appBgImage]="b.image"></div>
+        </a>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,145 @@
+<app-page-hero
+  [eyebrow]="'navProducts'"
+  [title]="'productDetail'"
+  [subtitle]="product() ? localizedName(product()!) : ''"
+/>
+
+@if (product(); as p) {
+  <section class="section">
+    <div class="app-container">
+      <div class="product-detail__grid">
+
+        @if (p.image) {
+          <div class="product-detail__image-wrapper">
+            <img [src]="p.image" [alt]="localizedName(p)" class="product-detail__image" />
+            @if (offer()) {
+              <span class="product-detail__badge badge-sale">
+                -{{ offer()!.percent }}%
+              </span>
+            }
+            @if (p.badge) {
+              <span class="product-detail__badge badge-{{ p.badge }}">
+                {{ badgeLabel(p.badge) }}
+              </span>
+            }
+          </div>
+        }
+
+        <div class="product-detail__info">
+          <h1 class="product-detail__name">{{ localizedName(p) }}</h1>
+
+          @if (p.brand) {
+            <p class="product-detail__brand muted">
+              {{ "prodBrand" | translate }}: {{ p.brand }}
+            </p>
+          }
+
+          <div class="product-detail__price-row">
+            @if (offer() && discountedPrice()) {
+              <div class="product-detail__price">
+                <span class="price-current">{{ symbol() }} {{ discountedPrice() }} </span>
+                <span class="price-old">{{ symbol() }} {{ p.price | number: "1.2-2" }}</span>
+                <span class="price-badge">{{ "offerBadge" | translate: { percent: offer()!.percent } }}</span>
+              </div>
+            } @else {
+              <span class="product-detail__price">{{ symbol() }} {{ p.price | number: "1.2-2" }}</span>
+            }
+            <span class="product-detail__unit muted">{{ "prodPer" | translate }} {{ p.unit }}</span>
+          </div>
+
+          @if (offer()) {
+            <p class="product-detail__offer-info muted">
+              {{ "offerValidUntil" | translate: { date: offer()!.valid_until } }}
+            </p>
+          }
+
+          <div class="product-detail__qty">
+            <label>{{ "prodQuantity" | translate }}</label>
+            <div class="qty-controls">
+              <button type="button" class="qty-btn" (click)="decreaseQty()">−</button>
+              <span class="qty-display">{{ quantity() }}</span>
+              <button type="button" class="qty-btn" (click)="increaseQty()">+</button>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-primary btn-add"
+            (click)="addToCart()"
+            [disabled]="!p"
+          >
+            {{ "prodAddToCart" | translate }}
+          </button>
+
+          @if (p.desc_en || p.desc_ar) {
+            <div class="product-detail__desc">
+              <h3>{{ "productDescription" | translate }}</h3>
+              <p>{{ localizedDesc(p) }}</p>
+            </div>
+          }
+
+          @if (p.origin) {
+            <div class="product-detail__meta">
+              <span class="meta-item">
+                <span class="meta-label">{{ "prodOrigin" | translate }}:</span>
+                {{ p.origin }}
+              </span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  @if (relatedProducts().length) {
+    <section class="section section-alt">
+      <div class="app-container">
+        <h2 class="section-title">{{ "productRelated" | translate }}</h2>
+        <div class="product-grid">
+          @for (rp of relatedProducts(); track rp.id) {
+            <a [routerLink]="['/products', rp.id]" class="product-link">
+              <app-product-card
+                [product]="rp"
+                [symbol]="symbol()"
+                (addToCart)="addToCartFromRelated($event.product)"
+              />
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <section class="section">
+    <div class="app-container app-narrow">
+      <h2 class="section-title">{{ "productReviews" | translate }}</h2>
+      <div class="reviews">
+        @for (r of reviews; track r.date) {
+          <div class="review">
+            <div class="review__stars">
+              @for (s of stars(r.rating); track s) {
+                <span class="star">★</span>
+              }
+              @for (s of starPlaceholders(5 - r.rating); track s) {
+                <span class="star star--empty">☆</span>
+              }
+            </div>
+            <p class="review__text">{{ lang() === 'ar' ? r.text_ar : r.text_en }}</p>
+            <div class="review__author">
+              <span class="review__name">{{ lang() === 'ar' ? r.name_ar : r.name_en }}</span>
+              <span class="review__date muted">{{ r.date }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (!product()) {
+  <section class="section">
+    <div class="app-container">
+      <p class="muted">{{ "loading" | translate }}</p>
+    </div>
+  </section>
+}

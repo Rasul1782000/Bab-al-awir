@@ -1,0 +1,71 @@
+<section class="section">
+  <div class="app-container app-narrow">
+    <div class="confirmation">
+
+      <div class="confirmation__success">
+        <div class="success-icon">✓</div>
+        <h1>{{ "checkoutConfirmed" | translate }}</h1>
+        <p class="muted">{{ "checkoutConfirmedSub" | translate }}</p>
+      </div>
+
+      <div class="card confirmation__details">
+        <div class="confirmation__order-id">
+          <span class="confirmation__label">{{ "checkoutOrderId" | translate }}</span>
+          <span class="confirmation__value">{{ orderId }}</span>
+        </div>
+        <div class="confirmation__row">
+          <span class="confirmation__label">{{ "checkoutEstDelivery" | translate }}</span>
+          <span class="confirmation__value">{{ estimatedDelivery }}</span>
+        </div>
+        <div class="confirmation__row">
+          <span class="confirmation__label">{{ "checkoutDeliveryMethod" | translate }}</span>
+          <span class="confirmation__value">{{ deliveryMethod }}</span>
+        </div>
+      </div>
+
+      <div class="confirmation__actions">
+        <a class="btn btn-primary" routerLink="/orders">
+          {{ "orderViewOrders" | translate }}
+        </a>
+        <a class="btn btn-ghost" routerLink="/products">
+          {{ "orderContinueShopping" | translate }}
+        </a>
+      </div>
+
+      <div class="confirmation__tracking">
+        <h3>{{ "orderTrackTitle" | translate }}</h3>
+        <p class="muted">{{ "orderTrackSub" | translate }}</p>
+        <div class="tracking-steps">
+          <div class="tracking-step tracking-step--active">
+            <div class="tracking-step__icon">✓</div>
+            <div class="tracking-step__content">
+              <span class="tracking-step__label">{{ "orderConfirmed" | translate }}</span>
+              <span class="tracking-step__time muted">{{ "orderJustNow" | translate }}</span>
+            </div>
+          </div>
+          <div class="tracking-step">
+            <div class="tracking-step__icon">📦</div>
+            <div class="tracking-step__content">
+              <span class="tracking-step__label">{{ "orderPreparing" | translate }}</span>
+              <span class="tracking-step__time muted">{{ "orderProcessing" | translate }}</span>
+            </div>
+          </div>
+          <div class="tracking-step">
+            <div class="tracking-step__icon">🚚</div>
+            <div class="tracking-step__content">
+              <span class="tracking-step__label">{{ "orderShipped" | translate }}</span>
+              <span class="tracking-step__time muted">{{ "orderPending" | translate }}</span>
+            </div>
+          </div>
+          <div class="tracking-step">
+            <div class="tracking-step__icon">🏠</div>
+            <div class="tracking-step__content">
+              <span class="tracking-step__label">{{ "orderDelivered" | translate }}</span>
+              <span class="tracking-step__time muted">{{ "orderPending" | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

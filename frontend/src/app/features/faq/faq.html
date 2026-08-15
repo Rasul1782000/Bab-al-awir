@@ -1,0 +1,21 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'faqPage'" />
+
+<section class="section">
+  <div class="app-container app-narrow">
+    <div class="faq-list">
+      @for (item of faqs(); track item.id) {
+        <div class="faq-item" [class.is-open]="openId() === item.id">
+          <button class="faq-question" (click)="toggle(item.id)" type="button">
+            <span>{{ question(item) }}</span>
+            <span class="faq-icon">{{ openId() === item.id ? "−" : "+" }}</span>
+          </button>
+          @if (openId() === item.id) {
+            <div class="faq-answer">
+              <p>{{ answer(item) }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

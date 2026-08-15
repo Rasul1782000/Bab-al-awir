@@ -14,6 +14,11 @@ class ContentController extends Controller
         return $this->ok(config('dummy.brand.values'), 'Brand values retrieved');
     }
 
+    public function brands(): JsonResponse
+    {
+        return $this->ok(config('dummy.brands'), 'Brands retrieved');
+    }
+
     public function storeLocations(): JsonResponse
     {
         return $this->ok(config('dummy.store_locations'), 'Store locations retrieved');
