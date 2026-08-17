@@ -57,6 +57,7 @@ export class ProductCard {
   }
 
   onAddToCart(): void {
+    this.cartSvc.addToCart(this.product(), this.quantity());
     this.addToCart.emit({ product: this.product(), quantity: this.quantity() });
   }
 

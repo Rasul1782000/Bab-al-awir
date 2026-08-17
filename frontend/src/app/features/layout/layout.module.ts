@@ -75,6 +75,11 @@ import { SharedModule } from "../../shared/shared.module";
         import("./../news/news.module").then((m) => m.NewsModule),
     },
     {
+      path: "news/:id",
+      loadChildren: () =>
+        import("./../news-detail/news-detail.module").then((m) => m.NewsDetailModule),
+    },
+    {
       path: "promos",
       loadChildren: () =>
         import("./../promos/promos.module").then((m) => m.PromosModule),
@@ -123,6 +128,11 @@ import { SharedModule } from "../../shared/shared.module";
       path: "offers",
       loadChildren: () =>
         import("./../offers/offers.module").then((m) => m.OffersModule),
+    },
+    {
+      path: "brands",
+      loadChildren: () =>
+        import("./../brands/brands.module").then((m) => m.BrandsModule),
     },
   ])],
   exports: [RouterModule],

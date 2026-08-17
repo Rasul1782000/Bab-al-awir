@@ -13,7 +13,7 @@
     @if (filtered().length) {
       <div class="product-grid">
         @for (p of filtered(); track p.id) {
-          <app-product-card [product]="p" [symbol]="symbol()" />
+          <app-product-card [product]="p" [symbol]="symbol()" [showAddToCart]="true" />
         }
       </div>
     } @else {

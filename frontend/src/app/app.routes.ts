@@ -35,6 +35,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: "design-showcase",
+    loadChildren: () =>
+      import("./features/design-showcase/design-showcase.module").then(
+        (m) => m.DesignShowcaseModule
+      ),
+  },
+  {
     path: "",
     loadChildren: () =>
       import("./features/layout/layout.module").then((m) => m.LayoutModule),

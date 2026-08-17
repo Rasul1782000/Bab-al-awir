@@ -2,25 +2,46 @@
 <div class="top-announcement">
   <div class="app-container top-announcement__inner">
     <div class="top-announcement__left">
-      <span class="top-announcement__icon">🚚</span>
-      <span class="top-announcement__text">Free Delivery on Orders Above AED 150</span>
+      <div class="top-socials">
+        <a href="#" class="top-social-link" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+        </a>
+        <a href="#" class="top-social-link" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.11C19.518 3.5 12 3.5 12 3.5s-7.518 0-9.388.553a3.003 3.003 0 00-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 002.11 2.11C4.482 20.5 12 20.5 12 20.5s7.518 0 9.388-.553a3.003 3.003 0 002.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a href="#" class="top-social-link" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="#" class="top-social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+      <span class="top-announcement__divider">|</span>
+      <span class="top-announcement__delivery-text">Free Delivery on Orders Above AED 150</span>
     </div>
     <div class="top-announcement__right">
-      <div class="top-announcement__countdown">
-        <div class="countdown__item"><span class="countdown__num" id="countdown-days">02</span><span class="countdown__label">Days</span></div>
-        <div class="countdown__item"><span class="countdown__num" id="countdown-hours">14</span><span class="countdown__label">Hours</span></div>
-        <div class="countdown__item"><span class="countdown__num" id="countdown-minutes">35</span><span class="countdown__label">Mins</span></div>
-        <div class="countdown__item"><span class="countdown__num" id="countdown-seconds">00</span><span class="countdown__label">Secs</span></div>
-      </div>
-      <label class="lang-select top-lang-select">
+      <a class="top-announcement__link" routerLink="/orders">Track Order</a>
+      <a class="top-announcement__link" routerLink="/contact">Help</a>
+      <span class="top-announcement__divider">|</span>
+      
+      <!-- Region Selector formatted like a dropdown button -->
+      <button class="top-region-btn" (click)="changeRegion()">
+        @if (region()) {
+          <span>📍 {{ region()!.name }} ({{ region()!.currency }})</span>
+        } @else {
+          <span>📍 Deliver Location</span>
+        }
+      </button>
+
+      <!-- Language selector styled elegantly -->
+      <div class="top-lang-dropdown">
+        <span>🌐 </span>
         <select (change)="setLang($any($event.target).value)" [value]="lang()">
           @for (l of languages(); track l.code) {
             <option [value]="l.code">{{ l.native }}</option>
           }
         </select>
-      </label>
-      <a class="top-announcement__link" routerLink="/orders">Track Order</a>
-      <a class="top-announcement__link" routerLink="/contact">Help</a>
+      </div>
     </div>
   </div>
 </div>
@@ -28,8 +49,9 @@
 <!-- Header & Sticky Navigation -->
 <header class="site-header">
   <div class="app-container site-header__inner">
+    <!-- Brand Logo -->
     <a class="site-header__brand" routerLink="/">
-      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--green); margin-inline-end: 8px;">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--green); margin-inline-end: 8px;">
         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
         <line x1="3" y1="6" x2="21" y2="6"/>
         <path d="M16 10a4 4 0 0 1-8 0"/>
@@ -37,9 +59,16 @@
       <span class="site-header__logo-text">Bab Al Awir</span>
     </a>
 
+    <!-- Restructured Search Bar with Category Selector -->
     <div class="site-header__search">
-      <input type="text" class="site-header__search-input" placeholder="Search for products, brands and categories..." [value]="searchQuery()" (keyup.enter)="search()" />
-      <button type="button" class="site-header__search-btn" aria-label="Search">
+      <select class="site-header__search-category" [value]="selectedCategory()" (change)="selectedCategory.set($any($event.target).value)">
+        <option value="">Select Category</option>
+        @for (cat of categories(); track cat.id) {
+          <option [value]="cat.id">{{ name(cat) }}</option>
+        }
+      </select>
+      <input type="text" class="site-header__search-input" placeholder="Search product..." [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" (keyup.enter)="search()" />
+      <button type="button" class="site-header__search-btn" aria-label="Search" (click)="search()">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="7" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -47,48 +76,29 @@
       </button>
     </div>
 
+    <!-- Header Actions (Register/Login, Wishlist, Theme, Cart) -->
     <div class="site-header__actions">
-      <button type="button" class="header-action" aria-label="Delivery Location" (click)="changeRegion()">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-        </svg>
-        @if (region()) {
-          <span class="header-action__label">{{ region()!.name }}</span>
+      <!-- REGISTER / LOGIN link in style of Safira -->
+      <div class="site-header__user">
+        @if (loggedIn()) {
+          <a class="header-action-user" routerLink="/profile">Hi, {{ loggedIn()!.name }}</a>
+          <span class="header-action-sep">/</span>
+          <button class="header-action-logout-btn" (click)="logout()">Logout</button>
         } @else {
-          <span class="header-action__label">Deliver to</span>
+          <a class="header-action-user" routerLink="/login">REGISTER / LOGIN</a>
         }
-      </button>
+      </div>
 
-      @if (loggedIn()) {
-        <a class="header-action" routerLink="/profile" aria-label="Account">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-          </svg>
-          <span class="header-action__label">Hi, {{ loggedIn()!.name }}</span>
-        </a>
-        <button type="button" class="btn btn-ghost btn-sm" (click)="logout()">
-          {{ "navLogout" | translate }}
-        </button>
-      } @else {
-        <a class="header-action" routerLink="/login" aria-label="Account">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
-          </svg>
-          <span class="header-action__label">Account</span>
-        </a>
-        <a class="btn btn-ghost btn-sm" routerLink="/login">{{ "navLogin" | translate }}</a>
-        <a class="btn btn-primary btn-sm" routerLink="/signup">{{ "navSignUp" | translate }}</a>
-      }
-
-      <button type="button" class="header-action" aria-label="Wishlist" routerLink="/wishlist">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Wishlist with count badge -->
+      <a class="header-action-icon-btn" routerLink="/wishlist" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06 1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
-      </button>
+        <span class="action-badge">{{ wishlistCount() }}</span>
+      </a>
 
-      <button type="button" class="header-action" aria-label="Toggle theme" (click)="toggleTheme()">
+      <!-- Theme toggle (kept for functionality) -->
+      <button type="button" class="header-action-icon-btn theme-toggle-btn" aria-label="Toggle theme" (click)="toggleTheme()">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -102,32 +112,68 @@
         </svg>
       </button>
 
-      <button type="button" class="header-action cart-btn" aria-label="Cart" (click)="toggleCart()">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Cart with count badge -->
+      <button type="button" class="header-action-icon-btn" aria-label="Cart" (click)="toggleCart()">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="20" r="1.4" />
           <circle cx="18" cy="20" r="1.4" />
           <path d="M2 3h2.2l2.1 11.4a1.6 1.6 0 0 0 1.6 1.3h9.2a1.6 1.6 0 0 0 1.6-1.2L21 7H5.4" />
         </svg>
-        @if (itemCount() > 0) {
-          <span class="cart-count">{{ itemCount() }}</span>
-        }
+        <span class="action-badge">{{ itemCount() }}</span>
       </button>
     </div>
   </div>
 
-  <!-- Sub Navbar -->
+  <!-- Sub Navbar with Block dropdown for categories on non-home pages -->
   <div class="sub-nav">
     <div class="app-container sub-nav__inner">
-      <nav class="sub-nav__menu" aria-label="Categories">
-        <a class="sub-nav__link" routerLink="/categories" style="font-weight:700;">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-inline-end: 4px;"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          All Categories
+      <div class="sub-nav__left">
+        <div class="nav-categories-dropdown" [class.hoverable]="!isHome()">
+          <a class="nav-categories-btn" routerLink="/categories">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-inline-end: 8px;">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+            All Categories
+            <span class="btn-arrow">▼</span>
+          </a>
+          <!-- Hover panel, only active if we are NOT on the home page -->
+          @if (!isHome()) {
+            <div class="nav-categories-list animate-fade-in">
+              @for (cat of categories(); track cat.id) {
+                <a [routerLink]="'/section/' + cat.slug" class="nav-category-item">
+                  <span class="cat-icon">{{ cat.icon }}</span>
+                  <span class="cat-name">{{ name(cat) }}</span>
+                </a>
+              }
+            </div>
+          }
+        </div>
+
+        <nav class="sub-nav__menu" aria-label="Main Navigation">
+          <a class="sub-nav__link" routerLink="/home" routerLinkActive="is-active">Home</a>
+          <a class="sub-nav__link" routerLink="/products" routerLinkActive="is-active">Shop</a>
+          <a class="sub-nav__link" routerLink="/offers" routerLinkActive="is-active">Offers</a>
+          <a class="sub-nav__link" routerLink="/about" routerLinkActive="is-active">About Us</a>
+          <a class="sub-nav__link" routerLink="/contact" routerLinkActive="is-active">Contact Us</a>
+        </nav>
+      </div>
+
+      <div class="sub-nav__right">
+        <!-- Support Phone in style of Safira mockup -->
+        <a href="tel:+97140000000" class="sub-nav__support">
+          <div class="support-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="support-text">
+            <span class="support-phone">+971 4 000 0000</span>
+            <span class="support-label">Customer Support</span>
+          </div>
         </a>
-        @for (s of sections(); track s.key) {
-          <a class="sub-nav__link" [routerLink]="'/section/' + s.key" routerLinkActive="is-active">{{ sectionLabel(s) }}</a>
-        }
-      </nav>
-      <a class="sub-nav__sale-tag" routerLink="/offers">🔥 Almost Finished SALE</a>
+      </div>
     </div>
   </div>
 
@@ -179,9 +225,10 @@
       <h4 class="footer-col__title">About Bab Al Awir</h4>
       <ul>
         <li><a routerLink="/about">About Us</a></li>
-        <li><a routerLink="/team-members">Our Team</a></li>
+        <li><a routerLink="/brands">Our Brands</a></li>
+        <li><a routerLink="/news">News</a></li>
         <li><a routerLink="/store-locations">Store Locations</a></li>
-        <li><a routerLink="/privacy">Privacy Policy</a></li>
+        <li><a routerLink="/privacy-policy">Privacy Policy</a></li>
         <li><a routerLink="/terms">Terms & Conditions</a></li>
       </ul>
     </div>

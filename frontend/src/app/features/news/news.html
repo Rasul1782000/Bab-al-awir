@@ -9,7 +9,7 @@
 
     <div class="news-grid">
       @for (post of posts(); track post.id) {
-        <article class="card news-card">
+        <a [routerLink]="['/news', post.id]" class="card news-card">
           <div class="news-card__image" [appBgImage]="post.image"></div>
           <div class="news-card__body">
             <span class="news-card__category">{{ post.category }}</span>
@@ -17,7 +17,7 @@
             <p class="news-card__summary muted">{{ summary(post) }}</p>
             <span class="news-card__date muted">{{ post.date }}</span>
           </div>
-        </article>
+        </a>
       }
     </div>
   </div>

@@ -29,6 +29,7 @@ export class Home {
   testimonials = signal<Testimonial[]>([]);
   brandValues = signal<BrandValue[]>([]);
   brands = signal<Brand[]>([]);
+  failedBrandImgs = signal<Set<number>>(new Set());
 
   productsReady = signal(false);
   categoriesReady = signal(false);
@@ -104,6 +105,14 @@ export class Home {
 
   name(c: Category): string {
     return localized(c, this.lang());
+  }
+
+  onBrandImgError(brand: Brand): void {
+    this.failedBrandImgs.update((s) => {
+      const next = new Set(s);
+      next.add(brand.id);
+      return next;
+    });
   }
 
   getOfferProduct(offer: Offer): Product | undefined {

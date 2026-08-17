@@ -1,4 +1,4 @@
-><?php
+<?php
 
 namespace Tests\Unit;
 
@@ -7,9 +7,6 @@ use App\Http\Controllers\Api\ProductDataService;
 
 class ProductDataServiceTest extends TestCase
 {
-    /**
-     * Test that ProductDataService uses efficient lookup (O(1)) for getProductById
-     */
     public function test_get_product_by_id_uses_efficient_lookup(): void
     {
         $service = new ProductDataService();
@@ -29,9 +26,6 @@ class ProductDataServiceTest extends TestCase
         $this->assertNull($nonExistentProduct);
     }
 
-    /**
-     * Test that ProductDataService caches product data
-     */
     public function test_product_data_is_cached(): void
     {
         $service = new ProductDataService();
@@ -45,9 +39,6 @@ class ProductDataServiceTest extends TestCase
         $this->assertGreaterThan(0, count($products1));
     }
 
-    /**
-     * Test that ProductDataService uses caching for other data types
-     */
     public function test_regions_are_cached(): void
     {
         $service = new ProductDataService();
@@ -59,9 +50,6 @@ class ProductDataServiceTest extends TestCase
         $this->assertGreaterThan(0, count($regions1));
     }
 
-    /**
-     * Test that ProductDataService caches languages
-     */
     public function test_languages_are_cached(): void
     {
         $service = new ProductDataService();
@@ -73,9 +61,6 @@ class ProductDataServiceTest extends TestCase
         $this->assertGreaterThan(0, count($languages1));
     }
 
-    /**
-     * Test that ProductDataService caches sections
-     */
     public function test_sections_are_cached(): void
     {
         $service = new ProductDataService();
@@ -87,9 +72,6 @@ class ProductDataServiceTest extends TestCase
         $this->assertGreaterThan(0, count($sections1));
     }
 
-    /**
-     * Test that ProductDataService caches categories
-     */
     public function test_categories_are_cached(): void
     {
         $service = new ProductDataService();

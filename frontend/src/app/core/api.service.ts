@@ -35,6 +35,7 @@ export interface AuthPayload {
 export class ApiService {
   private http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
+  private readonly CACHE_VERSION = "v2";
 
   private cacheGet<T>(key: string, url: string): Observable<ApiResponse<T>> {
     const cached = this.readCache<T>(key);
@@ -47,11 +48,11 @@ export class ApiService {
 
   private readCache<T>(key: string): ApiResponse<T> | null {
     try {
-      const raw = localStorage.getItem(`baw_cache_${key}`);
+      const raw = localStorage.getItem(`baw_cache_v${this.CACHE_VERSION}_${key}`);
       if (!raw) return null;
       const entry = JSON.parse(raw) as { ts: number; data: ApiResponse<T> };
       if (Date.now() - entry.ts > 24 * 60 * 60 * 1000) {
-        localStorage.removeItem(`baw_cache_${key}`);
+        localStorage.removeItem(`baw_cache_v${this.CACHE_VERSION}_${key}`);
         return null;
       }
       return entry.data;
@@ -63,7 +64,7 @@ export class ApiService {
   private writeCache<T>(key: string, data: ApiResponse<T>): void {
     try {
       localStorage.setItem(
-        `baw_cache_${key}`,
+        `baw_cache_v${this.CACHE_VERSION}_${key}`,
         JSON.stringify({ ts: Date.now(), data }),
       );
     } catch {

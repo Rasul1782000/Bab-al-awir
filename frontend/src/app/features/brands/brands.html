@@ -1,0 +1,20 @@
+<app-page-hero [eyebrow]="'homeEyebrow'" [title]="'brandsPage'" [subtitle]="'brandsSub'" />
+
+<section class="section">
+  <div class="app-container">
+    <div class="brands-grid">
+      @for (brand of brands(); track brand.id) {
+        <div class="brand-card card">
+          <div class="brand-card__logo">
+            @if (brand.logo) {
+              <img [src]="brand.logo" [alt]="brand.name" loading="lazy" />
+            } @else {
+              <span class="brand-card__fallback">{{ brand.name }}</span>
+            }
+          </div>
+          <h3 class="brand-card__name">{{ brand.name }}</h3>
+        </div>
+      }
+    </div>
+  </div>
+</section>

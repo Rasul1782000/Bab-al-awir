@@ -51,7 +51,7 @@
                 <span class="offer__label">{{ lang() === 'ar' ? item.label_ar : item.label_en }}</span>
               }
             </div>
-            <app-product-card [product]="item.product" />
+            <app-product-card [product]="item.product" [showAddToCart]="true" />
             <div class="offer__bottom">
               <span class="offer__valid muted">{{ "offerValidUntil" | translate: { date: item.valid_until } }}</span>
               <span class="offer__countdown muted">{{ countdown(item.valid_until) }}</span>

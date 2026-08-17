@@ -21,17 +21,12 @@ export class ProductDetail {
   private router = inject(Router);
   lang = toSignal(this.langSvc.current$, { initialValue: this.langSvc.current });
 
-  products = signal<Product[]>([]);
+  product = signal<Product | null>(null);
+  allProducts = signal<Product[]>([]);
   categories = signal<Category[]>([]);
   offersData = signal<Offer[]>([]);
   productId = signal<number | null>(null);
   quantity = signal(1);
-
-  product = computed(() => {
-    const id = this.productId();
-    if (!id) return null;
-    return this.products().find((p) => p.id === id) ?? null;
-  });
 
   category = computed(() => {
     const p = this.product();
@@ -55,22 +50,26 @@ export class ProductDetail {
   relatedProducts = computed(() => {
     const p = this.product();
     if (!p) return [];
-    return this.products()
+    return this.allProducts()
       .filter((x) => x.category_id === p.category_id && x.id !== p.id)
       .slice(0, 4);
   });
 
   constructor() {
-    this.api.getProducts().subscribe((r) => this.products.set(r.data ?? []));
     this.api.getCategories().subscribe((r) => this.categories.set(r.data ?? []));
+    this.api.getProducts().subscribe((r) => this.allProducts.set(r.data ?? []));
     this.api.getOffers().subscribe((r) => this.offersData.set(r.data ?? []));
 
     this.route.paramMap.subscribe((params) => {
       const id = Number(params.get("id"));
       if (!isNaN(id)) {
         this.productId.set(id);
+        this.api.getProductById(id).subscribe((r) => {
+          this.product.set(r.data ?? null);
+        });
       } else {
         this.productId.set(null);
+        this.product.set(null);
       }
     });
   }

@@ -1,0 +1,55 @@
+@if (post(); as p) {
+  <app-page-hero
+    [eyebrow]="'homeEyebrow'"
+    [title]="title(p)"
+    [subtitle]="p.category"
+  />
+
+  <section class="section">
+    <div class="app-container app-narrow">
+      <button type="button" class="back-btn" (click)="goBack()">
+        &larr; {{ "newsPage" | translate }}
+      </button>
+
+      <article class="article">
+        <div class="article__meta">
+          <span class="article__category">{{ p.category }}</span>
+          <span class="article__date muted">{{ p.date }}</span>
+        </div>
+
+        @if (p.image) {
+          <div class="article__image" [appBgImage]="p.image"></div>
+        }
+
+        <div class="article__body">
+          <h1 class="article__title">{{ title(p) }}</h1>
+          <p class="article__summary">{{ summary(p) }}</p>
+        </div>
+      </article>
+
+      @if (relatedPosts().length) {
+        <div class="related-section">
+          <h2 class="section-title">{{ "newsPage" | translate }}</h2>
+          <div class="related-grid">
+            @for (rp of relatedPosts(); track rp.id) {
+              <a [routerLink]="['/news', rp.id]" class="card news-card">
+                <div class="news-card__image" [appBgImage]="rp.image"></div>
+                <div class="news-card__body">
+                  <span class="news-card__category">{{ rp.category }}</span>
+                  <h3 class="news-card__title">{{ title(rp) }}</h3>
+                  <span class="news-card__date muted">{{ rp.date }}</span>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <section class="section">
+    <div class="app-container">
+      <p class="muted">{{ "loading" | translate }}</p>
+    </div>
+  </section>
+}

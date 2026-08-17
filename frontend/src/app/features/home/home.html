@@ -1,61 +1,122 @@
-<!-- Hero Section -->
+<!-- Hero & Sidebar Section -->
 <section class="section hero-section">
   <div class="app-container">
-    <div class="hero-grid">
-      <a class="hero-main" [routerLink]="mainPromo()?.link || '/offers'" [style.background]="mainPromo()?.bg_color ? mainPromo()!.bg_color : '#e8f5e9'">
-        <div class="hero-main__content">
-          @if (mainPromo()) {
-            <span class="hero-badge">{{ mainPromo()!.badge_en }}</span>
-            <h1 class="hero-main__title">{{ mainPromo()!.title_en }}</h1>
-            <p class="hero-main__subtitle">{{ mainPromo()!.subtitle_en }}</p>
-            <span class="hero-main__cta">Shop Now →</span>
+    <div class="home-hero-grid">
+      <!-- Categories Sidebar (Visible on Desktop) -->
+      <aside class="home-sidebar">
+        <ul class="home-sidebar__menu">
+          @for (cat of categories(); track cat.id) {
+            <li>
+              <a [routerLink]="'/section/' + cat.slug" class="home-sidebar__link">
+                <span class="home-sidebar__icon">{{ cat.icon }}</span>
+                <span class="home-sidebar__name">{{ name(cat) }}</span>
+                <span class="home-sidebar__arrow">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+              </a>
+            </li>
           }
+        </ul>
+      </aside>
+
+      <!-- Main Hero Slider -->
+      <div class="home-slider-wrapper">
+        <a class="hero-slider-item" [routerLink]="mainPromo()?.link || '/offers'" [style.background]="mainPromo()?.bg_color ? mainPromo()!.bg_color : '#f5fcf8'">
+          <div class="hero-slider-content">
+            @if (mainPromo()) {
+              <span class="hero-slider-badge">{{ mainPromo()!.badge_en }}</span>
+              <h1 class="hero-slider-title">{{ mainPromo()!.title_en }}</h1>
+              <p class="hero-slider-subtitle">{{ mainPromo()!.subtitle_en }}</p>
+              <span class="hero-slider-btn">READ MORE</span>
+            } @else {
+              <span class="hero-slider-badge">100% Organic</span>
+              <h1 class="hero-slider-title">Vegetables 100% Organic</h1>
+              <p class="hero-slider-subtitle">Organic ingredients & healthy recipes</p>
+              <span class="hero-slider-btn">READ MORE</span>
+            }
+          </div>
+          <div class="hero-slider-image">
+            @if (mainPromo()?.image) {
+              <img [src]="mainPromo()!.image" [alt]="mainPromo()!.title_en" loading="eager" onerror="this.style.display='none'; this.parentElement.innerHTML='<img src=\'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&amp;fit=crop&amp;w=800&amp;q=80\' alt=\'Organic Vegetables\' />'" />
+            } @else {
+              <!-- Garlic and green herbs Unsplash background, matching Safira mockup! -->
+              <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" alt="Organic Vegetables" />
+            }
+          </div>
+        </a>
+        <!-- Dot Indicators -->
+        <div class="slider-dots">
+          <span class="slider-dot active"></span>
+          <span class="slider-dot"></span>
+          <span class="slider-dot"></span>
         </div>
-        <div class="hero-main__visual">
-          @if (mainPromo()?.image) {
-            <img [src]="mainPromo()!.image" [alt]="mainPromo()!.title_en" loading="eager" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-main__fallback\'>🛒</div>'" />
-          } @else {
-            <div class="hero-main__fallback">🛒</div>
-          }
-        </div>
-      </a>
-      <div class="hero-side">
-        @for (promo of heroSidePromos(); track promo.id) {
-          <a class="hero-card" [routerLink]="promo.link" [style.background]="promo.bg_color ? promo.bg_color : '#fff3e0'">
-            <div class="hero-card__content">
-              <span class="hero-badge">{{ promo.badge_en }}</span>
-              <h3 class="hero-card__title">{{ promo.title_en }}</h3>
-              <p class="hero-card__subtitle">{{ promo.subtitle_en }}</p>
-              <span class="hero-card__cta">Shop Now →</span>
-            </div>
-            <div class="hero-card__visual">
-              <img [src]="promo.image" [alt]="promo.title_en" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'hero-card__fallback\'>🛍️</div>'" />
-            </div>
-          </a>
-        }
       </div>
     </div>
   </div>
 </section>
 
-<!-- Service Benefits -->
-@if (brandValuesReady() && brandValues().length) {
-  <section class="section benefits">
-    <div class="app-container">
-      <div class="benefits__grid">
-        @for (bv of brandValues(); track bv.key) {
-          <div class="benefit">
-            <span class="benefit__icon">{{ bv.icon }}</span>
-            <div class="benefit__text">
-              <strong class="benefit__title">{{ bv.label_en }}</strong>
-              <p class="benefit__desc">{{ bv.desc_en }}</p>
-            </div>
+<!-- Service Benefits Row -->
+<section class="section benefits-section">
+  <div class="app-container">
+    <div class="benefits-inner-wrapper">
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
           </div>
-        }
+          <div class="benefit-text">
+            <h4 class="benefit-title">FREE SHIPPING</h4>
+            <p class="benefit-desc">Free shipping on all UAE orders above AED 150</p>
+          </div>
+        </div>
+        
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="benefit-text">
+            <h4 class="benefit-title">SUPPORT 24/7</h4>
+            <p class="benefit-desc">Contact us 24 hours a day, 7 days a week</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+          </div>
+          <div class="benefit-text">
+            <h4 class="benefit-title">30 DAYS RETURN</h4>
+            <p class="benefit-desc">Simply return it within 30 days for an exchange</p>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <div class="benefit-text">
+            <h4 class="benefit-title">100% PAYMENT SECURE</h4>
+            <p class="benefit-desc">We ensure secure payment with trusted gateways</p>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-}
+  </div>
+</section>
 
 <!-- Shop by Category -->
 <section class="section categories-section">
@@ -75,6 +136,39 @@
             }
           </div>
           <h3 class="category-card__name">{{ name(cat) }}</h3>
+        </a>
+      } @empty {
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🥬</span></div>
+          <h3 class="category-card__name">Fruits & Vegetables</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🥛</span></div>
+          <h3 class="category-card__name">Dairy & Eggs</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🥩</span></div>
+          <h3 class="category-card__name">Meat & Seafood</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🍞</span></div>
+          <h3 class="category-card__name">Bakery</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🥤</span></div>
+          <h3 class="category-card__name">Beverages</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🧹</span></div>
+          <h3 class="category-card__name">Household</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">🍿</span></div>
+          <h3 class="category-card__name">Snacks</h3>
+        </a>
+        <a class="category-card" routerLink="/categories">
+          <div class="category-card__img"><span class="category-card__icon">❄️</span></div>
+          <h3 class="category-card__name">Frozen</h3>
         </a>
       }
     </div>
@@ -154,6 +248,21 @@
       </div>
     </div>
   </section>
+} @else if (productsReady()) {
+  <section class="section featured-section">
+    <div class="app-container">
+      <header class="section-head">
+        <h2 class="section-title">Featured Products</h2>
+        <a class="section-link" routerLink="/products">View All →</a>
+      </header>
+      <div class="featured__empty" style="text-align:center; padding: var(--space-4); color: var(--muted);">
+        <p style="font-size: 48px; margin-bottom: 16px;">🛒</p>
+        <p style="font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px;">Products coming soon!</p>
+        <p style="font-size: 14px;">We're stocking up our shelves. Check back shortly for fresh groceries and daily essentials.</p>
+        <a routerLink="/categories" class="btn btn-primary" style="margin-top: 16px;">Browse Categories</a>
+      </div>
+    </div>
+  </section>
 }
 
 <!-- Promotional Banner -->
@@ -219,7 +328,12 @@
       <div class="brands__grid">
         @for (brand of brands(); track brand.id) {
           <a class="brand-card" [routerLink]="'/products?brand=' + brand.name">
-            <img [src]="brand.logo" [alt]="brand.name" loading="lazy" onerror="this.style.display='none'" />
+            @if (brand.logo && !failedBrandImgs().has(brand.id)) {
+              <img [src]="brand.logo" [alt]="brand.name" loading="lazy" (error)="onBrandImgError(brand)" />
+            } @else {
+              <span class="brand-card__fallback">{{ brand.name }}</span>
+            }
+            <span class="brand-card__name">{{ brand.name }}</span>
           </a>
         }
       </div>

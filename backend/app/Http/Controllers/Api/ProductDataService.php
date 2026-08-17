@@ -20,10 +20,7 @@ class ProductDataService
     public function getProductById(int $id): ?array
     {
         if ($this->productsById === null) {
-            $products = $this->getProducts();
-            foreach ($products as $product) {
-                $this->productsById[$product['id']] = $product;
-            }
+            $this->buildProductsByIdIndex();
         }
         return $this->productsById[$id] ?? null;
     }
@@ -54,5 +51,16 @@ class ProductDataService
         return Cache::remember('categories', now()->addDay(), function () {
             return config('dummy.categories');
         });
+    }
+
+    private function buildProductsByIdIndex(): void
+    {
+        $this->productsById = [];
+        $products = $this->getProducts();
+        foreach ($products as $product) {
+            if (isset($product['id'])) {
+                $this->productsById[$product['id']] = $product;
+            }
+        }
     }
 }

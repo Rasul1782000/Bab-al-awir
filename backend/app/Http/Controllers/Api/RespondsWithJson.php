@@ -9,7 +9,7 @@ trait RespondsWithJson
 {
     protected function ok(mixed $data, string $message = 'OK'): JsonResponse
     {
-        $cacheKey = md5($message . serialize($data));
+        $cacheKey = md5($message);
         $response = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($data, $message) {
             $response = response()->json([
                 'success' => true,
