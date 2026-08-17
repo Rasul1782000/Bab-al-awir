@@ -5,24 +5,31 @@ services:
     runtime: docker
     plan: free
     rootDir: backend
-    dockerfilePath: ./backend/Dockerfile
-    healthCheckPath: /up
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: "false"
+      - key: APP_URL
+        value: "https://bab-al-awir-api.onrender.com"
       - key: DB_CONNECTION
         value: sqlite
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
 
   # Angular SPA (frontend)
   - type: web
     name: bab-al-awir-frontend
     runtime: static
     plan: free
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist/bab-al-awir/browser
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist/bab-al-awir/browser
     envVars:
       - key: NODE_VERSION
         value: "24.15.0"
