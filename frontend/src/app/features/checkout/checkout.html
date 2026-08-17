@@ -19,14 +19,16 @@
       <div class="checkout-container">
 
         <div class="checkout-steps">
-          <div class="step" [class.is-active]="step() === 1">
+          <div class="step" [class.is-active]="step() === 1" [class.is-done]="step() > 1">
             <div class="step__num">1</div>
             <span>{{ "checkoutShipping" | translate }}</span>
           </div>
-          <div class="step" [class.is-active]="step() === 2">
+          <div class="step__line"></div>
+          <div class="step" [class.is-active]="step() === 2" [class.is-done]="step() > 2">
             <div class="step__num">2</div>
             <span>{{ "checkoutPayment" | translate }}</span>
           </div>
+          <div class="step__line"></div>
           <div class="step" [class.is-active]="step() === 3">
             <div class="step__num">3</div>
             <span>{{ "checkoutReview" | translate }}</span>
@@ -34,6 +36,7 @@
         </div>
 
         <div class="checkout-form">
+          <!-- Step 1: Shipping -->
           @if (step() === 1) {
             <h2>{{ "checkoutShipping" | translate }}</h2>
             <p class="muted">{{ "checkoutChooseAddress" | translate }}</p>
@@ -63,46 +66,63 @@
                   </label>
                 }
               </div>
+            } @else {
+              <div class="address-form">
+                <div class="form-group">
+                  <label for="addr-label">{{ "contactName" | translate }}</label>
+                  <input type="text" id="addr-label" class="form-input" placeholder="Home / Office" />
+                </div>
+                <div class="form-group">
+                  <label for="addr-text">{{ "contactAddress" | translate }}</label>
+                  <input type="text" id="addr-text" class="form-input" placeholder="Building, Street, Area, City" />
+                </div>
+                <button type="button" class="btn btn-primary" (click)="nextStep()">
+                  {{ "checkoutContinue" | translate }}
+                </button>
+              </div>
             }
 
-            <div class="delivery-options">
-              <h3>{{ "checkoutDeliveryMethod" | translate }}</h3>
-              @for (d of deliveryOptions(); track d.method) {
-                <label class="delivery-option" [class.is-selected]="selectedDelivery() === d.method">
-                  <input
-                    type="radio"
-                    name="delivery"
-                    [value]="d.method"
-                    (change)="selectDelivery(d.method)"
-                    [checked]="selectedDelivery() === d.method"
-                  />
-                  <div class="delivery-option__content">
-                    <span class="delivery-option__name">
-                      {{ lang() === 'ar' ? d.label_ar : d.label_en }}
-                    </span>
-                    <p class="delivery-option__desc muted">
-                      {{ lang() === 'ar' ? d.desc_ar : d.desc_en }}
-                    </p>
-                    <div class="delivery-option__meta">
-                      <span class="delivery-option__fee">
-                        @if (isFreeDelivery() && selectedDelivery() === d.method) {
-                          {{ "checkoutFree" | translate }}
-                        } @else {
-                          {{ symbol() }} {{ d.fee | number: "1.2-2" }}
-                        }
+            @if (savedAddresses().length) {
+              <div class="delivery-options">
+                <h3>{{ "checkoutDeliveryMethod" | translate }}</h3>
+                @for (d of deliveryOptions(); track d.method) {
+                  <label class="delivery-option" [class.is-selected]="selectedDelivery() === d.method">
+                    <input
+                      type="radio"
+                      name="delivery"
+                      [value]="d.method"
+                      (change)="selectDelivery(d.method)"
+                      [checked]="selectedDelivery() === d.method"
+                    />
+                    <div class="delivery-option__content">
+                      <span class="delivery-option__name">
+                        {{ lang() === 'ar' ? d.label_ar : d.label_en }}
                       </span>
-                      <span class="delivery-option__time muted">{{ d.estimated_days }} {{ "checkoutDays" | translate }}</span>
+                      <p class="delivery-option__desc muted">
+                        {{ lang() === 'ar' ? d.desc_ar : d.desc_en }}
+                      </p>
+                      <div class="delivery-option__meta">
+                        <span class="delivery-option__fee">
+                          @if (isFreeDelivery() && selectedDelivery() === d.method) {
+                            {{ "checkoutFree" | translate }}
+                          } @else {
+                            {{ symbol() }} {{ d.fee | number: "1.2-2" }}
+                          }
+                        </span>
+                        <span class="delivery-option__time muted">{{ d.estimated_days }} {{ "checkoutDays" | translate }}</span>
+                      </div>
                     </div>
-                  </div>
-                </label>
-              }
-            </div>
+                  </label>
+                }
+              </div>
 
-            <button class="btn btn-proceed" (click)="proceedToPayment()" [disabled]="!selectedAddress()">
-              {{ "checkoutContinue" | translate }}
-            </button>
+              <button class="btn btn-primary btn-full" (click)="proceedToPayment()" [disabled]="!selectedAddress()">
+                {{ "checkoutContinue" | translate }}
+              </button>
+            }
           }
 
+          <!-- Step 2: Payment -->
           @if (step() === 2) {
             <h2>{{ "checkoutPayment" | translate }}</h2>
             <p class="muted">{{ "checkoutPaymentMethod" | translate }}</p>
@@ -118,6 +138,31 @@
                 />
                 <div class="payment-option__content">
                   <span class="payment-option__label">💳 {{ "checkoutCard" | translate }}</span>
+                  <span class="payment-option__desc muted">Visa, Mastercard, AMEX</span>
+                </div>
+              </label>
+              <label class="payment-option" [class.is-selected]="paymentMethod() === 'applepay'">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="applepay"
+                  (change)="selectPayment('applepay')"
+                  [checked]="paymentMethod() === 'applepay'"
+                />
+                <div class="payment-option__content">
+                  <span class="payment-option__label">🍎 Apple Pay</span>
+                </div>
+              </label>
+              <label class="payment-option" [class.is-selected]="paymentMethod() === 'googlepay'">
+                <input
+                  type="radio"
+                  name="payment"
+                  value="googlepay"
+                  (change)="selectPayment('googlepay')"
+                  [checked]="paymentMethod() === 'googlepay'"
+                />
+                <div class="payment-option__content">
+                  <span class="payment-option__label">🅖 Google Pay</span>
                 </div>
               </label>
               <label class="payment-option" [class.is-selected]="paymentMethod() === 'cod'">
@@ -130,20 +175,108 @@
                 />
                 <div class="payment-option__content">
                   <span class="payment-option__label">💵 {{ "checkoutCod" | translate }}</span>
+                  <span class="payment-option__desc muted">Pay when delivered</span>
                 </div>
               </label>
             </div>
 
-            <button class="btn btn-secondary" (click)="prevStep()">
-              {{ "checkoutBack" | translate }}
-            </button>
-            <button class="btn btn-proceed" (click)="placeOrder()">
-              {{ "checkoutPlaceOrder" | translate }}
-            </button>
+            @if (paymentMethod() === 'card') {
+              <div class="card-form">
+                <div class="form-group">
+                  <label for="card-number">Card Number</label>
+                  <input
+                    type="text"
+                    id="card-number"
+                    class="form-input"
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="19"
+                    [value]="cardNumber()"
+                    (input)="formatCardNumber($event)"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="card-name">Cardholder Name</label>
+                  <input
+                    type="text"
+                    id="card-name"
+                    class="form-input"
+                    placeholder="John Doe"
+                    [value]="cardName()"
+                    (input)="onCardNameChange($event)"
+                  />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="card-expiry">Expiry Date</label>
+                    <input
+                      type="text"
+                      id="card-expiry"
+                      class="form-input"
+                      placeholder="MM/YY"
+                      maxlength="5"
+                      [value]="cardExpiry()"
+                      (input)="formatExpiry($event)"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="card-cvv">CVV</label>
+                    <input
+                      type="password"
+                      id="card-cvv"
+                      class="form-input"
+                      placeholder="•••"
+                      maxlength="4"
+                      [value]="cardCvv()"
+                      (input)="onCvvChange($event)"
+                    />
+                  </div>
+                </div>
+                <div class="card-icons">
+                  <span class="card-icon">💳</span>
+                  <span class="card-secure muted">🔒 Secured by 256-bit SSL encryption</span>
+                </div>
+              </div>
+            }
+
+            <div class="checkout-nav">
+              <button class="btn btn-secondary" (click)="prevStep()">
+                {{ "checkoutBack" | translate }}
+              </button>
+              <button
+                class="btn btn-primary"
+                (click)="placeOrder()"
+                [disabled]="processing() || !isCardFormValid()"
+              >
+                @if (processing()) {
+                  <span class="spinner"></span> Processing...
+                } @else {
+                  {{ "checkoutPlaceOrder" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
+                }
+              </button>
+            </div>
           }
 
+          <!-- Step 3: Review -->
           @if (step() === 3) {
             <h2>{{ "checkoutReview" | translate }}</h2>
+
+            <div class="review-items">
+              @for (item of cart().items; track item.product.id) {
+                <div class="review-item">
+                  @if (item.product.image) {
+                    <img [src]="item.product.image" [alt]="item.product.name_en" class="review-item__img" />
+                  } @else {
+                    <span class="review-item__icon">{{ item.product.icon }}</span>
+                  }
+                  <div class="review-item__info">
+                    <span class="review-item__name">{{ lang() === 'ar' ? item.product.name_ar : item.product.name_en }}</span>
+                    <span class="review-item__qty muted">x{{ item.quantity }}</span>
+                  </div>
+                  <span class="review-item__price">{{ symbol() }} {{ item.subtotal | number: "1.2-2" }}</span>
+                </div>
+              }
+            </div>
+
             <div class="review-section">
               <div class="review-group">
                 <h3>{{ "checkoutShipping" | translate }}</h3>
@@ -157,20 +290,51 @@
               </div>
               <div class="review-group">
                 <h3>{{ "checkoutPayment" | translate }}</h3>
-                <p>{{ paymentMethod() === 'card' ? ("checkoutCard" | translate) : ("checkoutCod" | translate) }}</p>
+                <p>
+                  @if (paymentMethod() === 'card') {
+                    💳 Card ending in {{ cardNumber().slice(-4) }}
+                  } @else if (paymentMethod() === 'applepay') {
+                    🍎 Apple Pay
+                  } @else if (paymentMethod() === 'googlepay') {
+                    🅖 Google Pay
+                  } @else {
+                    💵 {{ "checkoutCod" | translate }}
+                  }
+                </p>
               </div>
             </div>
-            <button class="btn btn-secondary" (click)="prevStep()">
-              {{ "checkoutBack" | translate }}
-            </button>
-            <button class="btn btn-proceed" (click)="placeOrder()">
-              {{ "checkoutConfirm" | translate }}
-            </button>
+
+            <div class="checkout-nav">
+              <button class="btn btn-secondary" (click)="prevStep()">
+                {{ "checkoutBack" | translate }}
+              </button>
+              <button
+                class="btn btn-primary"
+                (click)="placeOrder()"
+                [disabled]="processing()"
+              >
+                @if (processing()) {
+                  <span class="spinner"></span> Processing...
+                } @else {
+                  {{ "checkoutConfirm" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
+                }
+              </button>
+            </div>
           }
         </div>
 
         <div class="checkout-summary card">
           <h3>{{ "checkoutSummary" | translate }}</h3>
+
+          <div class="summary-items">
+            @for (item of cart().items; track item.product.id) {
+              <div class="summary-item">
+                <span class="summary-item__name">{{ lang() === 'ar' ? item.product.name_ar : item.product.name_en }} x{{ item.quantity }}</span>
+                <span class="summary-item__price">{{ symbol() }} {{ item.subtotal | number: "1.2-2" }}</span>
+              </div>
+            }
+          </div>
+
           <div class="summary-row">
             <span>{{ "cartSubtotal" | translate }}</span>
             <span>{{ symbol() }} {{ subtotal() | number: "1.2-2" }}</span>
@@ -194,7 +358,7 @@
               {{ "checkoutFreeDeliveryHint" | translate }}: {{ symbol() }} {{ deliveryDetail()?.free_above }}
             </div>
           }
-          <div class="summary-row total">
+          <div class="summary-row summary-row--total">
             <span>{{ "checkoutTotal" | translate }}</span>
             <span>{{ symbol() }} {{ grandTotal() | number: "1.2-2" }}</span>
           </div>

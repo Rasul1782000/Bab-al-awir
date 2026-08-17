@@ -28,6 +28,12 @@ export class Checkout {
   selectedDelivery = signal<string>("standard");
   paymentMethod = signal<string>("card");
 
+  cardNumber = signal("");
+  cardName = signal("");
+  cardExpiry = signal("");
+  cardCvv = signal("");
+  processing = signal(false);
+
   constructor() {
     this.api.getDeliveryOptions().subscribe((r) => this.deliveryOptions.set(r.data ?? []));
   }
@@ -65,6 +71,16 @@ export class Checkout {
     return user?.saved_addresses ?? [];
   });
 
+  isCardFormValid = computed(() => {
+    if (this.paymentMethod() !== "card") return true;
+    return (
+      this.cardNumber().replace(/\s/g, "").length >= 15 &&
+      this.cardName().trim().length > 2 &&
+      this.cardExpiry().length >= 4 &&
+      this.cardCvv().length >= 3
+    );
+  });
+
   nextStep(): void {
     if (this.step() < 3) this.step.update((s) => s + 1);
   }
@@ -87,16 +103,46 @@ export class Checkout {
   }
 
   proceedToPayment(): void {
-    if (this.isFreeDelivery()) {
-      this.placeOrder();
-    } else {
-      this.nextStep();
+    this.nextStep();
+  }
+
+  formatCardNumber(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, "");
+    value = value.replace(/(.{4})/g, "$1 ").trim();
+    this.cardNumber.set(value);
+    input.value = value;
+  }
+
+  formatExpiry(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, "");
+    if (value.length >= 2) {
+      value = value.substring(0, 2) + "/" + value.substring(2, 4);
     }
+    this.cardExpiry.set(value);
+    input.value = value;
+  }
+
+  onCardNameChange(event: Event): void {
+    this.cardName.set((event.target as HTMLInputElement).value);
+  }
+
+  onCvvChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.replace(/\D/g, "").substring(0, 4);
+    this.cardCvv.set(value);
+    (event.target as HTMLInputElement).value = value;
   }
 
   placeOrder(): void {
-    const orderId = "BAW-" + Math.floor(100000 + Math.random() * 900000);
-    this.cartSvc.clearCart();
-    this.router.navigate(["/order-confirmation"], { queryParams: { id: orderId } });
+    this.processing.set(true);
+    setTimeout(() => {
+      const orderId = "BAW-" + Math.floor(100000 + Math.random() * 900000);
+      this.cartSvc.clearCart();
+      this.processing.set(false);
+      this.router.navigate(["/order-confirmation"], {
+        queryParams: { id: orderId },
+      });
+    }, 1500);
   }
 }
