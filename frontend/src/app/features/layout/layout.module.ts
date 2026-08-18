@@ -5,10 +5,11 @@ import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule } from "@angular/forms";
 import { Layout } from "./layout";
 import { SharedModule } from "../../shared/shared.module";
+import { ToastModule } from "../../shared/toast/toast.module";
 
 @NgModule({
   declarations: [Layout],
-  imports: [CommonModule, TranslateModule, FormsModule, SharedModule, RouterModule.forChild([
+  imports: [CommonModule, TranslateModule, FormsModule, SharedModule, ToastModule, RouterModule.forChild([
     {
       path: "",
       pathMatch: "full",
@@ -88,6 +89,11 @@ import { SharedModule } from "../../shared/shared.module";
       path: "privacy-policy",
       loadChildren: () =>
         import("./../privacy-policy/privacy-policy.module").then((m) => m.PrivacyPolicyModule),
+    },
+    {
+      path: "returns",
+      loadChildren: () =>
+        import("./../returns/returns.module").then((m) => m.ReturnsModule),
     },
     {
       path: "terms",

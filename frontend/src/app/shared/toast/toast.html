@@ -1,0 +1,13 @@
+<div class="toast-stack">
+  @for (t of toasts(); track t.id) {
+    <div class="toast toast--{{ t.type }}" role="status">
+      <span class="toast__icon">
+        @if (t.type === "success") { ✓ }
+        @else if (t.type === "error") { ! }
+        @else { i }
+      </span>
+      <span class="toast__message">{{ t.message }}</span>
+      <button type="button" class="toast__close" (click)="dismiss(t.id)" aria-label="Dismiss">×</button>
+    </div>
+  }
+</div>

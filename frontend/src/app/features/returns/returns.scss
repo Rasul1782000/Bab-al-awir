@@ -1,0 +1,10 @@
+.legal-content { color: var(--ink); line-height: 1.7; }
+.legal-content h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 28px 0 10px;
+}
+.legal-intro { font-size: 16px; color: var(--muted); margin-bottom: 16px; }
+.legal-contact { margin-top: 16px; font-size: 15px; }
+.legal-contact a { color: var(--green); }

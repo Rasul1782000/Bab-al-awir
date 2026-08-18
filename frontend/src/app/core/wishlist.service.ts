@@ -1,11 +1,13 @@
-import { Injectable, signal } from "@angular/core";
+import { Injectable, inject, signal } from "@angular/core";
 import { Product } from "./models";
+import { ApiService } from "./api.service";
 
 const STORAGE_KEY = "baw_wishlist";
 
 @Injectable({ providedIn: "root" })
 export class WishlistService {
   private items = signal<Product[]>([]);
+  private api = inject(ApiService);
 
   constructor() {
     this.loadWishlist();
@@ -29,16 +31,25 @@ export class WishlistService {
     if (this.isInWishlist(product.id)) return;
     this.items.update((items) => [...items, product]);
     this.saveWishlist();
+    this.api.addToWishlist(product.id).subscribe({
+      error: () => { /* silent fail */ }
+    });
   }
 
   removeFromWishlist(productId: number): void {
     this.items.update((items) => items.filter((p) => p.id !== productId));
     this.saveWishlist();
+    this.api.removeFromWishlist(productId).subscribe({
+      error: () => { /* silent fail */ }
+    });
   }
 
   clearWishlist(): void {
     this.items.set([]);
     this.saveWishlist();
+    this.api.clearWishlist().subscribe({
+      error: () => { /* silent fail */ }
+    });
   }
 
   private saveWishlist(): void {

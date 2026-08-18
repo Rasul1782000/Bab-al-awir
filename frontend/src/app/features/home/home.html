@@ -46,12 +46,33 @@
             }
           </div>
         </a>
-        <!-- Dot Indicators -->
-        <div class="slider-dots">
-          <span class="slider-dot active"></span>
-          <span class="slider-dot"></span>
-          <span class="slider-dot"></span>
-        </div>
+          <!-- Dot Indicators -->
+          <div class="slider-dots">
+            @for (p of promos(); track $index) {
+              @if ($index < promoCount()) {
+                <span class="slider-dot" [class.active]="$index === activePromoIndex()" (click)="setPromo($index)"></span>
+              }
+            }
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Free Delivery Progress -->
+<section class="section free-delivery-section">
+  <div class="app-container">
+    <div class="free-delivery-bar">
+      <span class="free-delivery-bar__icon">🚚</span>
+      @if (freeDeliveryRemaining() > 0) {
+        <span class="free-delivery-bar__text">
+          {{ "freeDeliveryAway" | translate: { amount: (symbol() + " " + (freeDeliveryRemaining() | number: "1.0-0")) } }}
+        </span>
+      } @else {
+        <span class="free-delivery-bar__text">{{ "freeDeliveryUnlocked" | translate }}</span>
+      }
+      <div class="free-delivery-bar__track">
+        <div class="free-delivery-bar__fill" [style.width.%]="freeDeliveryProgress()"></div>
       </div>
     </div>
   </div>
@@ -117,6 +138,20 @@
     </div>
   </div>
 </section>
+
+<!-- Mobile Category Strip (sidebar hidden on small screens) -->
+<div class="home-cat-strip-wrap">
+  <div class="app-container">
+    <div class="home-cat-strip">
+      @for (cat of categories(); track cat.id) {
+        <a class="home-cat-strip__item" [routerLink]="'/section/' + cat.slug">
+          <span class="home-cat-strip__icon">{{ cat.icon }}</span>
+          <span class="home-cat-strip__name">{{ name(cat) }}</span>
+        </a>
+      }
+    </div>
+  </div>
+</div>
 
 <!-- Shop by Category -->
 <section class="section categories-section">
@@ -186,10 +221,10 @@
             <p class="deals-subtitle">Dont miss this opportunity while supplies last.</p>
           </div>
           <div class="deals-countdown">
-            <div class="countdown__item"><span class="countdown__num">00</span><span class="countdown__label">Days</span></div>
-            <div class="countdown__item"><span class="countdown__num">02</span><span class="countdown__label">Hours</span></div>
-            <div class="countdown__item"><span class="countdown__num">14</span><span class="countdown__label">Mins</span></div>
-            <div class="countdown__item"><span class="countdown__num">35</span><span class="countdown__label">Secs</span></div>
+            <div class="countdown__item"><span class="countdown__num">{{ offerCountdown().days < 10 ? '0' : '' }}{{ offerCountdown().days }}</span><span class="countdown__label">Days</span></div>
+            <div class="countdown__item"><span class="countdown__num">{{ offerCountdown().hours < 10 ? '0' : '' }}{{ offerCountdown().hours }}</span><span class="countdown__label">Hours</span></div>
+            <div class="countdown__item"><span class="countdown__num">{{ offerCountdown().mins < 10 ? '0' : '' }}{{ offerCountdown().mins }}</span><span class="countdown__label">Mins</span></div>
+            <div class="countdown__item"><span class="countdown__num">{{ offerCountdown().secs < 10 ? '0' : '' }}{{ offerCountdown().secs }}</span><span class="countdown__label">Secs</span></div>
           </div>
           <a class="section-link" routerLink="/offers">View All →</a>
         </div>
@@ -211,7 +246,7 @@
                 <span class="deal-card__old">{{ symbol() }} {{ getOldPrice(offer) | number:'1.2-2' }}</span>
                 <span class="deal-card__current">{{ symbol() }} {{ getOfferProduct(offer)!.price | number:'1.2-2' }}</span>
               </div>
-              <button type="button" class="btn btn-primary btn-sm deal-card__add" (click)="cartSvc.addToCart(getOfferProduct(offer)!, 1)">Add to cart</button>
+              <button type="button" class="btn btn-primary btn-sm deal-card__add" (click)="addToCartWithFeedback(getOfferProduct(offer)!)">Add to cart</button>
             </div>
           }
         }
@@ -237,11 +272,12 @@
               [discountPercent]="getDiscountFromProduct(p)"
               [showAddToCart]="true"
               [showQuickView]="true"
-              [rating]="getRandomRating()"
-              [stockProgress]="getStockProgress()"
-              [timeRemaining]="getTimeRemaining()"
+              [rating]="null"
+              [stockProgress]="null"
+              [timeRemaining]="null"
               [isWishlisted]="false"
               [symbol]="symbol()"
+              (addToCart)="onProductAdded()"
             />
           </div>
         }
@@ -305,11 +341,12 @@
               [discountPercent]="getDiscountFromProduct(p)"
               [showAddToCart]="true"
               [showQuickView]="true"
-              [rating]="getRandomRating()"
-              [stockProgress]="getStockProgress()"
-              [timeRemaining]="getTimeRemaining()"
+              [rating]="null"
+              [stockProgress]="null"
+              [timeRemaining]="null"
               [isWishlisted]="false"
               [symbol]="symbol()"
+              (addToCart)="onProductAdded()"
             />
           </div>
         }

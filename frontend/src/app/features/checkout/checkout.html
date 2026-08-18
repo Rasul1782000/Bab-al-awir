@@ -70,13 +70,13 @@
               <div class="address-form">
                 <div class="form-group">
                   <label for="addr-label">{{ "contactName" | translate }}</label>
-                  <input type="text" id="addr-label" class="form-input" placeholder="Home / Office" />
+                  <input type="text" id="addr-label" class="form-input" [value]="guestName()" (input)="guestName.set($any($event.target).value)" placeholder="Home / Office" />
                 </div>
                 <div class="form-group">
                   <label for="addr-text">{{ "contactAddress" | translate }}</label>
-                  <input type="text" id="addr-text" class="form-input" placeholder="Building, Street, Area, City" />
+                  <input type="text" id="addr-text" class="form-input" [value]="guestAddress()" (input)="guestAddress.set($any($event.target).value)" placeholder="Building, Street, Area, City" />
                 </div>
-                <button type="button" class="btn btn-primary" (click)="nextStep()">
+                <button type="button" class="btn btn-primary" (click)="saveGuestAddress()" [disabled]="!guestAddress().trim()">
                   {{ "checkoutContinue" | translate }}
                 </button>
               </div>
@@ -245,13 +245,8 @@
               <button
                 class="btn btn-primary"
                 (click)="placeOrder()"
-                [disabled]="processing() || !isCardFormValid()"
               >
-                @if (processing()) {
-                  <span class="spinner"></span> Processing...
-                } @else {
-                  {{ "checkoutPlaceOrder" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
-                }
+                {{ "checkoutPlaceOrder" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
               </button>
             </div>
           }
@@ -311,13 +306,8 @@
               <button
                 class="btn btn-primary"
                 (click)="placeOrder()"
-                [disabled]="processing()"
               >
-                @if (processing()) {
-                  <span class="spinner"></span> Processing...
-                } @else {
-                  {{ "checkoutConfirm" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
-                }
+                {{ "checkoutConfirm" | translate }} — {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
               </button>
             </div>
           }
@@ -366,4 +356,15 @@
       </div>
     </div>
   </section>
+
+  <app-payment-modal
+    [open]="payOpen()"
+    [symbol]="symbol()"
+    [deliveryFee]="deliveryFee()"
+    [deliveryMethod]="deliveryDetail() ? (lang() === 'ar' ? deliveryDetail()!.label_ar : deliveryDetail()!.label_en) : 'Standard Delivery'"
+    [address]="selectedAddress()"
+    [paymentMethodInput]="paymentMethod()"
+    (closed)="payOpen.set(false)"
+    (paid)="onPaid($event)"
+  />
 }

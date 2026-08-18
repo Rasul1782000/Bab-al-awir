@@ -153,4 +153,95 @@ export class ApiService {
   getPromoBanners(): Observable<ApiResponse<PromoBanner[]>> {
     return this.cacheGet<PromoBanner[]>("promo_banners", `${this.baseUrl}/promo-banners`);
   }
+
+  getCart(): Observable<ApiResponse<any[]>> {
+    return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}/cart`);
+  }
+
+  saveCart(items: { product_id: number; quantity: number }[]): Observable<ApiResponse<any[]>> {
+    return this.http.post<ApiResponse<any[]>>(`${this.baseUrl}/cart`, { items });
+  }
+
+  updateCartItem(productId: number, quantity: number): Observable<ApiResponse<any[]>> {
+    return this.http.put<ApiResponse<any[]>>(`${this.baseUrl}/cart/${productId}`, { quantity });
+  }
+
+  removeCartItem(productId: number): Observable<ApiResponse<any[]>> {
+    return this.http.delete<ApiResponse<any[]>>(`${this.baseUrl}/cart/${productId}`);
+  }
+
+  clearCart(): Observable<ApiResponse<any[]>> {
+    return this.http.delete<ApiResponse<any[]>>(`${this.baseUrl}/cart`);
+  }
+
+  getOrders(): Observable<ApiResponse<{ data: any[]; meta: any }>> {
+    return this.http.get<ApiResponse<{ data: any[]; meta: any }>>(`${this.baseUrl}/orders`);
+  }
+
+  createOrder(orderData: any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/orders`, orderData);
+  }
+
+  getOrder(id: string): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/orders/${id}`);
+  }
+
+  updateOrderStatus(id: string, status: string): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.baseUrl}/orders/${id}`, { status });
+  }
+
+  processPayment(paymentData: any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/payments`, paymentData);
+  }
+
+  getPaymentMethods(): Observable<ApiResponse<any[]>> {
+    return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}/payments/methods`);
+  }
+
+  getReviews(productId?: number): Observable<ApiResponse<{ data: any[]; meta: any }>> {
+    const url = productId
+      ? `${this.baseUrl}/reviews?product_id=${productId}`
+      : `${this.baseUrl}/reviews`;
+    return this.http.get<ApiResponse<{ data: any[]; meta: any }>>(url);
+  }
+
+  createReview(reviewData: any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/reviews`, reviewData);
+  }
+
+  getProductReviewSummary(productId: number): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/reviews/product/${productId}/summary`);
+  }
+
+  getWishlist(): Observable<ApiResponse<any[]>> {
+    return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}/wishlist`);
+  }
+
+  addToWishlist(productId: number): Observable<ApiResponse<any[]>> {
+    return this.http.post<ApiResponse<any[]>>(`${this.baseUrl}/wishlist`, { product_id: productId });
+  }
+
+  removeFromWishlist(productId: number): Observable<ApiResponse<any[]>> {
+    return this.http.delete<ApiResponse<any[]>>(`${this.baseUrl}/wishlist/${productId}`);
+  }
+
+  checkWishlist(productId: number): Observable<ApiResponse<{ product_id: number; in_wishlist: boolean }>> {
+    return this.http.get<ApiResponse<{ product_id: number; in_wishlist: boolean }>>(`${this.baseUrl}/wishlist/check/${productId}`);
+  }
+
+  clearWishlist(): Observable<ApiResponse<any[]>> {
+    return this.http.delete<ApiResponse<any[]>>(`${this.baseUrl}/wishlist`);
+  }
+
+  submitContact(contactData: { name: string; email: string; phone?: string; subject: string; message: string }): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/contact`, contactData);
+  }
+
+  updateUserProfile(profileData: Partial<UserProfile>): Observable<ApiResponse<UserProfile>> {
+    return this.http.put<ApiResponse<UserProfile>>(`${this.baseUrl}/user/profile`, profileData);
+  }
+
+  updateUserPreferences(preferences: any): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.baseUrl}/user/preferences`, preferences);
+  }
 }

@@ -1,9 +1,11 @@
-import { Injectable, signal } from "@angular/core";
+import { Injectable, inject, signal } from "@angular/core";
 import { CartItem, Cart, Product } from "./models";
+import { ApiService } from "./api.service";
 
 @Injectable({ providedIn: "root" })
 export class CartService {
   private readonly STORAGE_KEY = "baw_cart";
+  private api = inject(ApiService);
   
   private cart = signal<Cart>({ items: [], subtotal: 0, tax: 0, total: 0 });
   
@@ -38,6 +40,7 @@ export class CartService {
     
     this.updateCartTotals();
     this.saveCart();
+    this.syncToBackend();
   }
   
   removeFromCart(productId: number): void {
@@ -47,6 +50,7 @@ export class CartService {
       currentCart.items.splice(index, 1);
       this.updateCartTotals();
       this.saveCart();
+      this.syncToBackend();
     }
   }
   
@@ -63,6 +67,7 @@ export class CartService {
         item.subtotal = item.product.price * quantity;
         this.updateCartTotals();
         this.saveCart();
+        this.syncToBackend();
       }
     }
   }
@@ -70,6 +75,7 @@ export class CartService {
   clearCart(): void {
     this.cart.set({ items: [], subtotal: 0, tax: 0, total: 0 });
     this.saveCart();
+    this.api.clearCart().subscribe();
   }
   
   isInCart(productId: number): boolean {
@@ -115,5 +121,15 @@ export class CartService {
     } catch {
       this.clearCart();
     }
+  }
+
+  private syncToBackend(): void {
+    const items = this.cart().items.map(item => ({
+      product_id: item.product.id,
+      quantity: item.quantity,
+    }));
+    this.api.saveCart(items).subscribe({
+      error: () => { /* silent fail for backend sync */ }
+    });
   }
 }

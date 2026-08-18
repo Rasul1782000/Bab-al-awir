@@ -1,10 +1,12 @@
-import { Component, computed, inject, signal } from "@angular/core";
+import { Component, computed, inject, signal, OnDestroy } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { ApiService } from "../../core/api.service";
 import { CartService } from "../../core/cart.service";
 import { LanguageService } from "../../core/language.service";
 import { RegionService } from "../../core/region.service";
+import { ToastService } from "../../core/toast.service";
 import { localized } from "../../core/localize";
 import { Brand, Category, Offer, Product, PromoBanner, Testimonial, BrandValue } from "../../core/models";
 
@@ -14,12 +16,14 @@ import { Brand, Category, Offer, Product, PromoBanner, Testimonial, BrandValue }
   templateUrl: "./home.html",
   styleUrl: "./home.scss",
 })
-export class Home {
+export class Home implements OnDestroy {
   private api = inject(ApiService);
   private langSvc = inject(LanguageService);
   public cartSvc = inject(CartService);
   private regionSvc = inject(RegionService);
   private router = inject(Router);
+  private toast = inject(ToastService);
+  private translate = inject(TranslateService);
   lang = toSignal(this.langSvc.current$, { initialValue: this.langSvc.current });
 
   products = signal<Product[]>([]);
@@ -64,13 +68,40 @@ export class Home {
   });
 
   activeOffers = computed(() => {
-    const now = new Date();
-    return this.offers().filter((o) => new Date(o.valid_until) >= now);
+    const now = this.now();
+    return this.offers().filter((o) => new Date(o.valid_until).getTime() >= now);
   });
 
-  mainPromo = computed(() => this.promos()[0] ?? null);
+  now = signal(Date.now());
+  offerCountdown = computed(() => {
+    const now = this.now();
+    const ends = this.activeOffers()
+      .map((o) => new Date(o.valid_until).getTime())
+      .sort((a, b) => a - b)[0];
+    if (!ends) return { days: 0, hours: 0, mins: 0, secs: 0 };
+    let diff = Math.max(0, ends - now);
+    const days = Math.floor(diff / 86400000);
+    diff -= days * 86400000;
+    const hours = Math.floor(diff / 3600000);
+    diff -= hours * 3600000;
+    const mins = Math.floor(diff / 60000);
+    diff -= mins * 60000;
+    const secs = Math.floor(diff / 1000);
+    return { days, hours, mins, secs };
+  });
+
+  mainPromo = computed(() => this.promos()[this.activePromoIndex()] ?? this.promos()[0] ?? null);
   heroSidePromos = computed(() => this.promos().slice(1, 3));
   bottomPromo = computed(() => this.promos()[2] ?? null);
+
+  activePromoIndex = signal(0);
+  promoCount = computed(() => Math.max(1, Math.min(this.promos().length, 3)));
+  private sliderTimer: any;
+  private clockTimer: any;
+
+  setPromo(i: number): void {
+    this.activePromoIndex.set(i);
+  }
 
   constructor() {
     this.api.getProducts().subscribe((r) => {
@@ -101,6 +132,19 @@ export class Home {
       this.brands.set(r.data ?? []);
       this.brandsReady.set(true);
     });
+
+    this.sliderTimer = setInterval(() => {
+      this.activePromoIndex.update((i) => (i + 1) % this.promoCount());
+    }, 5000);
+
+    this.clockTimer = setInterval(() => {
+      this.now.set(Date.now());
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sliderTimer) clearInterval(this.sliderTimer);
+    if (this.clockTimer) clearInterval(this.clockTimer);
   }
 
   name(c: Category): string {
@@ -174,5 +218,17 @@ export class Home {
 
   changeRegion(): void {
     this.router.navigate(["/welcome"]);
+  }
+
+  addToCartWithFeedback(product: Product): void {
+    this.cartSvc.addToCart(product, 1);
+    const name = localized(product, this.langSvc.current);
+    this.toast.success(this.translate.instant("addedToCart", { name }));
+    this.cartSvc.toggleCartVisibility?.();
+  }
+
+  onProductAdded(): void {
+    this.toast.success(this.translate.instant("addedToCartSimple"));
+    this.cartSvc.toggleCartVisibility?.();
   }
 }

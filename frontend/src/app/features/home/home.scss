@@ -76,6 +76,73 @@
   transform: translateX(-3px);
 }
 
+// Free delivery progress bar
+.free-delivery-section { padding-block: 0 var(--space-3); background: var(--bg); }
+
+// Mobile category strip (hidden on desktop where sidebar shows)
+.home-cat-strip-wrap { display: none; background: var(--bg); padding-block: var(--space-2); }
+.home-cat-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.home-cat-strip::-webkit-scrollbar { display: none; }
+.home-cat-strip__item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 72px;
+  padding: 10px 6px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+}
+.home-cat-strip__icon { font-size: 24px; }
+.home-cat-strip__name { font-size: 11px; font-weight: 600; color: var(--ink); text-align: center; }
+
+@media (max-width: 1199px) {
+  .home-cat-strip-wrap { display: block; }
+}
+.free-delivery-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--green-very-soft);
+  border: 1px solid var(--green-soft);
+  border-radius: var(--radius-lg);
+  padding: 12px 18px;
+}
+.free-delivery-bar__icon { font-size: 22px; }
+.free-delivery-bar__text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-strong);
+  white-space: nowrap;
+}
+.free-delivery-bar__track {
+  flex: 1;
+  height: 8px;
+  background: rgba(22, 130, 59, 0.15);
+  border-radius: 99px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.free-delivery-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--green-strong));
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+@media (max-width: 767px) {
+  .free-delivery-bar { flex-wrap: wrap; }
+  .free-delivery-bar__track { flex-basis: 100%; }
+}
+
 // Hero Slider wrapper
 .home-slider-wrapper {
   position: relative;
@@ -633,6 +700,7 @@
   .featured__grid { grid-template-columns: repeat(3, 1fr); }
   .bestsellers__grid { grid-template-columns: repeat(3, 1fr); }
   .brands__grid { grid-template-columns: repeat(4, 1fr); }
+  .home-cat-strip-wrap { display: block; }
 }
 
 @media (max-width: 767px) {

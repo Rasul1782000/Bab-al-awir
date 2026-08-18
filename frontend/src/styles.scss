@@ -1,45 +1,52 @@
 :root {
+  --primary-green: #0B8344;
+  --primary-green-dark: #0B5D2A;
+  --accent-yellow: #FFC107;
+  --accent-gold: #FFD700;
+  --white: #FFFFFF;
+  --text-dark: #212529;
+  --text-muted: #6C757D;
+  --bg-light: #F8F9FA;
+  --surface: #FFFFFF;
+  
   --green: #16823B;
   --green-strong: #0B5D2A;
   --green-bright: #27A844;
   --green-soft: #EAF7EE;
   --green-very-soft: #F5FBF7;
-  --white: #ffffff;
   --ink: #202522;
   --muted: #6B746E;
   --line: rgba(32, 37, 34, 0.12);
-  --surface: #ffffff;
-  --surface-alt: #F5FBF7;
   --bg: #F7F8F7;
   --dark-bg: #0B5D2A;
-
+  
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
   --radius-pill: 999px;
-
+  
   --space-0: 0;
   --space-1: 12px;
   --space-2: 24px;
   --space-3: 36px;
   --space-4: 48px;
   --space-5: 72px;
-
+  
   --container: 1320px;
   --container-narrow: 640px;
-
+  
   --shadow-none: none;
-  --shadow-sm: 0 1px 3px rgba(32, 37, 34, 0.06);
-  --shadow-md: 0 10px 30px rgba(32, 37, 34, 0.10);
-  --shadow-lg: 0 24px 60px rgba(32, 37, 34, 0.14);
-  --ring: 0 0 0 3px rgba(22, 130, 59, 0.35);
-
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.05);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.10);
+  --shadow-lg: 0 24px 60px rgba(0,0,0,0.14);
+  --ring: 0 0 0 3px rgba(11, 131, 68, 0.35);
+  
   --font-latin: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-ar: "Tajawal", "Noto Sans Arabic", system-ui, sans-serif;
   --font-ml: "Noto Sans Malayalam", system-ui, sans-serif;
   --font-ta: "Noto Sans Tamil", system-ui, sans-serif;
   --font-current: var(--font-latin);
-
+  
   --orange: #f59e0b;
   --orange-hover: #d97706;
   --orange-soft: rgba(245, 158, 11, 0.12);
@@ -47,11 +54,11 @@
   --navy-strong: #161a18;
   --navy-soft: rgba(32, 37, 34, 0.06);
   --green-soft-fallback: var(--green-soft);
-
+  
   --glass-bg: rgba(255, 255, 255, 0.06);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-blur: 20px;
-
+  
   --purple: #16823B;
   --purple-dark: #0B5D2A;
   --purple-light: #EAF7EE;

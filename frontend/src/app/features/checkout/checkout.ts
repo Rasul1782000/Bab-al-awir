@@ -5,6 +5,7 @@ import { ApiService } from "../../core/api.service";
 import { CartService } from "../../core/cart.service";
 import { LanguageService } from "../../core/language.service";
 import { AuthService } from "../../core/auth.service";
+import { OrderService, PlacedOrder } from "../../core/order.service";
 import { DeliveryOption, SavedAddress } from "../../core/models";
 
 @Component({
@@ -18,8 +19,11 @@ export class Checkout {
   private cartSvc = inject(CartService);
   private langSvc = inject(LanguageService);
   private authSvc = inject(AuthService);
+  private orderSvc = inject(OrderService);
   private router = inject(Router);
   lang = toSignal(this.langSvc.current$, { initialValue: this.langSvc.current });
+
+  payOpen = signal(false);
 
   cart = this.cartSvc.cart$;
   deliveryOptions = signal<DeliveryOption[]>([]);
@@ -33,6 +37,9 @@ export class Checkout {
   cardExpiry = signal("");
   cardCvv = signal("");
   processing = signal(false);
+
+  guestName = signal("");
+  guestAddress = signal("");
 
   constructor() {
     this.api.getDeliveryOptions().subscribe((r) => this.deliveryOptions.set(r.data ?? []));
@@ -102,6 +109,20 @@ export class Checkout {
     this.paymentMethod.set(method);
   }
 
+  saveGuestAddress(): void {
+    const name = this.guestName().trim() || "Home";
+    const addr = this.guestAddress().trim();
+    if (!addr) return;
+    this.selectedAddress.set({
+      label: name,
+      label_ar: name,
+      address: addr,
+      address_ar: addr,
+      is_default: true,
+    });
+    this.nextStep();
+  }
+
   proceedToPayment(): void {
     this.nextStep();
   }
@@ -135,14 +156,13 @@ export class Checkout {
   }
 
   placeOrder(): void {
-    this.processing.set(true);
-    setTimeout(() => {
-      const orderId = "BAW-" + Math.floor(100000 + Math.random() * 900000);
-      this.cartSvc.clearCart();
-      this.processing.set(false);
-      this.router.navigate(["/order-confirmation"], {
-        queryParams: { id: orderId },
-      });
-    }, 1500);
+    this.payOpen.set(true);
+  }
+
+  onPaid(order: PlacedOrder): void {
+    this.payOpen.set(false);
+    this.router.navigate(["/order-confirmation"], {
+      queryParams: { id: order.id },
+    });
   }
 }

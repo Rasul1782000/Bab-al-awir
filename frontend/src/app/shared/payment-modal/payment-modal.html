@@ -1,0 +1,122 @@
+@if (open()) {
+  <div class="pay-overlay" (click)="close()">
+    <div class="pay-modal" (click)="$event.stopPropagation()">
+      <!-- Success state -->
+      @if (succeeded()) {
+        <div class="pay-success">
+          <div class="pay-success__icon">✓</div>
+          <h2>Payment Successful</h2>
+          <p class="muted">Your order has been placed. Redirecting…</p>
+        </div>
+      } @else {
+        <!-- Modal header (Razorpay style) -->
+        <div class="pay-header">
+          <div class="pay-merchant">
+            <span class="pay-merchant__logo">🛒</span>
+            <div>
+              <div class="pay-merchant__name">Bab Al Awir</div>
+              <div class="pay-merchant__sub">Secure Checkout</div>
+            </div>
+          </div>
+          <button type="button" class="pay-close" (click)="close()" aria-label="Close">×</button>
+        </div>
+
+        <div class="pay-amount">
+          <span class="pay-amount__label">Amount payable</span>
+          <span class="pay-amount__value">{{ symbol() }} {{ grandTotal() | number: "1.2-2" }}</span>
+          <span class="pay-amount__hint">Updates live as you change items</span>
+        </div>
+
+        <!-- Item summary with quantity steppers -->
+        <div class="pay-items">
+          <div class="pay-items__head">Your items ({{ cart().items.length }})</div>
+          @for (item of cart().items; track item.product.id) {
+            <div class="pay-item">
+              <div class="pay-item__name">{{ localizedName(item) }}</div>
+              <div class="pay-item__qty">
+                <button type="button" class="qty-btn" (click)="decrease(item.product.id)" aria-label="Decrease">−</button>
+                <span class="qty-display">{{ item.quantity }}</span>
+                <button type="button" class="qty-btn" (click)="increase(item.product.id)" aria-label="Increase">+</button>
+              </div>
+              <div class="pay-item__price">{{ symbol() }} {{ item.subtotal | number: "1.2-2" }}</div>
+            </div>
+          }
+          @if (cart().items.length === 0) {
+            <div class="pay-items__empty">Your cart is empty.</div>
+          }
+          <div class="pay-summary">
+            <div class="pay-summary__row"><span>Subtotal</span><span>{{ symbol() }} {{ subtotal() | number: "1.2-2" }}</span></div>
+            <div class="pay-summary__row"><span>VAT (5%)</span><span>{{ symbol() }} {{ tax() | number: "1.2-2" }}</span></div>
+            <div class="pay-summary__row"><span>Delivery</span><span>{{ symbol() }} {{ deliveryFee() | number: "1.2-2" }}</span></div>
+          </div>
+        </div>
+
+        <!-- Payment method tabs -->
+        <div class="pay-methods">
+          <button type="button" class="pay-method-tab" [class.is-active]="method() === 'card'" (click)="selectMethod('card')">Card</button>
+          <button type="button" class="pay-method-tab" [class.is-active]="method() === 'upi'" (click)="selectMethod('upi')">UPI</button>
+          <button type="button" class="pay-method-tab" [class.is-active]="method() === 'netbanking'" (click)="selectMethod('netbanking')">Netbanking</button>
+          <button type="button" class="pay-method-tab" [class.is-active]="method() === 'wallet'" (click)="selectMethod('wallet')">Wallet</button>
+        </div>
+
+        <!-- Method forms (all simulated) -->
+        @if (method() === 'card') {
+          <div class="pay-form">
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" [value]="cardNumber()" (input)="formatCardNumber($event)" />
+            </div>
+            <div class="form-group">
+              <label>Cardholder Name</label>
+              <input type="text" class="form-input" placeholder="John Doe" [value]="cardName()" (input)="cardName.set($any($event.target).value)" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expiry</label>
+                <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" [value]="cardExpiry()" (input)="formatExpiry($event)" />
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="password" class="form-input" placeholder="•••" maxlength="4" [value]="cardCvv()" (input)="onCvv($event)" />
+              </div>
+            </div>
+          </div>
+        } @else if (method() === 'upi') {
+          <div class="pay-form">
+            <div class="form-group">
+              <label>UPI ID</label>
+              <input type="text" class="form-input" placeholder="name@bank" [value]="upiId()" (input)="onUpi($event)" />
+            </div>
+          </div>
+        } @else if (method() === 'netbanking') {
+          <div class="pay-banks">
+            @for (b of ['Emirates NBD', 'ADCB', 'Dubai Islamic Bank', 'Mashreq', 'RAK Bank']; track b) {
+              <label class="pay-bank" [class.is-selected]="bank() === b">
+                <input type="radio" name="bank" [value]="b" (change)="bank.set(b)" [checked]="bank() === b" />
+                <span>{{ b }}</span>
+              </label>
+            }
+          </div>
+        } @else if (method() === 'wallet') {
+          <div class="pay-banks">
+            @for (w of ['Paytm', 'PhonePe', 'Google Pay', 'Apple Pay']; track w) {
+              <label class="pay-bank" [class.is-selected]="wallet() === w">
+                <input type="radio" name="wallet" [value]="w" (change)="wallet.set(w)" [checked]="wallet() === w" />
+                <span>{{ w }}</span>
+              </label>
+            }
+          </div>
+        }
+
+        <button type="button" class="pay-btn" (click)="pay()" [disabled]="!canPay() || processing()">
+          @if (processing()) {
+            <span class="spinner"></span> Processing…
+          } @else {
+            Pay {{ symbol() }} {{ grandTotal() | number: "1.2-2" }}
+          }
+        </button>
+        <p class="pay-secure muted">🔒 Simulated payment — no real charge is made. Demo only.</p>
+      }
+    </div>
+  </div>
+}

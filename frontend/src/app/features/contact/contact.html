@@ -21,6 +21,98 @@
       </div>
     </div>
 
+    <div class="contact-form-section">
+      <h2 class="section-title">{{ "contactSendMessage" | translate }}</h2>
+      
+      @if (submitSuccess()) {
+        <div class="contact-success">
+          <p>{{ "contactSent" | translate }}</p>
+        </div>
+      }
+
+      @if (submitError()) {
+        <div class="contact-error">
+          <p>{{ submitError() }}</p>
+        </div>
+      }
+
+      <form (ngSubmit)="submitContact()" class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">{{ "contactName" | translate }} *</label>
+            <input 
+              type="text" 
+              id="name" 
+              [ngModel]="contactName()" 
+              (ngModelChange)="contactName.set($event)"
+              name="name" 
+              required
+              placeholder="{{ 'contactNamePlaceholder' | translate }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">{{ "contactEmail" | translate }} *</label>
+            <input 
+              type="email" 
+              id="email" 
+              [ngModel]="contactEmail()" 
+              (ngModelChange)="contactEmail.set($event)"
+              name="email" 
+              required
+              placeholder="{{ 'contactEmailPlaceholder' | translate }}"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">{{ "contactPhone" | translate }}</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              [ngModel]="contactPhone()" 
+              (ngModelChange)="contactPhone.set($event)"
+              name="phone" 
+              placeholder="{{ 'contactPhonePlaceholder' | translate }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="subject">{{ "contactSubject" | translate }} *</label>
+            <input 
+              type="text" 
+              id="subject" 
+              [ngModel]="contactSubject()" 
+              (ngModelChange)="contactSubject.set($event)"
+              name="subject" 
+              required
+              placeholder="{{ 'contactSubjectPlaceholder' | translate }}"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">{{ "contactMessage" | translate }} *</label>
+          <textarea 
+            id="message" 
+            [ngModel]="contactMessage()" 
+            (ngModelChange)="contactMessage.set($event)"
+            name="message" 
+            required
+            rows="5"
+            placeholder="{{ 'contactMessagePlaceholder' | translate }}"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            {{ "contactSending" | translate }}...
+          } @else {
+            {{ "contactSend" | translate }}
+          }
+        </button>
+      </form>
+    </div>
+
     @if (stores().length) {
       <h2 class="section-title">{{ "contactStoreLocations" | translate }}</h2>
       <div class="stores-grid">
