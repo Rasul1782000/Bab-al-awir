@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, OnDestroy } from "@angular/core";
+import { Component, computed, inject, signal, OnDestroy, ViewChild, ElementRef } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -26,6 +26,8 @@ export class Home implements OnDestroy {
   private translate = inject(TranslateService);
   lang = toSignal(this.langSvc.current$, { initialValue: this.langSvc.current });
 
+  @ViewChild("categoryTrack") categoryTrack?: ElementRef<HTMLDivElement>;
+
   products = signal<Product[]>([]);
   categories = signal<Category[]>([]);
   offers = signal<Offer[]>([]);
@@ -46,33 +48,16 @@ export class Home implements OnDestroy {
   featured = computed(() => this.products().slice(0, 8));
   bestSellers = computed(() => this.products().slice(4, 12));
   symbol = computed(() => (this.lang() === "ar" ? "د.إ" : "AED"));
-  region = computed(() => this.regionSvc.current);
-  cartSubtotal = computed(() => {
-    const cart = this.cartSvc.cart$();
-    return cart.subtotal;
-  });
-  freeDeliveryMin = computed(() => {
-    const r = this.regionSvc.current;
-    const reg = r as any;
-    return reg ? reg.free_delivery_min : 100;
-  });
-  freeDeliveryProgress = computed(() => {
-    const min = this.freeDeliveryMin();
-    if (!min) return 100;
-    return Math.min((this.cartSubtotal() / min) * 100, 100);
-  });
-  freeDeliveryRemaining = computed(() => {
-    const min = this.freeDeliveryMin();
-    if (!min) return 0;
-    return Math.max(min - this.cartSubtotal(), 0);
-  });
+  topCategories = computed(() => this.categories().slice(0, 8));
+  heroPromo = computed(() => this.promos()[0] ?? null);
+  gridPromos = computed(() => this.promos().slice(0, 4));
 
+  now = signal(Date.now());
   activeOffers = computed(() => {
     const now = this.now();
     return this.offers().filter((o) => new Date(o.valid_until).getTime() >= now);
   });
 
-  now = signal(Date.now());
   offerCountdown = computed(() => {
     const now = this.now();
     const ends = this.activeOffers()
@@ -90,18 +75,7 @@ export class Home implements OnDestroy {
     return { days, hours, mins, secs };
   });
 
-  mainPromo = computed(() => this.promos()[this.activePromoIndex()] ?? this.promos()[0] ?? null);
-  heroSidePromos = computed(() => this.promos().slice(1, 3));
-  bottomPromo = computed(() => this.promos()[2] ?? null);
-
-  activePromoIndex = signal(0);
-  promoCount = computed(() => Math.max(1, Math.min(this.promos().length, 3)));
-  private sliderTimer: any;
   private clockTimer: any;
-
-  setPromo(i: number): void {
-    this.activePromoIndex.set(i);
-  }
 
   constructor() {
     this.api.getProducts().subscribe((r) => {
@@ -133,22 +107,33 @@ export class Home implements OnDestroy {
       this.brandsReady.set(true);
     });
 
-    this.sliderTimer = setInterval(() => {
-      this.activePromoIndex.update((i) => (i + 1) % this.promoCount());
-    }, 5000);
-
     this.clockTimer = setInterval(() => {
       this.now.set(Date.now());
     }, 1000);
   }
 
   ngOnDestroy(): void {
-    if (this.sliderTimer) clearInterval(this.sliderTimer);
     if (this.clockTimer) clearInterval(this.clockTimer);
   }
 
   name(c: Category): string {
     return localized(c, this.lang());
+  }
+
+  localizedName(p: Product): string {
+    return localized(p, this.lang());
+  }
+
+  localizedPromoTitle(promo: PromoBanner): string {
+    return this.lang() === "ar" ? promo.title_ar : promo.title_en;
+  }
+
+  localizedPromoSubtitle(promo: PromoBanner): string {
+    return this.lang() === "ar" ? promo.subtitle_ar : promo.subtitle_en;
+  }
+
+  localizedPromoBadge(promo: PromoBanner): string {
+    return this.lang() === "ar" ? promo.badge_ar : promo.badge_en;
   }
 
   onBrandImgError(brand: Brand): void {
@@ -184,18 +169,19 @@ export class Home implements OnDestroy {
     return offer ? offer.percent : null;
   }
 
-  getRandomRating(): number {
-    return 3 + Math.floor(Math.random() * 3);
-  }
-
-  getStockProgress(): number {
-    return 20 + Math.floor(Math.random() * 60);
-  }
-
-  getTimeRemaining(): string {
-    const hours = 1 + Math.floor(Math.random() * 12);
-    const mins = Math.floor(Math.random() * 60);
+  getOfferTimeRemaining(offer: Offer): string {
+    const now = Date.now();
+    const end = new Date(offer.valid_until).getTime();
+    const diff = Math.max(0, end - now);
+    const hours = Math.floor(diff / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
     return `${hours}h ${mins}m`;
+  }
+
+  scrollCategories(direction: "left" | "right"): void {
+    const el = this.categoryTrack?.nativeElement;
+    if (!el) return;
+    el.scrollBy({ left: direction === "left" ? -200 : 200, behavior: "smooth" });
   }
 
   onHeroSearch(event: KeyboardEvent): void {
@@ -204,16 +190,6 @@ export class Home implements OnDestroy {
     if (q.length >= 2) {
       this.router.navigate(["/products"], { queryParams: { q } });
     }
-  }
-
-  prev(): void {
-    const el = document.querySelector(".bestseller__track");
-    el?.scrollBy({ left: -260, behavior: "smooth" });
-  }
-
-  next(): void {
-    const el = document.querySelector(".bestseller__track");
-    el?.scrollBy({ left: 260, behavior: "smooth" });
   }
 
   changeRegion(): void {
